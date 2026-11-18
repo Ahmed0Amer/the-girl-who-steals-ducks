@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merna's TEREA Quest</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #181825;
+      color: #cdd6f4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      user-select: none;
+    }
+
+    .game-shell {
+      width: 100%;
+      max-width: 620px;
+      background: #1e1e2e;
+      border: 3px solid #45475a;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hud {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #11111b;
+      border: 2px solid #313244;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .title-group h1 {
+      font-size: 1rem;
+      color: #f5c2e7;
+      letter-spacing: 0.5px;
+    }
+
+    .title-group p {
+      font-size: 0.74rem;
+      color: #a6adc8;
+      margin-top: 2px;
+    }
+
+    .hud-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill {
+      background: #313244;
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 2px solid #45475a;
+    }
+
+    .level-pill {
+      border-color: #fab387;
+      color: #fab387;
+    }
+
+    .score-pill {
+      border-color: #94e2d5;
+      color: #94e2d5;
+    }
+
+    .mission-pill {
+      border-color: #cba6f7;
+      color: #cba6f7;
+    }
+
+    .zone-pill {
+      border-color: #89b4fa;
+      color: #89b4fa;
+    }
+
+    .hearts-pill {
+      border-color: #f38ba8;
+      color: #f38ba8;
+      letter-spacing: 1px;
+    }
+
+    .hearts-pill.low {
+      background: #45232e;
+    }
+
+    .weapon-pill {
+      border-color: #a6e3a1;
+      color: #a6e3a1;
+    }
+
+    .weapon-pill.cooling {
+      border-color: #6c7086;
+      color: #a6adc8;
+    }
+
+    .status-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 0;
+    }
+
+    .effect-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .effect-coffee {
+      background: #4a3525;
+      color: #f9e2af;
+      border: 1px solid #fab387;
+    }
+
+    .effect-liquor {
+      background: #2b4231;
+      color: #a6e3a1;
+      border: 1px solid #a6e3a1;
+    }
+
+    .mission-bar {
+      background: #11111b;
+      border: 2px solid #313244;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mission-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+    }
+
+    .mission-tag {
+      background: #cba6f7;
+      color: #11111b;
+      font-weight: 700;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .mission-text {
+      color: #cdd6f4;
+      font-weight: 700;
+    }
+
+    .mission-progress {
+      font-size: 0.8rem;
+      color: #a6e3a1;
+      font-weight: 700;
+    }
+
+    .flavor-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.72rem;
+      color: #a6adc8;
+      padding: 0 2px;
+    }
+
+    .flavor-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .flavor-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    button {
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #11111b;
+      background: #cba6f7;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: transform 0.08s ease, background 0.15s ease;
+    }
+
+    button:hover {
+      background: #f5c2e7;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    button.secondary {
+      background: #45475a;
+      color: #cdd6f4;
+    }
+
+    button.secondary:hover {
+      background: #585b70;
+    }
+
+    button.accent {
+      background: #94e2d5;
+      color: #11111b;
+    }
+
+    button.accent:hover {
+      background: #a6e3a1;
+    }
+
+    button.weapon-btn {
+      background: #a6e3a1;
+      color: #11111b;
+      padding: 8px 12px;
+      border: 2px solid #94e2d5;
+    }
+
+    button.weapon-btn:disabled {
+      background: #313244;
+      color: #6c7086;
+      border-color: #45475a;
+      cursor: not-allowed;
+    }
+
+    .canvas-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #11111b;
+      border: 3px solid #313244;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      transition: filter 0.15s ease;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(17, 17, 27, 0.94);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px;
+      gap: 10px;
+      overflow-y: auto;
+    }
+
+    .overlay.hidden {
+      display: none;
+    }
+
+    .overlay h2 {
+      font-size: 1.25rem;
+      color: #f5c2e7;
+    }
+
+    .overlay p {
+      font-size: 0.84rem;
+      color: #cdd6f4;
+    }
+
+    .overlay .best-badge {
+      font-size: 0.8rem;
+      color: #a6e3a1;
+      background: #313244;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #a6e3a1;
+    }
+
+    .start-scene-box {
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 16 / 10;
+      border: 2px solid #45475a;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #11111b;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+    }
+
+    .start-scene-box canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .start-subtitle {
+      font-size: 0.78rem;
+      color: #a6adc8;
+      max-width: 380px;
+    }
+
+    /* Tutorial Cards */
+    .tutorial-cards {
+      width: 100%;
+      max-width: 470px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .tut-card {
+      background: #1e1e2e;
+      border: 2px solid #45475a;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .tut-card strong {
+      color: #94e2d5;
+    }
+
+    .char-editor {
+      width: 100%;
+      max-width: 480px;
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      align-items: start;
+      text-align: left;
+      background: #1e1e2e;
+      border: 2px solid #45475a;
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    @media (max-width: 460px) {
+      .char-editor {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .preview-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: #11111b;
+      border: 2px solid #313244;
+      border-radius: 8px;
+      padding: 10px;
+    }
+
+    .preview-box canvas {
+      width: 72px;
+      height: 96px;
+    }
+
+    .preview-label {
+      font-size: 0.72rem;
+      color: #a6adc8;
+    }
+
+    .editor-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.76rem;
+    }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .field-row label {
+      color: #a6adc8;
+      font-weight: 700;
+      min-width: 72px;
+    }
+
+    .field-row input[type="text"],
+    .field-row select {
+      font-family: inherit;
+      font-size: 0.76rem;
+      background: #11111b;
+      color: #cdd6f4;
+      border: 1px solid #45475a;
+      border-radius: 5px;
+      padding: 4px 6px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .swatches {
+      display: flex;
+      gap: 5px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      border: 2px solid #313244;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .swatch.active {
+      border-color: #ffffff;
+      transform: scale(1.1);
+    }
+
+    .editor-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #a6adc8;
+      line-height: 1.4;
+      flex: 1 1 180px;
+    }
+
+    .action-pad {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .dpad {
+      display: grid;
+      grid-template-columns: repeat(3, 40px);
+      grid-template-rows: repeat(2, 36px);
+      gap: 4px;
+    }
+
+    .dpad button {
+      padding: 0;
+      font-size: 1rem;
+      background: #313244;
+      color: #cdd6f4;
+      border: 2px solid #45475a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dpad button:hover {
+      background: #45475a;
+    }
+
+    .dpad .empty {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-shell">
+    <div class="hud">
+      <div class="title-group">
+        <h1 id="gameTitle">MERNA'S TEREA QUEST</h1>
+        <p>Pixel Collector Adventure</p>
+      </div>
+      <div class="hud-right">
+        <div class="pill level-pill" id="levelDisplay">Lv 1</div>
+        <div class="pill zone-pill" id="zoneDisplay">Sunny Park</div>
+        <div class="pill score-pill" id="scoreDisplay">Score: 0</div>
+        <div class="pill mission-pill" id="missionCountDisplay">Missions: 0</div>
+        <div class="pill hearts-pill" id="heartsDisplay">♥♥♥♡♡</div>
+        <div class="pill weapon-pill" id="netDisplay">Net: READY</div>
+        <button type="button" class="secondary" id="menuBtn">Menu</button>
+        <button type="button" class="secondary" id="tutorialBtn">Tutorial</button>
+        <button type="button" class="accent" id="editCharBtn">Edit Hero</button>
+        <button type="button" class="secondary" id="muteBtn">Sound: ON</button>
+        <button type="button" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="mission-bar">
+      <div class="mission-info">
+        <span class="mission-tag" id="missionTag">Mission</span>
+        <span class="mission-text" id="missionText">Loading mission...</span>
+      </div>
+      <div class="mission-progress" id="missionProgress">0 / 3</div>
+    </div>
+
+    <div class="status-strip" id="statusStrip"></div>
+
+    <div class="flavor-legend">
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#48d1cc"></span>Turquoise</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#cba6f7"></span>Purple</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Amber</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#f9e2af"></span>Yellow</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#c28551"></span>Coffee (Speed)</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#a6e3a1"></span>20% XXXX (2x Pts + Warp)</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Duck (-1 ♥ / Space to Steal!)</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#f38ba8"></span>Hazard (-1 ♥)</span>
+    </div>
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- Start-Up Menu Overlay -->
+      <div class="overlay" id="startOverlay">
+        <h2 id="startTitle">MERNA'S TEREA QUEST</h2>
+        <div class="start-scene-box">
+          <canvas id="startAnimCanvas" width="160" height="100"></canvas>
+        </div>
+        <p class="start-subtitle">Collect TEREA flavors, complete missions, sip coffee &amp; snatch chasing ducks!</p>
+        <div class="best-badge" id="startBestBadge">High Score: 0 | Best Level: 1</div>
+        <div class="editor-actions">
+          <button type="button" class="accent" id="startGameBtn">Start Game</button>
+          <button type="button" class="secondary" id="startTutorialBtn">Tutorial</button>
+          <button type="button" class="secondary" id="startEditBtn">Edit Hero</button>
+        </div>
+      </div>
+
+      <!-- Tutorial Overlay -->
+      <div class="overlay hidden" id="tutorialOverlay">
+        <h2>How to Play</h2>
+        <div class="tutorial-cards">
+          <div class="tut-card">
+            <strong>1. Move &amp; Collect TEREA:</strong> Use <strong>Arrow Keys</strong>, <strong>WASD</strong>, or the <strong>D-pad</strong> to collect the 4 TEREA flavors. Finish auto-generated missions to heal <strong>+1 ♥</strong> and level up every 2 missions!
+          </div>
+          <div class="tut-card">
+            <strong>2. Power-Ups:</strong> Grab a <strong>Coffee Cup</strong> for a 5s speed boost. Grab <strong>20% XXXX</strong> for wavy vision &amp; <strong>2× points</strong> on everything you pick up!
+          </div>
+          <div class="tut-card">
+            <strong>3. Steal Ducks (Weapon):</strong> Chasing ducks cost <strong>-1 ♥</strong> if they touch you. Press <strong>Spacebar</strong> (or tap <strong>Steal Duck</strong>) when a duck is within range—even from a distance—to snatch it for <strong>+3 pts</strong>!
+          </div>
+        </div>
+        <div class="editor-actions">
+          <button type="button" class="accent" id="closeTutorialBtn">Got It — Play!</button>
+        </div>
+      </div>
+
+      <!-- Character Creator / Editor Overlay -->
+      <div class="overlay hidden" id="charOverlay">
+        <h2>Customize Your Character</h2>
+        <div class="char-editor">
+          <div class="preview-box">
+            <canvas id="previewCanvas" width="72" height="96"></canvas>
+            <span class="preview-label" id="previewName">Merna</span>
+          </div>
+          <div class="editor-fields">
+            <div class="field-row">
+              <label for="charNameInput">Name</label>
+              <input type="text" id="charNameInput" maxlength="14" value="Merna" />
+            </div>
+            <div class="field-row">
+              <label for="hairStyleSelect">Hair Style</label>
+              <select id="hairStyleSelect">
+                <option value="curtain">Curtain Bangs</option>
+                <option value="bob">Bob Cut</option>
+                <option value="ponytail">High Ponytail</option>
+                <option value="wavy">Wavy Long</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <label>Hair Color</label>
+              <div class="swatches" id="hairColorSwatches"></div>
+            </div>
+            <div class="field-row">
+              <label>Skin Tone</label>
+              <div class="swatches" id="skinToneSwatches"></div>
+            </div>
+            <div class="field-row">
+              <label>Hoodie</label>
+              <div class="swatches" id="hoodieSwatches"></div>
+            </div>
+            <div class="field-row">
+              <label for="accessorySelect">Accessory</label>
+              <select id="accessorySelect">
+                <option value="none">None</option>
+                <option value="glasses">Sunglasses</option>
+                <option value="headband">Headband</option>
+                <option value="cap">Pixel Cap</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="editor-actions">
+          <button type="button" class="secondary" id="randomizeCharBtn">Randomize</button>
+          <button type="button" class="accent" id="saveCharBtn">Save &amp; Play</button>
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="overlay hidden" id="gameOverOverlay">
+        <h2>Out of Hearts!</h2>
+        <p id="finalScoreText">Merna scored 0 points.</p>
+        <p id="finalLevelText">Reached Level 1</p>
+        <p id="finalMissionsText">Missions completed: 0</p>
+        <div class="best-badge" id="highScoreText">High Score: 0 | Best Level: 1</div>
+        <div class="editor-actions">
+          <button type="button" class="secondary" id="gameOverMenuBtn">Start Menu</button>
+          <button type="button" class="secondary" id="gameOverEditBtn">Edit Hero</button>
+          <button type="button" id="playAgainBtn">Play Again</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-bar">
+      <div class="hint">
+        Move with <strong>Arrows / WASD / D-pad</strong>. Press <strong>Space</strong> (or <strong>Steal Duck</strong>) to snatch chasing ducks from afar!
+      </div>
+      <div class="action-pad">
+        <button type="button" class="weapon-btn" id="stealDuckBtn">Steal Duck (Space)</button>
+        <div class="dpad" aria-label="On-screen directional pad">
+          <div class="empty"></div>
+          <button type="button" data-dir="up" aria-label="Move Up">▲</button>
+          <div class="empty"></div>
+          <button type="button" data-dir="left" aria-label="Move Left">◀</button>
+          <button type="button" data-dir="down" aria-label="Move Down">▼</button>
+          <button type="button" data-dir="right" aria-label="Move Right">▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Grab HTML elements
+    const canvas = document.getElementById("gameCanvas");
+    const canvasWrap = document.getElementById("canvasWrap");
+    const ctx = canvas.getContext("2d");
+    const startAnimCanvas = document.getElementById("startAnimCanvas");
+    const startAnimCtx = startAnimCanvas.getContext("2d");
+    const previewCanvas = document.getElementById("previewCanvas");
+    const previewCtx = previewCanvas.getContext("2d");
+    const gameTitle = document.getElementById("gameTitle");
+    const startTitle = document.getElementById("startTitle");
+    const startBestBadge = document.getElementById("startBestBadge");
+    const levelDisplay = document.getElementById("levelDisplay");
+    const zoneDisplay = document.getElementById("zoneDisplay");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const missionCountDisplay = document.getElementById("missionCountDisplay");
+    const heartsDisplay = document.getElementById("heartsDisplay");
+    const netDisplay = document.getElementById("netDisplay");
+    const statusStrip = document.getElementById("statusStrip");
+    const missionTag = document.getElementById("missionTag");
+    const missionText = document.getElementById("missionText");
+    const missionProgress = document.getElementById("missionProgress");
+    const menuBtn = document.getElementById("menuBtn");
+    const tutorialBtn = document.getElementById("tutorialBtn");
+    const editCharBtn = document.getElementById("editCharBtn");
+    const muteBtn = document.getElementById("muteBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const startOverlay = document.getElementById("startOverlay");
+    const startGameBtn = document.getElementById("startGameBtn");
+    const startTutorialBtn = document.getElementById("startTutorialBtn");
+    const startEditBtn = document.getElementById("startEditBtn");
+    const tutorialOverlay = document.getElementById("tutorialOverlay");
+    const closeTutorialBtn = document.getElementById("closeTutorialBtn");
+    const charOverlay = document.getElementById("charOverlay");
+    const previewName = document.getElementById("previewName");
+    const charNameInput = document.getElementById("charNameInput");
+    const hairStyleSelect = document.getElementById("hairStyleSelect");
+    const hairColorSwatches = document.getElementById("hairColorSwatches");
+    const skinToneSwatches = document.getElementById("skinToneSwatches");
+    const hoodieSwatches = document.getElementById("hoodieSwatches");
+    const accessorySelect = document.getElementById("accessorySelect");
+    const randomizeCharBtn = document.getElementById("randomizeCharBtn");
+    const saveCharBtn = document.getElementById("saveCharBtn");
+    const gameOverOverlay = document.getElementById("gameOverOverlay");
+    const finalScoreText = document.getElementById("finalScoreText");
+    const finalLevelText = document.getElementById("finalLevelText");
+    const finalMissionsText = document.getElementById("finalMissionsText");
+    const highScoreText = document.getElementById("highScoreText");
+    const gameOverMenuBtn = document.getElementById("gameOverMenuBtn");
+    const gameOverEditBtn = document.getElementById("gameOverEditBtn");
+    const playAgainBtn = document.getElementById("playAgainBtn");
+    const stealDuckBtn = document.getElementById("stealDuckBtn");
+
+    // 2. Viewport & larger 36x27 World dimensions
+    const VIEW_W = 160;
+    const VIEW_H = 120;
+    const TILE = 8;
+    const COLS = 36;
+    const ROWS = 27;
+    const WORLD_W = COLS * TILE;
+    const WORLD_H = ROWS * TILE;
+    const START_HEARTS = 3;
+    const MAX_HEARTS = 5;
+    const STICK_COUNT = 5;
+    const MISSIONS_PER_LEVEL = 2;
+    const NET_RANGE = 58;
+    const NET_COOLDOWN = 2.5;
+
+    const HAIR_COLORS = [
+      { back: "#3b2314", front: "#4a2c18" },
+      { back: "#181825", front: "#313244" },
+      { back: "#c49a45", front: "#e5c07b" },
+      { back: "#7c2d12", front: "#b45309" },
+      { back: "#7e57c2", front: "#b39ddb" }
+    ];
+
+    const SKIN_TONES = ["#fce0c8", "#f5cba7", "#d9a077", "#b57a50", "#7c4d30"];
+
+    const HOODIE_COLORS = [
+      { main: "#f38ba8", trim: "#f5c2e7" },
+      { main: "#48d1cc", trim: "#94e2d5" },
+      { main: "#cba6f7", trim: "#f5c2e7" },
+      { main: "#a6e3a1", trim: "#94e2d5" },
+      { main: "#89b4fa", trim: "#b4befe" }
+    ];
+
+    const HAIR_STYLES = ["curtain", "bob", "ponytail", "wavy"];
+    const ACCESSORIES = ["none", "glasses", "headband", "cap"];
+
+    const ZONES = [
+      {
+        name: "Sunny Park",
+        pathA: "#585b70", pathB: "#6c7086", pathSpec: "#7f849c", pathEdge: "#45475a",
+        groundA: "#3b6e4c", groundB: "#437a55", groundSpec: "#58996c", flower: "#f9e2af",
+        treeTrunk: "#5c3a21", treeDark: "#254d33", treeMid: "#39754d", treeLight: "#62b37d",
+        benchA: "#a66d3f", benchB: "#c28551",
+        waterBase: "#29688a", waterHi1: "#74c7ec", waterHi2: "#89dceb", waterRim: "#45475a",
+        hazardColor: "#e2e8f0", hazardAccent: "#f38ba8"
+      },
+      {
+        name: "Night Street",
+        pathA: "#313244", pathB: "#3b3d52", pathSpec: "#585b70", pathEdge: "#1e1e2e",
+        groundA: "#232538", groundB: "#292b42", groundSpec: "#383b5c", flower: "#89b4fa",
+        treeTrunk: "#45475a", treeDark: "#1e3a5f", treeMid: "#2c5282", treeLight: "#63b3ed",
+        benchA: "#6c7086", benchB: "#9399b2",
+        waterBase: "#1e3a5f", waterHi1: "#89b4fa", waterHi2: "#cba6f7", waterRim: "#313244",
+        hazardColor: "#f9e2af", hazardAccent: "#f38ba8"
+      },
+      {
+        name: "Sunset Plaza",
+        pathA: "#6b4c57", pathB: "#7a5864", pathSpec: "#946b79", pathEdge: "#4a333c",
+        groundA: "#5a3d36", groundB: "#66453d", groundSpec: "#855a4f", flower: "#f5c2e7",
+        treeTrunk: "#4a2c18", treeDark: "#8f3f2b", treeMid: "#c2593f", treeLight: "#fab387",
+        benchA: "#936b4a", benchB: "#b5855e",
+        waterBase: "#3b4c7a", waterHi1: "#f5c2e7", waterHi2: "#fab387", waterRim: "#45475a",
+        hazardColor: "#f5c2e7", hazardAccent: "#f38ba8"
+      }
+    ];
+
+    const FLAVORS = [
+      { id: "turquoise", name: "Turquoise", band: "#48d1cc", tip: "#2b9e9a", glow: "#94e2d5" },
+      { id: "purple",    name: "Purple",    band: "#cba6f7", tip: "#8839ef", glow: "#f5c2e7" },
+      { id: "amber",     name: "Amber",     band: "#fab387", tip: "#d97736", glow: "#f9e2af" },
+      { id: "yellow",    name: "Yellow",    band: "#f9e2af", tip: "#dfae2a", glow: "#fff3c4" }
+    ];
+
+    let MAP = [];
+
+    function loadHighScore() {
+      try {
+        return Number(localStorage.getItem("merna_iqos_highscore")) || 0;
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    function saveHighScore(val) {
+      try {
+        localStorage.setItem("merna_iqos_highscore", String(val));
+      } catch (e) {}
+    }
+
+    function loadBestLevel() {
+      try {
+        return Number(localStorage.getItem("merna_best_level")) || 1;
+      } catch (e) {
+        return 1;
+      }
+    }
+
+    function saveBestLevel(val) {
+      try {
+        localStorage.setItem("merna_best_level", String(val));
+      } catch (e) {}
+    }
+
+    function loadCharacter() {
+      const defaults = {
+        name: "Merna",
+        hairStyle: "curtain",
+        hairColorIdx: 0,
+        skinToneIdx: 1,
+        hoodieIdx: 0,
+        accessory: "none"
+      };
+      try {
+        const raw = localStorage.getItem("merna_hero_config");
+        if (!raw) return defaults;
+        return { ...defaults, ...JSON.parse(raw) };
+      } catch (e) {
+        return defaults;
+      }
+    }
+
+    function saveCharacter(cfg) {
+      try {
+        localStorage.setItem("merna_hero_config", JSON.stringify(cfg));
+      } catch (e) {}
+    }
+
+    // 3. Procedural Map Generator with safety conditions
+    function generateMap() {
+      const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
+      const spawnCol = Math.floor(COLS / 2);
+      const spawnRow = Math.floor(ROWS / 2);
+
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (
+            r === 2 || r === ROWS - 3 || r === spawnRow ||
+            c === 2 || c === COLS - 3 || c === spawnCol
+          ) {
+            grid[r][c] = 0;
+          }
+        }
+      }
+
+      function inSpawnSafeZone(c, r) {
+        return Math.abs(c - spawnCol) <= 2 && Math.abs(r - spawnRow) <= 2;
+      }
+
+      for (let c = 0; c < COLS; c++) {
+        if (c !== spawnCol && Math.random() < 0.55) grid[0][c] = 2;
+        if (c !== spawnCol && Math.random() < 0.55) grid[ROWS - 1][c] = 2;
+      }
+      for (let r = 0; r < ROWS; r++) {
+        if (r !== spawnRow && Math.random() < 0.55) grid[r][0] = 2;
+        if (r !== spawnRow && Math.random() < 0.55) grid[r][COLS - 1] = 2;
+      }
+
+      const pondCandidates = [
+        { r: 5, c: 6 }, { r: 5, c: COLS - 8 },
+        { r: ROWS - 7, c: 6 }, { r: ROWS - 7, c: COLS - 8 }
+      ];
+      pondCandidates.forEach((p) => {
+        if (Math.random() < 0.7) {
+          for (let dr = 0; dr < 2; dr++) {
+            for (let dc = 0; dc < 2; dc++) {
+              const rr = p.r + dr;
+              const cc = p.c + dc;
+              if (!inSpawnSafeZone(cc, rr) && grid[rr][cc] === 1) {
+                grid[rr][cc] = 4;
+              }
+            }
+          }
+        }
+      });
+
+      for (let r = 1; r < ROWS - 1; r++) {
+        for (let c = 1; c < COLS - 1; c++) {
+          if (grid[r][c] !== 1 || inSpawnSafeZone(c, r)) continue;
+          const roll = Math.random();
+          if (roll < 0.14) grid[r][c] = 2;
+          else if (roll < 0.21) grid[r][c] = 3;
+        }
+      }
+
+      const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
+      const queue = [[spawnRow, spawnCol]];
+      visited[spawnRow][spawnCol] = true;
+
+      while (queue.length > 0) {
+        const [r, c] = queue.shift();
+        for (const [dr, dc] of [[1,0], [-1,0], [0,1], [0,-1]]) {
+          const nr = r + dr;
+          const nc = c + dc;
+          if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !visited[nr][nc] && grid[nr][nc] < 2) {
+            visited[nr][nc] = true;
+            queue.push([nr, nc]);
+          }
+        }
+      }
+
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          if (grid[r][c] < 2 && !visited[r][c]) {
+            grid[r][c] = 2;
+          }
+        }
+      }
+
+      return grid;
+    }
+
+    // 4. Game state
+    const state = {
+      level: 1,
+      bestLevel: loadBestLevel(),
+      score: 0,
+      missionsDone: 0,
+      zoneIndex: 0,
+      highScore: loadHighScore(),
+      hearts: START_HEARTS,
+      boostTimer: 0,
+      liquorTimer: 0,
+      invulnTimer: 0,
+      netCooldown: 0,
+      netBeams: [],
+      gameOver: false,
+      isStartMenu: true,
+      isTutorial: false,
+      isEditingChar: false,
+      muted: false,
+      keys: {},
+      touchDir: null,
+      camera: { x: 0, y: 0 },
+      hero: loadCharacter(),
+      merna: {
+        x: Math.floor(COLS / 2) * TILE - 2,
+        y: Math.floor(ROWS / 2) * TILE - 4,
+        w: 12,
+        h: 16,
+        baseSpeed: 74,
+        facing: "right",
+        walkTimer: 0,
+        isMoving: false
+      },
+      sticks: [],
+      powerups: [],
+      hazards: [],
+      ducks: [],
+      duckRespawnTimers: [],
+      mission: null,
+      popups: [],
+      smokePuffs: []
+    };
+
+    // 5. Web Audio synthesizer
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (state.muted) return null;
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return null;
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === "suspended") audioCtx.resume();
+        return audioCtx;
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function playPickupSound(isTarget) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "square";
+        osc.frequency.setValueAtTime(isTarget ? 587.33 : 440.0, now);
+        osc.frequency.setValueAtTime(isTarget ? 880.0 : 587.33, now + 0.05);
+        gain.gain.setValueAtTime(0.07, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+      } catch (err) {}
+    }
+
+    function playNetSound(caught) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(caught ? 660 : 320, now);
+        osc.frequency.exponentialRampToValueAtTime(caught ? 1100 : 180, now + 0.14);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(now);
+        osc.stop(now + 0.14);
+      } catch (err) {}
+    }
+
+    function playPowerupSound(type) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const freqs = type === "coffee" ? [523.25, 783.99, 1046.5] : [330, 493.88, 659.25, 587.33];
+        freqs.forEach((f, i) => {
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+          osc.type = type === "coffee" ? "triangle" : "sawtooth";
+          osc.frequency.setValueAtTime(f, now + i * 0.05);
+          gain.gain.setValueAtTime(0.06, now + i * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.11);
+          osc.connect(gain);
+          gain.connect(ac.destination);
+          osc.start(now + i * 0.05);
+          osc.stop(now + i * 0.05 + 0.11);
+        });
+      } catch (err) {}
+    }
+
+    function playMissionSound(isLevelUp) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const notes = isLevelUp
+          ? [523.25, 659.25, 783.99, 1046.5, 1318.5]
+          : [523.25, 659.25, 783.99, 1046.5];
+        notes.forEach((freq, idx) => {
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+          osc.type = "square";
+          osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+          gain.gain.setValueAtTime(0.08, now + idx * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.13);
+          osc.connect(gain);
+          gain.connect(ac.destination);
+          osc.start(now + idx * 0.06);
+          osc.stop(now + idx * 0.06 + 0.13);
+        });
+      } catch (err) {}
+    }
+
+    function playHitSound(isDuck) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = isDuck ? "square" : "sawtooth";
+        osc.frequency.setValueAtTime(isDuck ? 310 : 190, now);
+        osc.frequency.exponentialRampToValueAtTime(isDuck ? 140 : 95, now + 0.18);
+        gain.gain.setValueAtTime(0.09, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(now);
+        osc.stop(now + 0.18);
+      } catch (err) {}
+    }
+
+    function playGameOverSound() {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(392.0, now);
+        osc.frequency.setValueAtTime(329.63, now + 0.12);
+        osc.frequency.setValueAtTime(261.63, now + 0.24);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(now);
+        osc.stop(now + 0.42);
+      } catch (err) {}
+    }
+
+    // 6. Auto-Generating Missions
+    function createMission(level = 1) {
+      const extraCount = Math.min(2, Math.floor((level - 1) / 2));
+      const roll = Math.random();
+
+      if (roll < 0.35) {
+        const targetFlavor = FLAVORS[Math.floor(Math.random() * FLAVORS.length)];
+        const target = 2 + Math.floor(Math.random() * 2) + extraCount;
+        return {
+          type: "flavor",
+          flavorIds: [targetFlavor.id],
+          label: `Collect ${target} ${targetFlavor.name} TEREA`,
+          target,
+          progress: 0,
+          bonusPoints: target * 2 + level
+        };
+      } else if (roll < 0.60) {
+        const shuffled = [...FLAVORS].sort(() => Math.random() - 0.5);
+        const f1 = shuffled[0];
+        const f2 = shuffled[1];
+        const target = 3 + extraCount;
+        return {
+          type: "duo",
+          flavorIds: [f1.id, f2.id],
+          label: `Collect ${target} ${f1.name} or ${f2.name}`,
+          target,
+          progress: 0,
+          bonusPoints: target * 2 + level
+        };
+      } else if (roll < 0.78) {
+        return {
+          type: "rainbow",
+          label: "Collect 1 of each TEREA flavor",
+          collected: {},
+          target: FLAVORS.length,
+          progress: 0,
+          bonusPoints: 8 + level * 2
+        };
+      } else if (roll < 0.90) {
+        const targetType = Math.random() < 0.5 ? "coffee" : "liquor";
+        const itemLabel = targetType === "coffee" ? "Coffee Cup" : "20% XXXX Bottle";
+        return {
+          type: "powerup",
+          powerupType: targetType,
+          label: `Grab 1 ${itemLabel}`,
+          target: 1,
+          progress: 0,
+          bonusPoints: 6 + level * 2
+        };
+      } else {
+        const target = 4 + extraCount;
+        return {
+          type: "any",
+          label: `Collect any ${target} TEREA sticks`,
+          target,
+          progress: 0,
+          bonusPoints: 5 + level
+        };
+      }
+    }
+
+    function updateMissionUI() {
+      const m = state.mission;
+      if (!m) return;
+      const lvlStep = (state.missionsDone % MISSIONS_PER_LEVEL) + 1;
+      missionTag.textContent = `Lv ${state.level} (${lvlStep}/${MISSIONS_PER_LEVEL})`;
+      missionText.textContent = `${m.label} (+${m.bonusPoints} pts, +1 ♥)`;
+      missionProgress.textContent = `${m.progress} / ${m.target}`;
+    }
+
+    // 7. Map collision, camera & spawning
+    function isSolidTile(col, row) {
+      if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return true;
+      return MAP[row][col] >= 2;
+    }
+
+    function collidesWithMap(x, y, boxW = 8, boxH = 7, offX = 2, offY = 9) {
+      const left = Math.floor((x + offX) / TILE);
+      const right = Math.floor((x + offX + boxW - 1) / TILE);
+      const top = Math.floor((y + offY) / TILE);
+      const bottom = Math.floor((y + offY + boxH - 1) / TILE);
+
+      for (let r = top; r <= bottom; r++) {
+        for (let c = left; c <= right; c++) {
+          if (isSolidTile(c, r)) return true;
+        }
+      }
+      return false;
+    }
+
+    function getWalkableSpots(minDistFromMerna = 24) {
+      const spots = [];
+      for (let r = 1; r < ROWS - 1; r++) {
+        for (let c = 1; c < COLS - 1; c++) {
+          if (!isSolidTile(c, r)) {
+            const wx = c * TILE;
+            const wy = r * TILE - 1;
+            const dist = Math.hypot(wx - state.merna.x, wy - state.merna.y);
+            if (dist >= minDistFromMerna) spots.push({ x: wx, y: wy, c, r });
+          }
+        }
+      }
+      return spots;
+    }
+
+    function isSpotFree(p) {
+      const tooCloseStick = state.sticks.some((s) => Math.hypot(p.x - s.x, p.y - s.y) < 18);
+      const tooClosePower = state.powerups.some((pw) => Math.hypot(p.x - pw.x, p.y - pw.y) < 18);
+      return !tooCloseStick && !tooClosePower;
+    }
+
+    function spawnSingleStick(preferredFlavorId) {
+      const spots = getWalkableSpots(24).filter(isSpotFree);
+      const pos = spots.length > 0
+        ? spots[Math.floor(Math.random() * spots.length)]
+        : { x: 24, y: 24 };
+
+      let flavor = FLAVORS[Math.floor(Math.random() * FLAVORS.length)];
+      if (preferredFlavorId) {
+        const match = FLAVORS.find((f) => f.id === preferredFlavorId);
+        if (match) flavor = match;
+      }
+
+      return { x: pos.x, y: pos.y, w: 8, h: 11, flavor };
+    }
+
+    function spawnPowerup(type) {
+      const spots = getWalkableSpots(28).filter(isSpotFree);
+      const pos = spots.length > 0
+        ? spots[Math.floor(Math.random() * spots.length)]
+        : { x: 32, y: 32 };
+      return { x: pos.x, y: pos.y, w: 10, h: 11, type };
+    }
+
+    function spawnAllPowerups() {
+      state.powerups = [];
+      state.powerups.push(spawnPowerup("coffee"));
+      state.powerups.push(spawnPowerup("liquor"));
+    }
+
+    function ensureMissionStickOnMap() {
+      if (!state.mission) return;
+      if (state.mission.type === "flavor" || state.mission.type === "duo") {
+        const ids = state.mission.flavorIds;
+        const hasTarget = state.sticks.some((s) => ids.includes(s.flavor.id));
+        if (!hasTarget && state.sticks.length > 0) {
+          const pickId = ids[Math.floor(Math.random() * ids.length)];
+          state.sticks[0].flavor = FLAVORS.find((f) => f.id === pickId) || state.sticks[0].flavor;
+        }
+      }
+    }
+
+    function spawnHazards() {
+      state.hazards = [];
+      const count = Math.min(6, 2 + state.level);
+      const baseSpeed = Math.min(54, 26 + state.level * 4);
+      const spots = getWalkableSpots(56);
+      const dirs = [{ vx: 1, vy: 0 }, { vx: -1, vy: 0 }, { vx: 0, vy: 1 }, { vx: 0, vy: -1 }];
+
+      for (let i = 0; i < count; i++) {
+        const d = dirs[i % dirs.length];
+        const openSpots = spots.filter(
+          (p) =>
+            !isSolidTile(p.c + d.vx, p.r + d.vy) &&
+            !isSolidTile(p.c + d.vx * 2, p.r + d.vy * 2)
+        );
+        const pool = openSpots.length > 0 ? openSpots : spots;
+        if (pool.length === 0) break;
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        state.hazards.push({
+          x: pick.c * TILE,
+          y: pick.r * TILE,
+          w: 8,
+          h: 8,
+          vx: d.vx,
+          vy: d.vy,
+          speed: baseSpeed + Math.random() * 8
+        });
+      }
+    }
+
+    function spawnOneDuck(indexOffset = 0) {
+      const duckSpeed = Math.min(48, 32 + state.level * 2.5);
+      const spots = getWalkableSpots(68);
+      if (spots.length === 0) return null;
+      const pick = spots[Math.floor(Math.random() * spots.length)];
+      return {
+        x: pick.c * TILE,
+        y: pick.r * TILE,
+        w: 9,
+        h: 9,
+        speed: duckSpeed + indexOffset * 2,
+        facing: "right",
+        waddleTimer: Math.random() * 6
+      };
+    }
+
+    function spawnDucks() {
+      state.ducks = [];
+      state.duckRespawnTimers = [];
+      const duckCount = Math.min(4, 1 + Math.floor(state.level / 2));
+      for (let i = 0; i < duckCount; i++) {
+        const d = spawnOneDuck(i);
+        if (d) state.ducks.push(d);
+      }
+    }
+
+    // Duck-Stealer Weapon: steals nearest duck within NET_RANGE
+    function fireDuckNet() {
+      if (state.gameOver || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      if (state.netCooldown > 0) return;
+
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      let nearestIdx = -1;
+      let nearestDist = Infinity;
+
+      state.ducks.forEach((d, idx) => {
+        const dist = Math.hypot((d.x + 4) - mx, (d.y + 4) - my);
+        if (dist <= NET_RANGE && dist < nearestDist) {
+          nearestDist = dist;
+          nearestIdx = idx;
+        }
+      });
+
+      state.netCooldown = NET_COOLDOWN;
+
+      if (nearestIdx !== -1) {
+        const target = state.ducks[nearestIdx];
+        state.netBeams.push({
+          x1: mx,
+          y1: my,
+          x2: target.x + 4,
+          y2: target.y + 4,
+          life: 0.25,
+          caught: true
+        });
+        state.ducks.splice(nearestIdx, 1);
+        state.duckRespawnTimers.push(3.5);
+
+        const multiplier = state.liquorTimer > 0 ? 2 : 1;
+        const pts = 3 * multiplier;
+        state.score += pts;
+        state.popups.push({
+          x: target.x + 4,
+          y: target.y,
+          text: multiplier > 1 ? `DUCK STOLEN! +${pts} (2x!)` : `DUCK STOLEN! +${pts}`,
+          color: "#94e2d5",
+          alpha: 1.4
+        });
+        playNetSound(true);
+      } else {
+        // Missed / out of range visual feedback
+        const dirX = state.merna.facing === "left" ? -26 : 26;
+        state.netBeams.push({
+          x1: mx,
+          y1: my,
+          x2: mx + dirX,
+          y2: my,
+          life: 0.18,
+          caught: false
+        });
+        state.popups.push({
+          x: mx,
+          y: state.merna.y - 2,
+          text: "No duck in range!",
+          color: "#a6adc8",
+          alpha: 0.9
+        });
+        playNetSound(false);
+      }
+
+      updateHud();
+    }
+
+    function updateCamera(timeSec = 0) {
+      const targetX = state.merna.x + state.merna.w / 2 - VIEW_W / 2;
+      const targetY = state.merna.y + state.merna.h / 2 - VIEW_H / 2;
+      let camX = Math.max(0, Math.min(WORLD_W - VIEW_W, targetX));
+      let camY = Math.max(0, Math.min(WORLD_H - VIEW_H, targetY));
+
+      if (state.liquorTimer > 0) {
+        camX += Math.sin(timeSec * 7.5) * 4.0;
+        camY += Math.cos(timeSec * 6.2) * 3.0;
+      }
+      state.camera.x = camX;
+      state.camera.y = camY;
+    }
+
+    // 8. Resize canvas cleanly
+    function resizeCanvas() {
+      const rect = canvasWrap.getBoundingClientRect();
+      canvas.width = Math.max(160, Math.floor(rect.width));
+      canvas.height = Math.max(120, Math.floor(rect.height));
+      ctx.imageSmoothingEnabled = false;
+    }
+
+    // 9. Drawing helpers
+    function pxView(x, y, w, h, color) {
+      const scaleX = canvas.width / VIEW_W;
+      const scaleY = canvas.height / VIEW_H;
+      ctx.fillStyle = color;
+      ctx.fillRect(
+        Math.floor(x * scaleX),
+        Math.floor(y * scaleY),
+        Math.ceil(w * scaleX),
+        Math.ceil(h * scaleY)
+      );
+    }
+
+    function pxWorld(x, y, w, h, color) {
+      pxView(x - state.camera.x, y - state.camera.y, w, h, color);
+    }
+
+    // Detailed Start-Up Menu Animation: Girl with Curtain Bangs Smoking IQOS
+    let lastSmokeSpawn = 0;
+    function drawStartMenuAnimation(timeSec, dt) {
+      const c = startAnimCtx;
+      c.imageSmoothingEnabled = false;
+      const W = startAnimCanvas.width;
+      const H = startAnimCanvas.height;
+
+      function spx(x, y, w, h, color) {
+        c.fillStyle = color;
+        c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+      }
+
+      spx(0, 0, W, H, "#161626");
+      spx(0, 35, W, 65, "#1e1e34");
+      spx(0, 62, W, 38, "#252540");
+
+      const stars = [[18, 12], [44, 22], [72, 9], [116, 15], [142, 24], [130, 8]];
+      stars.forEach(([sx, sy], idx) => {
+        const bright = Math.sin(timeSec * 3 + idx * 1.7) > 0;
+        spx(sx, sy, 1, 1, bright ? "#f9e2af" : "#6c7086");
+      });
+
+      spx(136, 12, 8, 8, "#f9e2af");
+      spx(139, 12, 6, 6, "#161626");
+
+      const buildings = [
+        [4, 48, 20, 52], [26, 40, 18, 60], [46, 54, 16, 46],
+        [104, 44, 22, 56], [128, 36, 26, 64]
+      ];
+      buildings.forEach(([bx, by, bw, bh]) => {
+        spx(bx, by, bw, bh, "#11111b");
+        for (let wy = by + 4; wy < 82; wy += 7) {
+          for (let wx = bx + 3; wx < bx + bw - 4; wx += 6) {
+            if ((wx + wy) % 3 !== 0) spx(wx, wy, 2, 3, "#f9e2af");
+          }
+        }
+      });
+
+      spx(0, 84, W, 3, "#45475a");
+      spx(0, 87, W, 13, "#11111b");
+      for (let rx = 6; rx < W; rx += 14) {
+        spx(rx, 87, 2, 13, "#313244");
+      }
+
+      const hero = state.hero;
+      const hair = HAIR_COLORS[hero.hairColorIdx % HAIR_COLORS.length];
+      const skin = SKIN_TONES[hero.skinToneIdx % SKIN_TONES.length];
+      const hoodie = HOODIE_COLORS[hero.hoodieIdx % HOODIE_COLORS.length];
+
+      const cycle = timeSec % 5.2;
+      let armLift = 0;
+      let isPuffing = false;
+      if (cycle < 0.9) armLift = cycle / 0.9;
+      else if (cycle < 2.0) { armLift = 1; isPuffing = true; }
+      else if (cycle < 2.8) armLift = 1 - (cycle - 2.0) / 0.8;
+
+      if (cycle >= 2.1 && cycle < 3.4 && timeSec - lastSmokeSpawn > 0.16) {
+        lastSmokeSpawn = timeSec;
+        state.smokePuffs.push({
+          x: 82 + (Math.random() * 4 - 2),
+          y: 52,
+          vx: 4 + Math.random() * 6,
+          vy: -12 - Math.random() * 6,
+          size: 2,
+          alpha: 0.9
+        });
+      }
+
+      for (let i = state.smokePuffs.length - 1; i >= 0; i--) {
+        const p = state.smokePuffs[i];
+        p.x += p.vx * dt + Math.sin(timeSec * 5 + i) * 0.15;
+        p.y += p.vy * dt;
+        p.size += 2.2 * dt;
+        p.alpha -= 0.48 * dt;
+        if (p.alpha <= 0) state.smokePuffs.splice(i, 1);
+      }
+
+      const cx = 64;
+      const cy = 22;
+      const sway = Math.round(Math.sin(timeSec * 2.2));
+
+      spx(cx - 2, cy + 8, 36, 44, hair.back);
+      spx(cx - 4 + sway, cy + 16, 40, 34, hair.back);
+      spx(cx - 5 + sway, cy + 28, 6, 18, hair.back);
+      spx(cx + 31 + sway, cy + 28, 6, 18, hair.back);
+
+      spx(cx - 4, cy + 44, 40, 34, hoodie.main);
+      spx(cx + 2, cy + 44, 28, 6, hoodie.trim);
+      spx(cx + 9, cy + 50, 2, 12, "#f8fafc");
+      spx(cx + 21, cy + 50, 2, 12, "#f8fafc");
+
+      spx(cx + 11, cy + 38, 10, 8, skin);
+      spx(cx + 5, cy + 12, 22, 27, skin);
+      spx(cx + 7, cy + 37, 18, 3, skin);
+
+      spx(cx + 5, cy + 5, 22, 9, hair.front);
+      spx(cx + 2, cy + 9, 28, 7, hair.front);
+
+      spx(cx + 2, cy + 12, 11, 4, hair.front);
+      spx(cx + 19, cy + 12, 11, 4, hair.front);
+      spx(cx + 1, cy + 16, 8, 5, hair.front);
+      spx(cx + 23, cy + 16, 8, 5, hair.front);
+      spx(cx, cy + 21, 6, 8, hair.front);
+      spx(cx + 26, cy + 21, 6, 8, hair.front);
+      spx(cx + 1, cy + 29, 4, 7, hair.front);
+      spx(cx + 27, cy + 29, 4, 7, hair.front);
+
+      const isBlink = (timeSec % 3.6) > 3.44;
+      if (isBlink) {
+        spx(cx + 9, cy + 24, 4, 1, "#1e1e2e");
+        spx(cx + 19, cy + 24, 4, 1, "#1e1e2e");
+      } else {
+        spx(cx + 9, cy + 22, 4, 4, "#ffffff");
+        spx(cx + 10, cy + 23, 3, 3, "#1e1e2e");
+        spx(cx + 10, cy + 23, 1, 1, "#ffffff");
+
+        spx(cx + 19, cy + 22, 4, 4, "#ffffff");
+        spx(cx + 20, cy + 23, 3, 3, "#1e1e2e");
+        spx(cx + 20, cy + 23, 1, 1, "#ffffff");
+      }
+
+      spx(cx + 7, cy + 28, 3, 2, "rgba(243, 139, 168, 0.45)");
+      spx(cx + 22, cy + 28, 3, 2, "rgba(243, 139, 168, 0.45)");
+      if (isPuffing) spx(cx + 15, cy + 32, 3, 2, "#b4536b");
+      else spx(cx + 14, cy + 32, 5, 1, "#b4536b");
+
+      if (hero.accessory === "glasses") {
+        spx(cx + 8, cy + 21, 6, 5, "#11111b");
+        spx(cx + 14, cy + 22, 4, 1, "#94a3b8");
+        spx(cx + 18, cy + 21, 6, 5, "#11111b");
+      } else if (hero.accessory === "headband") {
+        spx(cx + 4, cy + 9, 24, 3, hoodie.main);
+      } else if (hero.accessory === "cap") {
+        spx(cx + 4, cy + 3, 24, 7, hoodie.main);
+        spx(cx + 8, cy + 9, 24, 3, hoodie.trim);
+      }
+
+      const handX = Math.round(cx + 25 - armLift * 7);
+      const handY = Math.round(cy + 49 - armLift * 15);
+      spx(cx + 26, cy + 48, 8, 14, hoodie.main);
+      spx(handX, handY, 6, 6, skin);
+
+      const iqosX = handX + 1;
+      const iqosY = handY - 12;
+      spx(iqosX, iqosY + 5, 4, 10, "#48d1cc");
+      spx(iqosX + 1, iqosY + 7, 1, 6, "#94e2d5");
+      spx(iqosX + 2, iqosY + 9, 1, 2, isPuffing ? "#a6e3a1" : "#1e1e2e");
+      spx(iqosX + 1, iqosY, 2, 5, "#f8fafc");
+      spx(iqosX + 1, iqosY + 3, 2, 1, "#cba6f7");
+      if (isPuffing) spx(iqosX + 1, iqosY - 1, 2, 1, "#fab387");
+
+      for (const p of state.smokePuffs) {
+        c.fillStyle = `rgba(226, 232, 240, ${Math.max(0, p.alpha)})`;
+        c.fillRect(Math.round(p.x), Math.round(p.y), Math.round(p.size), Math.round(p.size));
+      }
+    }
+
+    function drawCharacterSprite(drawFn, dx, dy, hero, facing, shadowY) {
+      const hair = HAIR_COLORS[hero.hairColorIdx % HAIR_COLORS.length];
+      const skin = SKIN_TONES[hero.skinToneIdx % SKIN_TONES.length];
+      const hoodie = HOODIE_COLORS[hero.hoodieIdx % HOODIE_COLORS.length];
+
+      if (shadowY !== null) {
+        drawFn(dx + 2, shadowY, 8, 2, "rgba(0,0,0,0.35)");
+      }
+
+      if (hero.hairStyle === "bob") {
+        drawFn(dx + 2, dy + 1, 8, 6, hair.back);
+        drawFn(dx + 1, dy + 3, 10, 4, hair.back);
+      } else if (hero.hairStyle === "ponytail") {
+        drawFn(dx + 2, dy + 1, 8, 5, hair.back);
+        const tailX = facing === "left" ? dx + 9 : dx + 1;
+        drawFn(tailX, dy + 2, 2, 6, hair.back);
+      } else if (hero.hairStyle === "wavy") {
+        drawFn(dx + 2, dy + 1, 8, 9, hair.back);
+        drawFn(dx + 1, dy + 2, 10, 7, hair.back);
+        drawFn(dx, dy + 5, 1, 3, hair.back);
+        drawFn(dx + 11, dy + 5, 1, 3, hair.back);
+      } else {
+        drawFn(dx + 2, dy + 1, 8, 8, hair.back);
+        drawFn(dx + 1, dy + 3, 10, 6, hair.back);
+      }
+
+      drawFn(dx + 3, dy + 2, 6, 6, skin);
+
+      drawFn(dx + 3, dy + 1, 6, 1, hair.front);
+      if (hero.hairStyle === "curtain" || hero.hairStyle === "wavy") {
+        drawFn(dx + 2, dy + 2, 3, 1, hair.front);
+        drawFn(dx + 7, dy + 2, 3, 1, hair.front);
+        drawFn(dx + 2, dy + 3, 2, 1, hair.front);
+        drawFn(dx + 8, dy + 3, 2, 1, hair.front);
+        drawFn(dx + 2, dy + 4, 1, 2, hair.front);
+        drawFn(dx + 9, dy + 4, 1, 2, hair.front);
+      } else if (hero.hairStyle === "bob") {
+        drawFn(dx + 3, dy + 2, 6, 2, hair.front);
+      } else if (hero.hairStyle === "ponytail") {
+        drawFn(dx + 3, dy + 2, 6, 1, hair.front);
+      }
+
+      const eyeOffset = facing === "left" ? 0 : 1;
+      drawFn(dx + 3 + eyeOffset, dy + 5, 1, 1, "#1e1e2e");
+      drawFn(dx + 6 + eyeOffset, dy + 5, 1, 1, "#1e1e2e");
+
+      if (hero.accessory === "glasses") {
+        drawFn(dx + 2 + eyeOffset, dy + 4, 3, 2, "#11111b");
+        drawFn(dx + 5 + eyeOffset, dy + 4, 1, 1, "#94a3b8");
+        drawFn(dx + 6 + eyeOffset, dy + 4, 3, 2, "#11111b");
+      } else if (hero.accessory === "headband") {
+        drawFn(dx + 2, dy + 1, 8, 1, hoodie.main);
+      } else if (hero.accessory === "cap") {
+        drawFn(dx + 2, dy, 8, 2, hoodie.main);
+        const brimX = facing === "left" ? dx + 1 : dx + 5;
+        drawFn(brimX, dy + 2, 6, 1, hoodie.trim);
+      }
+
+      drawFn(dx + 2, dy + 8, 8, 5, hoodie.main);
+      drawFn(dx + 4, dy + 8, 4, 2, hoodie.trim);
+
+      drawFn(dx + 3, dy + 13, 2, 2, "#89b4fa");
+      drawFn(dx + 7, dy + 13, 2, 2, "#89b4fa");
+
+      drawFn(dx + 3, dy + 15, 2, 1, "#cdd6f4");
+      drawFn(dx + 7, dy + 15, 2, 1, "#cdd6f4");
+    }
+
+    function renderCharPreview() {
+      previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+      previewCtx.imageSmoothingEnabled = false;
+      const scale = 6;
+      drawCharacterSprite(
+        (x, y, w, h, color) => {
+          previewCtx.fillStyle = color;
+          previewCtx.fillRect(x * scale, y * scale, w * scale, h * scale);
+        },
+        0,
+        0,
+        state.hero,
+        "right",
+        null
+      );
+      previewName.textContent = state.hero.name || "Merna";
+    }
+
+    function drawMap(time) {
+      const theme = ZONES[state.zoneIndex % ZONES.length];
+      const startCol = Math.max(0, Math.floor(state.camera.x / TILE) - 1);
+      const endCol = Math.min(COLS - 1, Math.ceil((state.camera.x + VIEW_W) / TILE) + 1);
+      const startRow = Math.max(0, Math.floor(state.camera.y / TILE) - 1);
+      const endRow = Math.min(ROWS - 1, Math.ceil((state.camera.y + VIEW_H) / TILE) + 1);
+
+      pxView(0, 0, VIEW_W, VIEW_H, "#11111b");
+
+      for (let r = startRow; r <= endRow; r++) {
+        for (let c = startCol; c <= endCol; c++) {
+          const x = c * TILE;
+          const y = r * TILE;
+          const tile = MAP[r][c];
+
+          if (tile === 0) {
+            pxWorld(x, y, TILE, TILE, (r + c) % 2 === 0 ? theme.pathA : theme.pathB);
+            pxWorld(x + 1, y + 1, TILE - 2, 1, theme.pathSpec);
+            pxWorld(x, y + TILE - 1, TILE, 1, theme.pathEdge);
+          } else {
+            pxWorld(x, y, TILE, TILE, (r + c) % 2 === 0 ? theme.groundA : theme.groundB);
+            if ((r * 7 + c * 3) % 5 === 0) {
+              pxWorld(x + 2, y + 4, 1, 2, theme.groundSpec);
+              pxWorld(x + 3, y + 5, 1, 1, theme.groundSpec);
+            }
+            if ((r * 11 + c * 5) % 13 === 0) {
+              pxWorld(x + 5, y + 2, 1, 1, theme.flower);
+            }
+          }
+
+          if (tile === 2) {
+            pxWorld(x + 1, y + 6, 6, 2, "rgba(0,0,0,0.28)");
+            pxWorld(x + 3, y + 5, 2, 3, theme.treeTrunk);
+            pxWorld(x + 1, y + 1, 6, 5, theme.treeDark);
+            pxWorld(x + 2, y, 4, 4, theme.treeMid);
+            pxWorld(x + 2, y + 1, 2, 2, theme.treeLight);
+          } else if (tile === 3) {
+            pxWorld(x + 1, y + 6, 6, 2, "rgba(0,0,0,0.25)");
+            pxWorld(x + 1, y + 2, 6, 2, theme.benchA);
+            pxWorld(x + 1, y + 4, 6, 2, theme.benchB);
+            pxWorld(x + 1, y + 6, 1, 2, "#313244");
+            pxWorld(x + 6, y + 6, 1, 2, "#313244");
+          } else if (tile === 4) {
+            pxWorld(x, y, TILE, TILE, theme.waterRim);
+            pxWorld(x + 1, y + 1, TILE - 2, TILE - 2, theme.waterBase);
+            const ripple = Math.sin(time * 3 + c + r) > 0 ? 1 : 0;
+            pxWorld(x + 1 + ripple, y + 3, 3, 1, theme.waterHi1);
+            pxWorld(x + 3 - ripple, y + 5, 2, 1, theme.waterHi2);
+          }
+        }
+      }
+    }
+
+    function drawMerna(x, y, time) {
+      if (state.invulnTimer > 0 && Math.floor(time * 16) % 2 === 0) return;
+
+      const bob = Math.sin(state.merna.walkTimer * 12) > 0 && state.merna.isMoving ? -1 : 0;
+      const dy = Math.round(y) + bob;
+      const dx = Math.round(x);
+
+      if (state.boostTimer > 0) {
+        pxWorld(dx + 1, dy + 13, 10, 3, "rgba(249, 226, 175, 0.5)");
+      }
+      if (state.liquorTimer > 0) {
+        pxWorld(dx, dy + 1, 12, 15, "rgba(166, 227, 161, 0.2)");
+      }
+
+      drawCharacterSprite(pxWorld, dx, dy, state.hero, state.merna.facing, Math.round(y) + 14);
+    }
+
+    function drawTereaStick(stick, time) {
+      const bob = Math.round(Math.sin(time * 5 + stick.x) * 1.2);
+      const dx = Math.round(stick.x);
+      const dy = Math.round(stick.y) + bob;
+      const fl = stick.flavor;
+
+      pxWorld(dx + 1, Math.round(stick.y) + 11, 6, 1, "rgba(0,0,0,0.35)");
+
+      const m = state.mission;
+      const isMissionTarget =
+        m &&
+        (((m.type === "flavor" || m.type === "duo") && m.flavorIds.includes(fl.id)) ||
+          (m.type === "rainbow" && !m.collected[fl.id]));
+
+      if (isMissionTarget && Math.sin(time * 10) > 0) {
+        pxWorld(dx + 2, dy - 2, 4, 1, fl.glow);
+      }
+
+      pxWorld(dx + 1, dy, 6, 11, "#11111b");
+      pxWorld(dx + 2, dy + 1, 4, 2, fl.tip);
+      pxWorld(dx + 2, dy + 3, 4, 2, "#f8fafc");
+      pxWorld(dx + 2, dy + 5, 4, 2, fl.band);
+      pxWorld(dx + 2, dy + 7, 4, 1, "#94a3b8");
+      pxWorld(dx + 2, dy + 8, 4, 2, "#e2e8f0");
+    }
+
+    function drawPowerups(time) {
+      for (const pw of state.powerups) {
+        const bob = Math.round(Math.sin(time * 4.5 + pw.x) * 1.2);
+        const dx = Math.round(pw.x);
+        const dy = Math.round(pw.y) + bob;
+        pxWorld(dx + 1, Math.round(pw.y) + 10, 8, 1, "rgba(0,0,0,0.35)");
+
+        const isMissionTarget =
+          state.mission &&
+          state.mission.type === "powerup" &&
+          state.mission.powerupType === pw.type;
+
+        if (isMissionTarget && Math.sin(time * 10) > 0) {
+          pxWorld(dx + 3, dy - 4, 4, 1, "#a6e3a1");
+        }
+
+        if (pw.type === "coffee") {
+          const steam = Math.sin(time * 8) > 0 ? 0 : 1;
+          pxWorld(dx + 3 + steam, dy - 3, 1, 2, "#f8fafc");
+          pxWorld(dx + 6 - steam, dy - 2, 1, 1, "#cbd5e1");
+
+          pxWorld(dx + 1, dy, 8, 10, "#11111b");
+          pxWorld(dx + 2, dy, 6, 1, "#e2e8f0");
+          pxWorld(dx + 1, dy + 1, 8, 2, "#ffffff");
+          pxWorld(dx + 2, dy + 3, 6, 6, "#f8fafc");
+          pxWorld(dx + 7, dy + 3, 1, 6, "#cbd5e1");
+          pxWorld(dx + 2, dy + 4, 6, 3, "#a66d3f");
+          pxWorld(dx + 2, dy + 5, 6, 1, "#8c5633");
+          pxWorld(dx + 4, dy + 5, 2, 1, "#f5e0dc");
+          pxWorld(dx + 9, dy + 4, 1, 3, "#11111b");
+          pxWorld(dx + 8, dy + 4, 1, 1, "#ffffff");
+          pxWorld(dx + 8, dy + 6, 1, 1, "#ffffff");
+        } else {
+          pxWorld(dx + 3, dy, 4, 2, "#11111b");
+          pxWorld(dx + 4, dy, 2, 1, "#f9e2af");
+          pxWorld(dx + 4, dy + 1, 2, 2, "#408056");
+          pxWorld(dx + 1, dy + 3, 8, 7, "#11111b");
+          pxWorld(dx + 2, dy + 4, 6, 5, "#2d5a3c");
+          pxWorld(dx + 2, dy + 4, 1, 5, "#a6e3a1");
+          pxWorld(dx + 3, dy + 5, 4, 3, "#f9e2af");
+          pxWorld(dx + 3, dy + 6, 1, 1, "#11111b");
+          pxWorld(dx + 5, dy + 6, 1, 1, "#11111b");
+        }
+      }
+    }
+
+    function drawHazards(time) {
+      const theme = ZONES[state.zoneIndex % ZONES.length];
+      const flap = Math.sin(time * 14) > 0 ? -1 : 0;
+      for (const h of state.hazards) {
+        const dx = Math.round(h.x);
+        const dy = Math.round(h.y) + flap;
+        pxWorld(dx + 1, Math.round(h.y) + 7, 6, 1, "rgba(0,0,0,0.35)");
+        pxWorld(dx, dy + 1, 8, 6, "#11111b");
+        pxWorld(dx + 1, dy + 2, 6, 4, theme.hazardColor);
+        pxWorld(dx + 2, dy + 1, 4, 2, theme.hazardColor);
+        pxWorld(dx + 3, dy + 2, 2, 1, theme.hazardAccent);
+        pxWorld(dx + 2, dy + 6, 1, 2, "#fab387");
+        pxWorld(dx + 5, dy + 6, 1, 2, "#fab387");
+      }
+    }
+
+    function drawDucks() {
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      for (const d of state.ducks) {
+        const waddle = Math.sin(d.waddleTimer * 14) > 0 ? -1 : 0;
+        const dx = Math.round(d.x);
+        const dy = Math.round(d.y) + waddle;
+
+        // Target indicator if within Duck Net range
+        const inRange = Math.hypot((d.x + 4) - mx, (d.y + 4) - my) <= NET_RANGE;
+        if (inRange && state.netCooldown <= 0) {
+          pxWorld(dx + 2, dy - 3, 5, 1, "#a6e3a1");
+        }
+
+        pxWorld(dx + 1, Math.round(d.y) + 8, 7, 1, "rgba(0,0,0,0.35)");
+        pxWorld(dx + 1, dy, 7, 8, "#11111b");
+        pxWorld(dx + 2, dy + 1, 5, 3, "#ffffff");
+        pxWorld(dx + 1, dy + 4, 7, 3, "#f8fafc");
+        pxWorld(dx + 2, dy + 5, 4, 2, "#cbd5e1");
+
+        if (d.facing === "right") {
+          pxWorld(dx + 7, dy + 2, 2, 2, "#fab387");
+          pxWorld(dx + 5, dy + 2, 1, 1, "#11111b");
+        } else {
+          pxWorld(dx, dy + 2, 2, 2, "#fab387");
+          pxWorld(dx + 3, dy + 2, 1, 1, "#11111b");
+        }
+
+        pxWorld(dx + 2, dy + 7, 2, 2, "#fab387");
+        pxWorld(dx + 5, dy + 7, 2, 2, "#fab387");
+      }
+    }
+
+    function drawNetBeams() {
+      const scaleX = canvas.width / VIEW_W;
+      const scaleY = canvas.height / VIEW_H;
+      for (const b of state.netBeams) {
+        ctx.save();
+        ctx.strokeStyle = b.caught ? "#94e2d5" : "#a6adc8";
+        ctx.lineWidth = Math.max(2, Math.floor(2 * scaleX));
+        ctx.beginPath();
+        ctx.moveTo((b.x1 - state.camera.x) * scaleX, (b.y1 - state.camera.y) * scaleY);
+        ctx.lineTo((b.x2 - state.camera.x) * scaleX, (b.y2 - state.camera.y) * scaleY);
+        ctx.stroke();
+
+        // Pixel net diamond at target tip
+        pxWorld(b.x2 - 4, b.y2 - 4, 8, 8, b.caught ? "rgba(148, 226, 213, 0.45)" : "rgba(166, 173, 200, 0.3)");
+        ctx.restore();
+      }
+    }
+
+    function drawLiquorDistortion(time) {
+      if (state.liquorTimer <= 0) {
+        canvas.style.filter = "none";
+        return;
+      }
+      const hue = Math.round(Math.sin(time * 4) * 30);
+      canvas.style.filter = `hue-rotate(${hue}deg) saturate(1.25)`;
+      const scaleX = canvas.width / VIEW_W;
+      const scaleY = canvas.height / VIEW_H;
+      ctx.fillStyle = "rgba(166, 227, 161, 0.08)";
+      for (let y = 0; y < VIEW_H; y += 10) {
+        const wave = Math.sin(time * 9 + y * 0.2) * 3;
+        ctx.fillRect(wave * scaleX, y * scaleY, canvas.width, 2 * scaleY);
+      }
+    }
+
+    function drawMiniMap(time) {
+      const mx = VIEW_W - COLS - 3;
+      const my = 3;
+      pxView(mx - 1, my - 1, COLS + 2, ROWS + 2, "rgba(17, 17, 27, 0.9)");
+
+      for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+          const tile = MAP[r][c];
+          let color = "#437a55";
+          if (tile === 0) color = "#6c7086";
+          else if (tile === 2) color = "#1e3d29";
+          else if (tile === 3) color = "#a66d3f";
+          else if (tile === 4) color = "#29688a";
+          pxView(mx + c, my + r, 1, 1, color);
+        }
+      }
+
+      for (const h of state.hazards) {
+        const hc = Math.min(COLS - 1, Math.max(0, Math.floor((h.x + 4) / TILE)));
+        const hr = Math.min(ROWS - 1, Math.max(0, Math.floor((h.y + 4) / TILE)));
+        pxView(mx + hc, my + hr, 1, 1, "#f38ba8");
+      }
+
+      for (const d of state.ducks) {
+        const dc = Math.min(COLS - 1, Math.max(0, Math.floor((d.x + 4) / TILE)));
+        const dr = Math.min(ROWS - 1, Math.max(0, Math.floor((d.y + 4) / TILE)));
+        pxView(mx + dc, my + dr, 1, 1, "#fab387");
+      }
+
+      for (const pw of state.powerups) {
+        const pc = Math.min(COLS - 1, Math.max(0, Math.floor((pw.x + 5) / TILE)));
+        const pr = Math.min(ROWS - 1, Math.max(0, Math.floor((pw.y + 5) / TILE)));
+        pxView(mx + pc, my + pr, 1, 1, pw.type === "coffee" ? "#f9e2af" : "#a6e3a1");
+      }
+
+      if (Math.sin(time * 8) > -0.3) {
+        for (const s of state.sticks) {
+          const sc = Math.min(COLS - 1, Math.max(0, Math.floor((s.x + 4) / TILE)));
+          const sr = Math.min(ROWS - 1, Math.max(0, Math.floor((s.y + 5) / TILE)));
+          pxView(mx + sc, my + sr, 1, 1, s.flavor.band);
+        }
+      }
+
+      const mc = Math.min(COLS - 1, Math.max(0, Math.floor((state.merna.x + 6) / TILE)));
+      const mr = Math.min(ROWS - 1, Math.max(0, Math.floor((state.merna.y + 10) / TILE)));
+      pxView(mx + mc, my + mr, 2, 2, "#ffffff");
+    }
+
+    function drawPopups() {
+      const scaleX = canvas.width / VIEW_W;
+      const scaleY = canvas.height / VIEW_H;
+      ctx.font = `bold ${Math.max(10, Math.floor(7 * scaleY))}px monospace`;
+      ctx.textAlign = "center";
+      for (const p of state.popups) {
+        const pxPos = (p.x - state.camera.x) * scaleX;
+        const pyPos = (p.y - state.camera.y) * scaleY;
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.fillStyle = "#11111b";
+        ctx.fillText(p.text, pxPos + 1, pyPos + 1);
+        ctx.fillStyle = p.color;
+        ctx.fillText(p.text, pxPos, pyPos);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // 10. Start Menu, Tutorial & Character Editor UI Helpers
+    function openStartMenu() {
+      state.isStartMenu = true;
+      state.isTutorial = false;
+      state.isEditingChar = false;
+      state.keys = {};
+      state.touchDir = null;
+      tutorialOverlay.classList.add("hidden");
+      charOverlay.classList.add("hidden");
+      gameOverOverlay.classList.add("hidden");
+      startOverlay.classList.remove("hidden");
+      startTitle.textContent = `${(state.hero.name || "Merna").toUpperCase()}'S TEREA QUEST`;
+      startBestBadge.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
+    }
+
+    function openTutorial() {
+      state.isTutorial = true;
+      state.keys = {};
+      state.touchDir = null;
+      startOverlay.classList.add("hidden");
+      charOverlay.classList.add("hidden");
+      gameOverOverlay.classList.add("hidden");
+      tutorialOverlay.classList.remove("hidden");
+    }
+
+    function closeTutorial() {
+      state.isTutorial = false;
+      state.isStartMenu = false;
+      tutorialOverlay.classList.add("hidden");
+    }
+
+    function startNewGameFromMenu() {
+      state.isStartMenu = false;
+      startOverlay.classList.add("hidden");
+      resetGame();
+    }
+
+    function buildSwatchRow(container, colors, getColor, currentIndex, onSelect) {
+      container.innerHTML = "";
+      colors.forEach((item, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "swatch" + (idx === currentIndex ? " active" : "");
+        btn.style.background = getColor(item);
+        btn.setAttribute("aria-label", `Select option ${idx + 1}`);
+        btn.addEventListener("click", () => {
+          onSelect(idx);
+          syncCharEditorUI();
+          renderCharPreview();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function syncCharEditorUI() {
+      charNameInput.value = state.hero.name;
+      hairStyleSelect.value = state.hero.hairStyle;
+      accessorySelect.value = state.hero.accessory;
+      buildSwatchRow(hairColorSwatches, HAIR_COLORS, (c) => c.front, state.hero.hairColorIdx, (i) => {
+        state.hero.hairColorIdx = i;
+      });
+      buildSwatchRow(skinToneSwatches, SKIN_TONES, (c) => c, state.hero.skinToneIdx, (i) => {
+        state.hero.skinToneIdx = i;
+      });
+      buildSwatchRow(hoodieSwatches, HOODIE_COLORS, (c) => c.main, state.hero.hoodieIdx, (i) => {
+        state.hero.hoodieIdx = i;
+      });
+    }
+
+    function openCharEditor() {
+      state.isEditingChar = true;
+      state.isTutorial = false;
+      state.keys = {};
+      state.touchDir = null;
+      startOverlay.classList.add("hidden");
+      tutorialOverlay.classList.add("hidden");
+      gameOverOverlay.classList.add("hidden");
+      charOverlay.classList.remove("hidden");
+      syncCharEditorUI();
+      renderCharPreview();
+    }
+
+    function closeCharEditor() {
+      const cleaned = charNameInput.value.trim();
+      state.hero.name = cleaned || "Merna";
+      saveCharacter(state.hero);
+      gameTitle.textContent = `${state.hero.name.toUpperCase()}'S TEREA QUEST`;
+      startTitle.textContent = `${state.hero.name.toUpperCase()}'S TEREA QUEST`;
+      state.isEditingChar = false;
+      state.isStartMenu = false;
+      charOverlay.classList.add("hidden");
+      if (state.gameOver) {
+        resetGame();
+      }
+    }
+
+    // 11. HUD, Hearts, Level Advancement, Reset & Game Over
+    function updateHud() {
+      const theme = ZONES[state.zoneIndex % ZONES.length];
+      gameTitle.textContent = `${(state.hero.name || "Merna").toUpperCase()}'S TEREA QUEST`;
+      levelDisplay.textContent = `Lv ${state.level}`;
+      zoneDisplay.textContent = theme.name;
+      scoreDisplay.textContent = `Score: ${state.score}`;
+      missionCountDisplay.textContent = `Missions: ${state.missionsDone}`;
+
+      const filled = "♥".repeat(Math.max(0, state.hearts));
+      const empty = "♡".repeat(Math.max(0, MAX_HEARTS - state.hearts));
+      heartsDisplay.textContent = filled + empty;
+      heartsDisplay.classList.toggle("low", state.hearts <= 1);
+
+      if (state.netCooldown > 0) {
+        const cd = state.netCooldown.toFixed(1);
+        netDisplay.textContent = `Net: ${cd}s`;
+        netDisplay.classList.add("cooling");
+        stealDuckBtn.disabled = true;
+        stealDuckBtn.textContent = `Net (${cd}s)`;
+      } else {
+        netDisplay.textContent = "Net: READY";
+        netDisplay.classList.remove("cooling");
+        stealDuckBtn.disabled = false;
+        stealDuckBtn.textContent = "Steal Duck (Space)";
+      }
+
+      let badges = "";
+      if (state.boostTimer > 0) {
+        badges += `<span class="effect-badge effect-coffee">COFFEE SPEED: ${Math.ceil(state.boostTimer)}s</span>`;
+      }
+      if (state.liquorTimer > 0) {
+        badges += `<span class="effect-badge effect-liquor">20% XXXX (2x PTS!): ${Math.ceil(state.liquorTimer)}s</span>`;
+      }
+      statusStrip.innerHTML = badges;
+    }
+
+    function damagePlayer(isDuck) {
+      if (state.invulnTimer > 0 || state.gameOver) return;
+      state.hearts = Math.max(0, state.hearts - 1);
+      state.invulnTimer = 1.6;
+      state.popups.push({
+        x: state.merna.x + 6,
+        y: state.merna.y,
+        text: isDuck ? "QUACK! -1 ♥" : "-1 ♥!",
+        color: "#f38ba8",
+        alpha: 1.3
+      });
+      playHitSound(isDuck);
+      updateHud();
+      if (state.hearts <= 0) {
+        triggerGameOver();
+      }
+    }
+
+    function advanceLevel() {
+      state.level += 1;
+      if (state.level > state.bestLevel) {
+        state.bestLevel = state.level;
+        saveBestLevel(state.bestLevel);
+      }
+      state.zoneIndex = (state.zoneIndex + 1) % ZONES.length;
+      state.hearts = Math.min(MAX_HEARTS, state.hearts + 1);
+      MAP = generateMap();
+      state.merna.x = Math.floor(COLS / 2) * TILE - 2;
+      state.merna.y = Math.floor(ROWS / 2) * TILE - 4;
+      state.invulnTimer = 1.4;
+      state.sticks = [];
+      for (let i = 0; i < STICK_COUNT; i++) {
+        state.sticks.push(spawnSingleStick());
+      }
+      ensureMissionStickOnMap();
+      spawnAllPowerups();
+      spawnHazards();
+      spawnDucks();
+      updateCamera();
+      state.popups.push({
+        x: state.merna.x + 6,
+        y: state.merna.y - 8,
+        text: `LEVEL ${state.level}: ${ZONES[state.zoneIndex].name.toUpperCase()}! +1 ♥`,
+        color: "#fab387",
+        alpha: 1.8
+      });
+    }
+
+    function completeCurrentMission() {
+      const m = state.mission;
+      const multiplier = state.liquorTimer > 0 ? 2 : 1;
+      state.missionsDone += 1;
+      state.score += m.bonusPoints * multiplier;
+      state.boostTimer = Math.max(state.boostTimer, 3.5);
+
+      const isLevelUp = state.missionsDone % MISSIONS_PER_LEVEL === 0;
+      if (isLevelUp) {
+        advanceLevel();
+      } else {
+        state.hearts = Math.min(MAX_HEARTS, state.hearts + 1);
+        state.popups.push({
+          x: state.merna.x + 6,
+          y: state.merna.y - 4,
+          text: `MISSION CLEAR! +1 ♥`,
+          color: "#a6e3a1",
+          alpha: 1.5
+        });
+      }
+
+      playMissionSound(isLevelUp);
+      state.mission = createMission(state.level);
+      ensureMissionStickOnMap();
+      updateHud();
+      updateMissionUI();
+    }
+
+    function triggerGameOver() {
+      state.gameOver = true;
+      state.touchDir = null;
+      state.keys = {};
+      canvas.style.filter = "none";
+      if (state.score > state.highScore) {
+        state.highScore = state.score;
+        saveHighScore(state.highScore);
+      }
+      if (state.level > state.bestLevel) {
+        state.bestLevel = state.level;
+        saveBestLevel(state.bestLevel);
+      }
+      const heroName = state.hero.name || "Merna";
+      finalScoreText.textContent = `${heroName} scored ${state.score} point${state.score === 1 ? "" : "s"}!`;
+      finalLevelText.textContent = `Reached Level ${state.level}`;
+      finalMissionsText.textContent = `Missions completed: ${state.missionsDone}`;
+      highScoreText.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
+      gameOverOverlay.classList.remove("hidden");
+      playGameOverSound();
+    }
+
+    function resetGame() {
+      state.level = 1;
+      state.score = 0;
+      state.missionsDone = 0;
+      state.zoneIndex = 0;
+      state.hearts = START_HEARTS;
+      state.boostTimer = 0;
+      state.liquorTimer = 0;
+      state.invulnTimer = 0;
+      state.netCooldown = 0;
+      state.netBeams = [];
+      state.gameOver = false;
+      canvas.style.filter = "none";
+      MAP = generateMap();
+      state.merna.x = Math.floor(COLS / 2) * TILE - 2;
+      state.merna.y = Math.floor(ROWS / 2) * TILE - 4;
+      state.merna.isMoving = false;
+      state.popups = [];
+      state.keys = {};
+      state.touchDir = null;
+      state.mission = createMission(1);
+      state.sticks = [];
+      for (let i = 0; i < STICK_COUNT; i++) {
+        state.sticks.push(spawnSingleStick());
+      }
+      ensureMissionStickOnMap();
+      spawnAllPowerups();
+      spawnHazards();
+      spawnDucks();
+      updateCamera();
+      gameOverOverlay.classList.add("hidden");
+      updateHud();
+      updateMissionUI();
+    }
+
+    // 12. Handle collecting TEREA sticks & Power-Ups
+    function handleStickPickup(stick, index) {
+      const m = state.mission;
+      let countsForMission = false;
+
+      if ((m.type === "flavor" || m.type === "duo") && m.flavorIds.includes(stick.flavor.id)) {
+        m.progress += 1;
+        countsForMission = true;
+      } else if (m.type === "rainbow" && !m.collected[stick.flavor.id]) {
+        m.collected[stick.flavor.id] = true;
+        m.progress += 1;
+        countsForMission = true;
+      } else if (m.type === "any") {
+        m.progress += 1;
+        countsForMission = true;
+      }
+
+      const basePts = countsForMission ? 2 : 1;
+      const multiplier = state.liquorTimer > 0 ? 2 : 1;
+      const pts = basePts * multiplier;
+      state.score += pts;
+
+      state.popups.push({
+        x: stick.x + 5,
+        y: stick.y,
+        text: multiplier > 1 ? `+${pts} ${stick.flavor.name} (2x!)` : `+${pts} ${stick.flavor.name}`,
+        color: stick.flavor.glow,
+        alpha: 1.1
+      });
+
+      state.sticks[index] = spawnSingleStick();
+      ensureMissionStickOnMap();
+
+      if (m.progress >= m.target) {
+        completeCurrentMission();
+      } else {
+        playPickupSound(countsForMission);
+        updateHud();
+        updateMissionUI();
+      }
+    }
+
+    function handlePowerupPickup(pw, index) {
+      const multiplier = state.liquorTimer > 0 ? 2 : 1;
+      if (pw.type === "coffee") {
+        state.boostTimer = 5.0;
+        const bonus = 2 * multiplier;
+        state.score += bonus;
+        state.popups.push({
+          x: pw.x + 5,
+          y: pw.y,
+          text: `COFFEE BOOST! +${bonus}`,
+          color: "#fab387",
+          alpha: 1.3
+        });
+        playPowerupSound("coffee");
+      } else {
+        state.liquorTimer = 6.0;
+        state.score += 3;
+        state.popups.push({
+          x: pw.x + 5,
+          y: pw.y,
+          text: `20% XXXX! 2x PTS!`,
+          color: "#a6e3a1",
+          alpha: 1.4
+        });
+        playPowerupSound("liquor");
+      }
+
+      state.powerups[index] = spawnPowerup(pw.type);
+
+      if (state.mission && state.mission.type === "powerup" && state.mission.powerupType === pw.type) {
+        state.mission.progress += 1;
+        if (state.mission.progress >= state.mission.target) {
+          completeCurrentMission();
+          return;
+        }
+      }
+
+      updateHud();
+      updateMissionUI();
+    }
+
+    // 13. Update positions, ducks, hazards & collisions
+    function update(dt, timeSec) {
+      if (state.gameOver || state.isEditingChar || state.isStartMenu || state.isTutorial) return;
+
+      if (state.boostTimer > 0) state.boostTimer = Math.max(0, state.boostTimer - dt);
+      if (state.liquorTimer > 0) state.liquorTimer = Math.max(0, state.liquorTimer - dt);
+      if (state.invulnTimer > 0) state.invulnTimer = Math.max(0, state.invulnTimer - dt);
+      if (state.netCooldown > 0) state.netCooldown = Math.max(0, state.netCooldown - dt);
+
+      // Respawn stolen ducks after delay
+      for (let i = state.duckRespawnTimers.length - 1; i >= 0; i--) {
+        state.duckRespawnTimers[i] -= dt;
+        if (state.duckRespawnTimers[i] <= 0) {
+          state.duckRespawnTimers.splice(i, 1);
+          const nd = spawnOneDuck(0);
+          if (nd) state.ducks.push(nd);
+        }
+      }
+
+      for (let i = state.netBeams.length - 1; i >= 0; i--) {
+        state.netBeams[i].life -= dt;
+        if (state.netBeams[i].life <= 0) state.netBeams.splice(i, 1);
+      }
+
+      updateHud();
+
+      let vx = 0;
+      let vy = 0;
+      if (state.keys["ArrowLeft"] || state.keys["KeyA"] || state.touchDir === "left") vx -= 1;
+      if (state.keys["ArrowRight"] || state.keys["KeyD"] || state.touchDir === "right") vx += 1;
+      if (state.keys["ArrowUp"] || state.keys["KeyW"] || state.touchDir === "up") vy -= 1;
+      if (state.keys["ArrowDown"] || state.keys["KeyS"] || state.touchDir === "down") vy += 1;
+
+      if (vx !== 0 && vy !== 0) {
+        vx *= 0.7071;
+        vy *= 0.7071;
+      }
+
+      const activeSpeed = state.boostTimer > 0 ? state.merna.baseSpeed * 1.45 : state.merna.baseSpeed;
+      state.merna.isMoving = vx !== 0 || vy !== 0;
+      if (vx < 0) state.merna.facing = "left";
+      if (vx > 0) state.merna.facing = "right";
+      if (state.merna.isMoving) state.merna.walkTimer += dt;
+
+      const nextX = Math.max(2, Math.min(WORLD_W - state.merna.w - 2, state.merna.x + vx * activeSpeed * dt));
+      if (!collidesWithMap(nextX, state.merna.y)) state.merna.x = nextX;
+
+      const nextY = Math.max(2, Math.min(WORLD_H - state.merna.h - 2, state.merna.y + vy * activeSpeed * dt));
+      if (!collidesWithMap(state.merna.x, nextY)) state.merna.y = nextY;
+
+      updateCamera(timeSec);
+
+      for (const d of state.ducks) {
+        const dx = (state.merna.x + 2) - d.x;
+        const dy = (state.merna.y + 6) - d.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        const stepX = (dx / dist) * d.speed * dt;
+        const stepY = (dy / dist) * d.speed * dt;
+
+        d.facing = dx >= 0 ? "right" : "left";
+        d.waddleTimer += dt;
+
+        const candX = Math.max(2, Math.min(WORLD_W - d.w - 2, d.x + stepX));
+        if (!collidesWithMap(candX, d.y, 7, 7, 1, 1)) d.x = candX;
+
+        const candY = Math.max(2, Math.min(WORLD_H - d.h - 2, d.y + stepY));
+        if (!collidesWithMap(d.x, candY, 7, 7, 1, 1)) d.y = candY;
+
+        if (state.invulnTimer <= 0) {
+          const m = state.merna;
+          const hitDuck =
+            m.x + 2 < d.x + d.w &&
+            m.x + m.w - 2 > d.x &&
+            m.y + 6 < d.y + d.h &&
+            m.y + m.h > d.y;
+          if (hitDuck) {
+            damagePlayer(true);
+            if (state.gameOver) return;
+          }
+        }
+      }
+
+      for (const h of state.hazards) {
+        const hx = h.x + h.vx * h.speed * dt;
+        const hy = h.y + h.vy * h.speed * dt;
+        if (
+          hx < 4 || hx > WORLD_W - h.w - 4 ||
+          hy < 4 || hy > WORLD_H - h.h - 4 ||
+          collidesWithMap(hx, hy, 6, 6, 1, 1)
+        ) {
+          h.vx *= -1;
+          h.vy *= -1;
+        } else {
+          h.x = hx;
+          h.y = hy;
+        }
+
+        if (state.invulnTimer <= 0) {
+          const m = state.merna;
+          const hitHazard =
+            m.x + 2 < h.x + h.w &&
+            m.x + m.w - 2 > h.x &&
+            m.y + 6 < h.y + h.h &&
+            m.y + m.h > h.y;
+          if (hitHazard) {
+            damagePlayer(false);
+            if (state.gameOver) return;
+          }
+        }
+      }
+
+      const m = state.merna;
+      for (let i = 0; i < state.sticks.length; i++) {
+        const st = state.sticks[i];
+        const hit =
+          m.x < st.x + st.w &&
+          m.x + m.w > st.x &&
+          m.y < st.y + st.h &&
+          m.y + m.h > st.y;
+        if (hit) {
+          handleStickPickup(st, i);
+          break;
+        }
+      }
+
+      for (let i = 0; i < state.powerups.length; i++) {
+        const pw = state.powerups[i];
+        const hit =
+          m.x < pw.x + pw.w &&
+          m.x + m.w > pw.x &&
+          m.y < pw.y + pw.h &&
+          m.y + m.h > pw.y;
+        if (hit) {
+          handlePowerupPickup(pw, i);
+          break;
+        }
+      }
+
+      for (let i = state.popups.length - 1; i >= 0; i--) {
+        state.popups[i].y -= 16 * dt;
+        state.popups[i].alpha -= 1.25 * dt;
+        if (state.popups[i].alpha <= 0) state.popups.splice(i, 1);
+      }
+    }
+
+    // 14. Main game loop
+    let lastTime = 0;
+    let rafId = null;
+
+    function gameLoop(timestamp) {
+      if (!lastTime) lastTime = timestamp;
+      const dt = Math.min(0.05, (timestamp - lastTime) / 1000);
+      lastTime = timestamp;
+      const timeSec = timestamp / 1000;
+
+      if (state.isStartMenu) {
+        drawStartMenuAnimation(timeSec, dt);
+      }
+
+      update(dt, timeSec);
+      drawMap(timeSec);
+      for (const s of state.sticks) {
+        drawTereaStick(s, timeSec);
+      }
+      drawPowerups(timeSec);
+      drawHazards(timeSec);
+      drawDucks();
+      drawMerna(state.merna.x, state.merna.y, timeSec);
+      drawNetBeams();
+      drawLiquorDistortion(timeSec);
+      drawPopups();
+      drawMiniMap(timeSec);
+
+      rafId = requestAnimationFrame(gameLoop);
+    }
+
+    // 15. Input & UI listeners
+    window.addEventListener("keydown", (e) => {
+      if (state.isEditingChar || state.isStartMenu || state.isTutorial) return;
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
+        e.preventDefault();
+      }
+      if (e.code === "Space" && !e.repeat) {
+        fireDuckNet();
+        return;
+      }
+      if (!state.gameOver) state.keys[e.code] = true;
+    });
+
+    window.addEventListener("keyup", (e) => {
+      state.keys[e.code] = false;
+    });
+
+    document.querySelectorAll(".dpad button").forEach((btn) => {
+      const dir = btn.dataset.dir;
+      const start = (e) => {
+        e.preventDefault();
+        if (!state.gameOver && !state.isEditingChar && !state.isStartMenu && !state.isTutorial) {
+          state.touchDir = dir;
+        }
+      };
+      const stop = () => {
+        if (state.touchDir === dir) state.touchDir = null;
+      };
+      btn.addEventListener("mousedown", start);
+      btn.addEventListener("touchstart", start, { passive: false });
+      btn.addEventListener("mouseup", stop);
+      btn.addEventListener("mouseleave", stop);
+      btn.addEventListener("touchend", stop);
+      btn.addEventListener("touchcancel", stop);
+    });
+
+    stealDuckBtn.addEventListener("click", fireDuckNet);
+
+    charNameInput.addEventListener("input", () => {
+      state.hero.name = charNameInput.value;
+      previewName.textContent = charNameInput.value.trim() || "Merna";
+    });
+
+    hairStyleSelect.addEventListener("change", () => {
+      state.hero.hairStyle = hairStyleSelect.value;
+      renderCharPreview();
+    });
+
+    accessorySelect.addEventListener("change", () => {
+      state.hero.accessory = accessorySelect.value;
+      renderCharPreview();
+    });
+
+    randomizeCharBtn.addEventListener("click", () => {
+      state.hero.hairStyle = HAIR_STYLES[Math.floor(Math.random() * HAIR_STYLES.length)];
+      state.hero.hairColorIdx = Math.floor(Math.random() * HAIR_COLORS.length);
+      state.hero.skinToneIdx = Math.floor(Math.random() * SKIN_TONES.length);
+      state.hero.hoodieIdx = Math.floor(Math.random() * HOODIE_COLORS.length);
+      state.hero.accessory = ACCESSORIES[Math.floor(Math.random() * ACCESSORIES.length)];
+      syncCharEditorUI();
+      renderCharPreview();
+    });
+
+    saveCharBtn.addEventListener("click", closeCharEditor);
+    menuBtn.addEventListener("click", openStartMenu);
+    tutorialBtn.addEventListener("click", openTutorial);
+    startTutorialBtn.addEventListener("click", openTutorial);
+    closeTutorialBtn.addEventListener("click", closeTutorial);
+    startGameBtn.addEventListener("click", startNewGameFromMenu);
+    startEditBtn.addEventListener("click", openCharEditor);
+    editCharBtn.addEventListener("click", openCharEditor);
+    gameOverEditBtn.addEventListener("click", openCharEditor);
+    gameOverMenuBtn.addEventListener("click", openStartMenu);
+
+    muteBtn.addEventListener("click", () => {
+      state.muted = !state.muted;
+      muteBtn.textContent = state.muted ? "Sound: OFF" : "Sound: ON";
+    });
+
+    resetBtn.addEventListener("click", () => {
+      state.isEditingChar = false;
+      state.isStartMenu = false;
+      state.isTutorial = false;
+      startOverlay.classList.add("hidden");
+      tutorialOverlay.classList.add("hidden");
+      charOverlay.classList.add("hidden");
+      resetGame();
+    });
+    playAgainBtn.addEventListener("click", resetGame);
+
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+    });
+
+    window.onload = () => {
+      resizeCanvas();
+      resetGame();
+      openStartMenu();
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(gameLoop);
+    };
+  </script>
+</body>
+</html>
