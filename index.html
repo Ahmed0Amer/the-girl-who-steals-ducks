@@ -13,29 +13,30 @@
     }
 
     body {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      background: #181825;
+      font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #11111b;
+      background-image: radial-gradient(#1e1e2e 1px, transparent 1px);
+      background-size: 16px 16px;
       color: #cdd6f4;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px;
+      padding: 10px;
       user-select: none;
     }
 
     .game-shell {
       width: 100%;
-      max-width: 840px;
+      max-width: 880px;
       background: #1e1e2e;
-      border: 3px solid #45475a;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      border: 4px solid #585b70;
+      box-shadow: 6px 6px 0 #090910;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .hud {
@@ -45,175 +46,55 @@
       justify-content: space-between;
       gap: 8px;
       background: #11111b;
-      border: 2px solid #313244;
-      border-radius: 8px;
-      padding: 10px 12px;
+      border: 3px solid #313244;
+      padding: 8px 10px;
     }
 
     .title-group h1 {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: #f5c2e7;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 #313244;
     }
 
     .title-group p {
-      font-size: 0.74rem;
-      color: #a6adc8;
+      font-size: 0.72rem;
+      color: #89b4fa;
       margin-top: 2px;
+      text-transform: uppercase;
     }
 
     .hud-right {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .pill {
-      background: #313244;
+      background: #1e1e2e;
       font-weight: 700;
       font-size: 0.76rem;
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 4px 7px;
       border: 2px solid #45475a;
-    }
-
-    .level-pill {
-      border-color: #fab387;
-      color: #fab387;
-    }
-
-    .score-pill {
-      border-color: #94e2d5;
-      color: #94e2d5;
-    }
-
-    .mission-pill {
-      border-color: #cba6f7;
-      color: #cba6f7;
-    }
-
-    .zone-pill {
-      border-color: #89b4fa;
-      color: #89b4fa;
-    }
-
-    .hearts-pill {
-      border-color: #f38ba8;
-      color: #f38ba8;
-      letter-spacing: 1px;
-    }
-
-    .hearts-pill.low {
-      background: #45232e;
-    }
-
-    .weapon-pill {
-      border-color: #a6e3a1;
-      color: #a6e3a1;
-    }
-
-    .weapon-pill.cooling {
-      border-color: #6c7086;
-      color: #a6adc8;
-    }
-
-    .buddy-pill {
-      border-color: #f38ba8;
-      color: #f5c2e7;
-    }
-
-    .buddy-pill.cooling {
-      border-color: #6c7086;
-      color: #a6adc8;
-    }
-
-    .ally-pill {
-      border-color: #f9e2af;
-      color: #f9e2af;
-    }
-
-    .mp-pill {
-      border-color: #89b4fa;
-      color: #89b4fa;
-    }
-
-    .mp-pill.online {
-      border-color: #a6e3a1;
-      color: #a6e3a1;
-      background: #243b2c;
-    }
-
-    .mp-box {
-      width: 100%;
-      max-width: 460px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: #1e1e2e;
-      border: 2px solid #45475a;
-      border-radius: 10px;
-      padding: 14px;
-      text-align: left;
-    }
-
-    .mp-section {
-      background: #11111b;
-      border: 1px solid #313244;
-      border-radius: 8px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .mp-section h3 {
-      font-size: 0.85rem;
-      color: #f5c2e7;
-    }
-
-    .mp-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .mp-row input {
-      font-family: inherit;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 2px;
       text-transform: uppercase;
-      background: #1e1e2e;
-      color: #94e2d5;
-      border: 2px solid #45475a;
-      border-radius: 6px;
-      padding: 6px 10px;
-      width: 130px;
-      text-align: center;
     }
 
-    .room-code-badge {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: 2px;
-      color: #f9e2af;
-      background: #1e1e2e;
-      border: 2px dashed #f9e2af;
-      border-radius: 6px;
-      padding: 4px 12px;
-    }
-
-    .mp-status {
-      font-size: 0.78rem;
-      color: #a6adc8;
-    }
-
-    .ally-pill.cooling {
-      border-color: #6c7086;
-      color: #a6adc8;
-    }
+    .level-pill { border-color: #fab387; color: #fab387; }
+    .zone-pill { border-color: #89b4fa; color: #89b4fa; }
+    .score-pill { border-color: #94e2d5; color: #94e2d5; }
+    .mission-pill { border-color: #cba6f7; color: #cba6f7; }
+    .hearts-pill { border-color: #f38ba8; color: #f38ba8; letter-spacing: 1px; }
+    .hearts-pill.low { background: #45232e; }
+    .weapon-pill { border-color: #a6e3a1; color: #a6e3a1; }
+    .weapon-pill.cooling { border-color: #585b70; color: #7f849c; }
+    .buddy-pill { border-color: #f38ba8; color: #f5c2e7; }
+    .buddy-pill.cooling { border-color: #585b70; color: #7f849c; }
+    .ally-pill { border-color: #f9e2af; color: #f9e2af; }
+    .ally-pill.cooling { border-color: #585b70; color: #7f849c; }
+    .mp-pill { border-color: #89b4fa; color: #89b4fa; }
+    .mp-pill.online { border-color: #a6e3a1; color: #a6e3a1; background: #1e3528; }
 
     .status-strip {
       display: flex;
@@ -223,38 +104,26 @@
     }
 
     .effect-badge {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       padding: 3px 8px;
-      border-radius: 5px;
+      border: 2px solid #45475a;
+      text-transform: uppercase;
       display: inline-flex;
       align-items: center;
       gap: 4px;
     }
 
-    .effect-coffee {
-      background: #4a3525;
-      color: #f9e2af;
-      border: 1px solid #fab387;
-    }
-
-    .effect-liquor {
-      background: #2b4231;
-      color: #a6e3a1;
-      border: 1px solid #a6e3a1;
-    }
-
-    .effect-buddy {
-      background: #45232e;
-      color: #f5c2e7;
-      border: 1px solid #f38ba8;
-    }
+    .effect-coffee { background: #4a3525; color: #f9e2af; border-color: #fab387; }
+    .effect-liquor { background: #243b2c; color: #a6e3a1; border-color: #a6e3a1; }
+    .effect-buddy { background: #45232e; color: #f5c2e7; border-color: #f38ba8; }
+    .effect-shield { background: #22384a; color: #89dceb; border-color: #74c7ec; }
+    .effect-upgrade { background: #3a2b4a; color: #cba6f7; border-color: #cba6f7; }
 
     .mission-bar {
       background: #11111b;
-      border: 2px solid #313244;
-      border-radius: 8px;
-      padding: 8px 12px;
+      border: 3px solid #313244;
+      padding: 7px 10px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -266,7 +135,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
     }
 
     .mission-tag {
@@ -275,7 +144,7 @@
       font-weight: 700;
       font-size: 0.72rem;
       padding: 2px 6px;
-      border-radius: 4px;
+      border: 2px solid #f5c2e7;
       text-transform: uppercase;
     }
 
@@ -285,108 +154,63 @@
     }
 
     .mission-progress {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       color: #a6e3a1;
       font-weight: 700;
-    }
-
-    .flavor-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 0.72rem;
-      color: #a6adc8;
-      padding: 0 2px;
-    }
-
-    .flavor-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .flavor-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 2px;
-      display: inline-block;
+      background: #1e1e2e;
+      border: 2px solid #a6e3a1;
+      padding: 2px 8px;
     }
 
     button {
       font-family: inherit;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 700;
+      text-transform: uppercase;
       color: #11111b;
       background: #cba6f7;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
+      border: 2px solid #11111b;
+      box-shadow: 2px 2px 0 #090910;
+      padding: 5px 9px;
       cursor: pointer;
-      transition: transform 0.08s ease, background 0.15s ease;
     }
 
-    button:hover {
-      background: #f5c2e7;
-    }
+    button:hover { background: #f5c2e7; }
+    button:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #090910; }
 
-    button:active {
-      transform: scale(0.96);
-    }
+    button.secondary { background: #45475a; color: #cdd6f4; border-color: #585b70; }
+    button.secondary:hover { background: #585b70; }
+    button.accent { background: #94e2d5; color: #11111b; border-color: #a6e3a1; }
+    button.accent:hover { background: #a6e3a1; }
 
-    button.secondary {
-      background: #45475a;
-      color: #cdd6f4;
-    }
-
-    button.secondary:hover {
-      background: #585b70;
-    }
-
-    button.accent {
-      background: #94e2d5;
-      color: #11111b;
-    }
-
-    button.accent:hover {
-      background: #a6e3a1;
-    }
-
-    button.weapon-btn {
-      background: #a6e3a1;
-      color: #11111b;
-      padding: 8px 12px;
-      border: 2px solid #94e2d5;
-    }
-
-    button.buddy-btn {
-      background: #f38ba8;
-      color: #11111b;
-      padding: 8px 12px;
-      border: 2px solid #f5c2e7;
-    }
-
-    button.ally-btn {
-      background: #f9e2af;
-      color: #11111b;
-      padding: 8px 12px;
-      border: 2px solid #fab387;
-    }
+    button.weapon-btn { background: #a6e3a1; color: #11111b; border-color: #94e2d5; padding: 7px 10px; }
+    button.buddy-btn { background: #f38ba8; color: #11111b; border-color: #f5c2e7; padding: 7px 10px; }
+    button.ally-btn { background: #f9e2af; color: #11111b; border-color: #fab387; padding: 7px 10px; }
+    button.blaster-btn { background: #89b4fa; color: #11111b; border-color: #74c7ec; padding: 7px 10px; }
+    button.boom-btn { background: #f9e2af; color: #11111b; border-color: #fab387; padding: 7px 10px; }
+    button.shock-btn { background: #fab387; color: #11111b; border-color: #f9e2af; padding: 7px 10px; }
+    button.freeze-btn { background: #74c7ec; color: #11111b; border-color: #94e2d5; padding: 7px 10px; }
 
     button.weapon-btn:disabled,
     button.buddy-btn:disabled,
-    button.ally-btn:disabled {
-      background: #313244;
-      color: #6c7086;
-      border-color: #45475a;
+    button.ally-btn:disabled,
+    button.blaster-btn:disabled,
+    button.boom-btn:disabled,
+    button.shock-btn:disabled,
+    button.freeze-btn:disabled {
+      background: #1e1e2e;
+      color: #585b70;
+      border-color: #313244;
+      box-shadow: none;
       cursor: not-allowed;
     }
 
     .canvas-wrap {
       width: 100%;
       aspect-ratio: 4 / 3;
-      background: #11111b;
-      border: 3px solid #313244;
-      border-radius: 8px;
+      background: #090910;
+      border: 4px solid #45475a;
+      box-shadow: inset 0 0 0 2px #11111b;
       overflow: hidden;
       position: relative;
     }
@@ -414,52 +238,32 @@
       overflow-y: auto;
     }
 
-    .overlay.hidden {
-      display: none;
-    }
-
-    .overlay h2 {
-      font-size: 1.35rem;
-      color: #f5c2e7;
-    }
-
-    .overlay p {
-      font-size: 0.86rem;
-      color: #cdd6f4;
-    }
-
+    .overlay.hidden { display: none; }
+    .overlay h2 { font-size: 1.3rem; color: #f5c2e7; text-transform: uppercase; text-shadow: 2px 2px 0 #090910; }
+    .overlay p { font-size: 0.84rem; color: #cdd6f4; }
     .overlay .best-badge {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: #a6e3a1;
-      background: #313244;
+      background: #1e1e2e;
       padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid #a6e3a1;
+      border: 2px solid #a6e3a1;
+      text-transform: uppercase;
     }
 
     .start-scene-box {
       width: 100%;
       max-width: 380px;
       aspect-ratio: 16 / 10;
-      border: 2px solid #45475a;
-      border-radius: 8px;
+      border: 3px solid #585b70;
+      box-shadow: 4px 4px 0 #090910;
       overflow: hidden;
       background: #11111b;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
     }
 
-    .start-scene-box canvas {
-      width: 100%;
-      height: 100%;
-    }
+    .start-scene-box canvas { width: 100%; height: 100%; }
+    .start-subtitle { font-size: 0.78rem; color: #a6adc8; max-width: 440px; }
 
-    .start-subtitle {
-      font-size: 0.8rem;
-      color: #a6adc8;
-      max-width: 420px;
-    }
-
-    .tutorial-cards {
+    .tutorial-cards, .mp-box {
       width: 100%;
       max-width: 520px;
       display: flex;
@@ -468,18 +272,49 @@
       text-align: left;
     }
 
-    .tut-card {
+    .mp-box {
       background: #1e1e2e;
-      border: 2px solid #45475a;
-      border-radius: 8px;
-      padding: 9px 12px;
-      font-size: 0.8rem;
-      line-height: 1.4;
+      border: 3px solid #45475a;
+      padding: 12px;
     }
 
-    .tut-card strong {
-      color: #94e2d5;
+    .tut-card, .mp-section {
+      background: #11111b;
+      border: 2px solid #313244;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
+
+    .tut-card strong, .mp-section h3 { color: #94e2d5; font-size: 0.82rem; text-transform: uppercase; }
+    .mp-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .mp-row input {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      background: #1e1e2e;
+      color: #94e2d5;
+      border: 2px solid #585b70;
+      padding: 5px 8px;
+      width: 120px;
+      text-align: center;
+    }
+
+    .room-code-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #f9e2af;
+      background: #1e1e2e;
+      border: 2px dashed #f9e2af;
+      padding: 3px 10px;
+    }
+
+    .mp-status { font-size: 0.76rem; color: #a6adc8; }
 
     .char-editor {
       width: 100%;
@@ -490,15 +325,12 @@
       align-items: start;
       text-align: left;
       background: #1e1e2e;
-      border: 2px solid #45475a;
-      border-radius: 10px;
+      border: 3px solid #45475a;
       padding: 12px;
     }
 
     @media (max-width: 460px) {
-      .char-editor {
-        grid-template-columns: 1fr;
-      }
+      .char-editor { grid-template-columns: 1fr; }
     }
 
     .preview-box {
@@ -508,129 +340,69 @@
       gap: 6px;
       background: #11111b;
       border: 2px solid #313244;
-      border-radius: 8px;
       padding: 10px;
     }
 
-    .preview-box canvas {
-      width: 72px;
-      height: 96px;
-    }
-
-    .preview-label {
-      font-size: 0.72rem;
-      color: #a6adc8;
-    }
-
-    .editor-fields {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      font-size: 0.76rem;
-    }
-
-    .field-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .field-row label {
-      color: #a6adc8;
-      font-weight: 700;
-      min-width: 72px;
-    }
-
-    .field-row input[type="text"],
-    .field-row select {
+    .preview-box canvas { width: 72px; height: 96px; }
+    .preview-label { font-size: 0.72rem; color: #a6adc8; text-transform: uppercase; }
+    .editor-fields { display: flex; flex-direction: column; gap: 7px; font-size: 0.76rem; }
+    .field-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+    .field-row label { color: #a6adc8; font-weight: 700; min-width: 72px; text-transform: uppercase; }
+    .field-row input[type="text"], .field-row select {
       font-family: inherit;
       font-size: 0.76rem;
       background: #11111b;
       color: #cdd6f4;
-      border: 1px solid #45475a;
-      border-radius: 5px;
+      border: 2px solid #45475a;
       padding: 4px 6px;
       flex: 1;
       min-width: 120px;
     }
 
-    .swatches {
-      display: flex;
-      gap: 5px;
-      flex: 1;
-      flex-wrap: wrap;
-    }
-
-    .swatch {
-      width: 20px;
-      height: 20px;
-      border-radius: 4px;
-      border: 2px solid #313244;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    .swatch.active {
-      border-color: #ffffff;
-      transform: scale(1.1);
-    }
-
-    .editor-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    .swatches { display: flex; gap: 5px; flex: 1; flex-wrap: wrap; }
+    .swatch { width: 20px; height: 20px; border: 2px solid #313244; padding: 0; cursor: pointer; box-shadow: none; }
+    .swatch.active { border-color: #ffffff; transform: scale(1.1); }
+    .editor-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
     .controls-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-    }
-
-    .hint {
-      font-size: 0.76rem;
-      color: #a6adc8;
-      line-height: 1.4;
-      flex: 1 1 200px;
+      background: #11111b;
+      border: 3px solid #313244;
+      padding: 8px 10px;
     }
 
     .action-pad {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
+      flex: 1;
     }
 
     .dpad {
       display: grid;
-      grid-template-columns: repeat(3, 40px);
-      grid-template-rows: repeat(2, 36px);
-      gap: 4px;
+      grid-template-columns: repeat(3, 38px);
+      grid-template-rows: repeat(2, 34px);
+      gap: 3px;
     }
 
     .dpad button {
       padding: 0;
-      font-size: 1rem;
+      font-size: 0.95rem;
       background: #313244;
       color: #cdd6f4;
-      border: 2px solid #45475a;
+      border: 2px solid #585b70;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .dpad button:hover {
-      background: #45475a;
-    }
-
-    .dpad .empty {
-      visibility: hidden;
-    }
+    .dpad button:hover { background: #45475a; }
+    .dpad .empty { visibility: hidden; }
   </style>
 </head>
 <body>
@@ -669,17 +441,6 @@
     </div>
 
     <div class="status-strip" id="statusStrip"></div>
-
-    <div class="flavor-legend">
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#48d1cc"></span>Turquoise</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#cba6f7"></span>Purple</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Amber</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#f9e2af"></span>Yellow</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#c28551"></span>Coffee (Speed)</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#a6e3a1"></span>20% XXXX (2x Pts + Warp)</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Duck (-1 ♥ / Space to Steal)</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#f38ba8"></span>Ahmed Buddy (B = Boxing Combo!)</span>
-    </div>
 
     <div class="canvas-wrap" id="canvasWrap">
       <canvas id="gameCanvas"></canvas>
@@ -755,7 +516,10 @@
             <strong>4. Throw Helping Duck (F):</strong> Every <strong>5 ducks</strong> you defeat unlocks a <strong>Helping Duck</strong>! Press <strong>F</strong> (or tap <strong>Throw Duck</strong>) to send out a golden ally duck that hunts down enemy ducks!
           </div>
           <div class="tut-card">
-            <strong>5. Call Ahmed — Boxing Buddy (B):</strong> Press <strong>B</strong> (or tap <strong>Call Ahmed</strong>) to summon Ahmed! He rushes in with red boxing gloves and lands a <strong>3-hit boxing combo</strong> knocking out ducks for <strong>+4 pts</strong> each!
+            <strong>5. Boss Fights (Every 3 Levels) &amp; Vapor Blaster (E):</strong> At Level 3, 6, 9..., <strong>King Quackzilla</strong> appears! Use <strong>E</strong> (Blaster), <strong>Q</strong> (TEREA Boomerang hits twice), <strong>C</strong> (Espresso Shockwave stuns &amp; clears shots), <strong>R</strong> (Mint Freeze Ray slows Boss), plus Net, Helping Duck &amp; Ahmed to defeat him for permanent <strong>Shields, Speed, Max Hearts, or Blaster Upgrades</strong>!
+          </div>
+          <div class="tut-card">
+            <strong>6. Call Ahmed — Boxing Buddy (B):</strong> Press <strong>B</strong> (or tap <strong>Call Ahmed</strong>) to summon Ahmed! He rushes in with red boxing gloves and lands a <strong>3-hit boxing combo</strong> knocking out ducks for <strong>+4 pts</strong> each!
           </div>
         </div>
         <div class="editor-actions">
@@ -830,11 +594,12 @@
     </div>
 
     <div class="controls-bar">
-      <div class="hint">
-        Move: <strong>Arrows / WASD / D-pad</strong> · <strong>Space</strong>: Steal Duck · <strong>B</strong>: Call Ahmed · <strong>F</strong>: Throw Helping Duck · <strong>P</strong>: Pause
-      </div>
       <div class="action-pad">
         <button type="button" class="weapon-btn" id="stealDuckBtn">Steal Duck (Space)</button>
+        <button type="button" class="blaster-btn" id="blasterBtn">Blaster (E)</button>
+        <button type="button" class="boom-btn" id="boomBtn">Boomerang (Q)</button>
+        <button type="button" class="shock-btn" id="shockBtn">Shockwave (C)</button>
+        <button type="button" class="freeze-btn" id="freezeBtn">Freeze (R)</button>
         <button type="button" class="buddy-btn" id="callBuddyBtn">Call Ahmed (B)</button>
         <button type="button" class="ally-btn" id="throwDuckBtn" disabled>Throw Duck (0/5)</button>
         <div class="dpad" aria-label="On-screen directional pad">
@@ -919,6 +684,10 @@
     const gameOverEditBtn = document.getElementById("gameOverEditBtn");
     const playAgainBtn = document.getElementById("playAgainBtn");
     const stealDuckBtn = document.getElementById("stealDuckBtn");
+    const blasterBtn = document.getElementById("blasterBtn");
+    const boomBtn = document.getElementById("boomBtn");
+    const shockBtn = document.getElementById("shockBtn");
+    const freezeBtn = document.getElementById("freezeBtn");
     const callBuddyBtn = document.getElementById("callBuddyBtn");
     const allyDuckDisplay = document.getElementById("allyDuckDisplay");
     const throwDuckBtn = document.getElementById("throwDuckBtn");
@@ -1052,17 +821,21 @@
       } catch (e) {}
     }
 
-    // 3. Procedural Map Generator with safety conditions
+    // 3. Procedural Map Generator (wider 2-tile avenues, flower beds, streetlamps, ponds & BFS safety)
+    // Tile legend: 0=cobble path, 1=grass, 2=tree, 3=bench, 4=pond, 5=flower bed (walkable), 6=streetlamp (solid)
     function generateMap() {
       const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
       const spawnCol = Math.floor(COLS / 2);
       const spawnRow = Math.floor(ROWS / 2);
 
+      // Carve 2-tile-wide main cobblestone avenues & cross-streets
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           if (
-            r === 2 || r === ROWS - 3 || r === spawnRow ||
-            c === 2 || c === COLS - 3 || c === spawnCol
+            r === 2 || r === 3 || r === ROWS - 4 || r === ROWS - 3 ||
+            r === spawnRow || r === spawnRow - 1 ||
+            c === 2 || c === 3 || c === COLS - 4 || c === COLS - 3 ||
+            c === spawnCol || c === spawnCol - 1
           ) {
             grid[r][c] = 0;
           }
@@ -1070,45 +843,58 @@
       }
 
       function inSpawnSafeZone(c, r) {
-        return Math.abs(c - spawnCol) <= 2 && Math.abs(r - spawnRow) <= 2;
+        return Math.abs(c - spawnCol) <= 3 && Math.abs(r - spawnRow) <= 3;
       }
 
+      // Park perimeter trees with open avenue gates
       for (let c = 0; c < COLS; c++) {
-        if (c !== spawnCol && Math.random() < 0.55) grid[0][c] = 2;
-        if (c !== spawnCol && Math.random() < 0.55) grid[ROWS - 1][c] = 2;
+        if (Math.abs(c - spawnCol) > 2 && Math.random() < 0.7) grid[0][c] = 2;
+        if (Math.abs(c - spawnCol) > 2 && Math.random() < 0.7) grid[ROWS - 1][c] = 2;
       }
       for (let r = 0; r < ROWS; r++) {
-        if (r !== spawnRow && Math.random() < 0.55) grid[r][0] = 2;
-        if (r !== spawnRow && Math.random() < 0.55) grid[r][COLS - 1] = 2;
+        if (Math.abs(r - spawnRow) > 2 && Math.random() < 0.7) grid[r][0] = 2;
+        if (Math.abs(r - spawnRow) > 2 && Math.random() < 0.7) grid[r][COLS - 1] = 2;
       }
 
+      // Place 2x2 ponds in quadrants
       const pondCandidates = [
-        { r: 5, c: 6 }, { r: 5, c: COLS - 8 },
-        { r: ROWS - 7, c: 6 }, { r: ROWS - 7, c: COLS - 8 }
+        { r: 6, c: 6 }, { r: 6, c: COLS - 8 },
+        { r: ROWS - 8, c: 6 }, { r: ROWS - 8, c: COLS - 8 }
       ];
       pondCandidates.forEach((p) => {
-        if (Math.random() < 0.7) {
+        if (Math.random() < 0.75) {
           for (let dr = 0; dr < 2; dr++) {
             for (let dc = 0; dc < 2; dc++) {
               const rr = p.r + dr;
               const cc = p.c + dc;
-              if (!inSpawnSafeZone(cc, rr) && grid[rr][cc] === 1) {
-                grid[rr][cc] = 4;
-              }
+              if (!inSpawnSafeZone(cc, rr) && grid[rr][cc] === 1) grid[rr][cc] = 4;
             }
           }
         }
       });
 
+      // Place glowing streetlamps along avenue corners
+      const lampSpots = [
+        [4, 4], [4, COLS - 5], [ROWS - 5, 4], [ROWS - 5, COLS - 5],
+        [spawnRow - 2, 4], [spawnRow - 2, COLS - 5]
+      ];
+      lampSpots.forEach(([lr, lc]) => {
+        if (!inSpawnSafeZone(lc, lr) && grid[lr][lc] === 1) grid[lr][lc] = 6;
+      });
+
+      // Scatter trees (2), benches (3), and walkable flower beds (5)
       for (let r = 1; r < ROWS - 1; r++) {
         for (let c = 1; c < COLS - 1; c++) {
           if (grid[r][c] !== 1 || inSpawnSafeZone(c, r)) continue;
           const roll = Math.random();
-          if (roll < 0.14) grid[r][c] = 2;
-          else if (roll < 0.21) grid[r][c] = 3;
+          if (roll < 0.11) grid[r][c] = 2;
+          else if (roll < 0.16) grid[r][c] = 3;
+          else if (roll < 0.25) grid[r][c] = 5;
         }
       }
 
+      // BFS Flood-Fill check to guarantee zero trapped walkable pockets
+      const isWalkable = (t) => t === 0 || t === 1 || t === 5;
       const visited = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
       const queue = [[spawnRow, spawnCol]];
       visited[spawnRow][spawnCol] = true;
@@ -1118,7 +904,7 @@
         for (const [dr, dc] of [[1,0], [-1,0], [0,1], [0,-1]]) {
           const nr = r + dr;
           const nc = c + dc;
-          if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !visited[nr][nc] && grid[nr][nc] < 2) {
+          if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && !visited[nr][nc] && isWalkable(grid[nr][nc])) {
             visited[nr][nc] = true;
             queue.push([nr, nc]);
           }
@@ -1127,9 +913,7 @@
 
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
-          if (grid[r][c] < 2 && !visited[r][c]) {
-            grid[r][c] = 2;
-          }
+          if (isWalkable(grid[r][c]) && !visited[r][c]) grid[r][c] = 2;
         }
       }
 
@@ -1188,6 +972,7 @@
         punchCooldown: 0
       },
       p2Input: { vx: 0, vy: 0, punch: false },
+      clientPunchPending: false,
       isTutorial: false,
       isEditingChar: false,
       muted: false,
@@ -1208,6 +993,20 @@
       sticks: [],
       powerups: [],
       hazards: [],
+      maxHearts: MAX_HEARTS,
+      permSpeedBonus: 0,
+      shieldHits: 0,
+      blasterDamage: 2,
+      blasterCooldown: 0,
+      boomCooldown: 0,
+      shockCooldown: 0,
+      freezeCooldown: 0,
+      bolts: [],
+      boomerangs: [],
+      shockwaves: [],
+      freezeBeams: [],
+      boss: null,
+      bossProjectiles: [],
       ducks: [],
       helperDucks: [],
       ducksKilled: 0,
@@ -1450,7 +1249,8 @@
     // 7. Map collision, camera & spawning
     function isSolidTile(col, row) {
       if (col < 0 || col >= COLS || row < 0 || row >= ROWS) return true;
-      return MAP[row][col] >= 2;
+      const t = MAP[row][col];
+      return t === 2 || t === 3 || t === 4 || t === 6;
     }
 
     function collidesWithMap(x, y, boxW = 8, boxH = 7, offX = 2, offY = 9) {
@@ -1584,9 +1384,267 @@
       }
     }
 
-    // Duck-Stealer Weapon (Space)
+    function spawnBoss() {
+      const tier = Math.floor(state.level / 3);
+      const maxHp = 6 + tier * 3;
+      state.boss = {
+        x: Math.floor(COLS / 2) * TILE - 8,
+        y: 20,
+        w: 18,
+        h: 18,
+        hp: maxHp,
+        maxHp,
+        speed: Math.min(44, 24 + tier * 3),
+        shootTimer: 2.0,
+        stunTimer: 0,
+        freezeTimer: 0,
+        facing: "right",
+        waddleTimer: 0
+      };
+      state.bossProjectiles = [];
+      state.popups.push({
+        x: state.merna.x + 6,
+        y: state.merna.y - 12,
+        text: "BOSS: KING QUACKZILLA!",
+        color: "#f38ba8",
+        alpha: 2.0
+      });
+    }
+
+    function damageBoss(amount, labelColor = "#f9e2af") {
+      // TEREA Boomerangs
+      for (const bm of state.boomerangs) {
+        pxWorld(bm.x - 3, bm.y - 3, 6, 6, "#11111b");
+        pxWorld(bm.x - 2, bm.y - 2, 4, 4, Math.sin(bm.spin) > 0 ? "#f8fafc" : "#cba6f7");
+        pxWorld(bm.x - 1, bm.y - 1, 2, 2, "#f9e2af");
+      }
+
+      // Espresso Shockwaves
+      const scaleX = canvas.width / VIEW_W;
+      const scaleY = canvas.height / VIEW_H;
+      for (const sw of state.shockwaves) {
+        ctx.save();
+        ctx.strokeStyle = "#fab387";
+        ctx.lineWidth = Math.max(2, Math.floor(2 * scaleX));
+        ctx.beginPath();
+        ctx.arc((sw.x - state.camera.x) * scaleX, (sw.y - state.camera.y) * scaleY, sw.radius * scaleX, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // Mint Freeze Beams
+      for (const fb of state.freezeBeams) {
+        ctx.save();
+        ctx.strokeStyle = "#74c7ec";
+        ctx.lineWidth = Math.max(3, Math.floor(3 * scaleX));
+        ctx.beginPath();
+        ctx.moveTo((fb.x1 - state.camera.x) * scaleX, (fb.y1 - state.camera.y) * scaleY);
+        ctx.lineTo((fb.x2 - state.camera.x) * scaleX, (fb.y2 - state.camera.y) * scaleY);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      if (!state.boss) return;
+      state.boss.hp = Math.max(0, state.boss.hp - amount);
+      state.punchEffects.push({ x: state.boss.x + 9, y: state.boss.y + 9, life: 0.22 });
+      state.popups.push({
+        x: state.boss.x + 9,
+        y: state.boss.y - 2,
+        text: `-${amount} HP!`,
+        color: labelColor,
+        alpha: 1.0
+      });
+      playPunchSound(2);
+
+      if (state.boss.hp <= 0) {
+        const bx = state.boss.x + 9;
+        const by = state.boss.y + 9;
+        state.boss = null;
+        state.bossProjectiles = [];
+        const mult = state.liquorTimer > 0 ? 2 : 1;
+        state.score += 25 * mult;
+
+        // Grant permanent reward!
+        const roll = Math.floor(Math.random() * 4);
+        let rewardText = "";
+        if (roll === 0) {
+          state.shieldHits += 2;
+          rewardText = "BOSS KO! +2 GOLDEN SHIELD!";
+        } else if (roll === 1) {
+          state.permSpeedBonus += 10;
+          rewardText = "BOSS KO! +PERM SPEED!";
+        } else if (roll === 2) {
+          state.maxHearts = Math.min(7, state.maxHearts + 1);
+          state.hearts = state.maxHearts;
+          rewardText = "BOSS KO! +1 MAX HEART & HEAL!";
+        } else {
+          state.blasterDamage += 1;
+          rewardText = "BOSS KO! BLASTER UPGRADED!";
+        }
+
+        state.popups.push({ x: bx, y: by, text: rewardText, color: "#a6e3a1", alpha: 2.2 });
+        playMissionSound(true);
+        updateHud();
+      }
+    }
+
+    function fireBlaster() {
+      if (!state.boss) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar || state.isMpMenu) return;
+      if (state.mp.mode === "client" && state.mp.connected) return;
+      if (state.blasterCooldown > 0) return;
+
+      state.blasterCooldown = 0.55;
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      let vx = state.merna.facing === "left" ? -160 : 160;
+      let vy = 0;
+
+      // Auto-aim slightly toward Boss or nearest duck if close
+      let target = state.boss ? { x: state.boss.x + 9, y: state.boss.y + 9 } : null;
+      if (!target && state.ducks.length > 0) {
+        let bestDist = 90;
+        for (const d of state.ducks) {
+          const dist = Math.hypot((d.x + 4) - mx, (d.y + 4) - my);
+          if (dist < bestDist) {
+            bestDist = dist;
+            target = { x: d.x + 4, y: d.y + 4 };
+          }
+        }
+      }
+      if (target) {
+        const dx = target.x - mx;
+        const dy = target.y - my;
+        const dist = Math.hypot(dx, dy) || 1;
+        vx = (dx / dist) * 165;
+        vy = (dy / dist) * 165;
+      }
+
+      state.bolts.push({ x: mx, y: my, vx, vy, life: 1.1 });
+      playNetSound(false);
+    }
+
+    function fireBoomerang() {
+      if (!state.boss) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar || state.isMpMenu) return;
+      if (state.mp.mode === "client" && state.mp.connected) return;
+      if (state.boomCooldown > 0) return;
+
+      state.boomCooldown = 2.5;
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      let dirX = state.merna.facing === "left" ? -1 : 1;
+      let dirY = 0;
+      if (state.boss) {
+        const dx = (state.boss.x + 9) - mx;
+        const dy = (state.boss.y + 9) - my;
+        const d = Math.hypot(dx, dy) || 1;
+        dirX = dx / d;
+        dirY = dy / d;
+      }
+      state.boomerangs.push({
+        x: mx,
+        y: my,
+        dirX,
+        dirY,
+        dist: 0,
+        returning: false,
+        hitBossOut: false,
+        hitBossBack: false,
+        spin: 0
+      });
+      playNetSound(false);
+      updateHud();
+    }
+
+    function fireShockwave() {
+      if (!state.boss) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar || state.isMpMenu) return;
+      if (state.mp.mode === "client" && state.mp.connected) return;
+      if (state.shockCooldown > 0) return;
+
+      state.shockCooldown = 6.0;
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      state.shockwaves.push({ x: mx, y: my, radius: 6, maxRadius: 46, life: 0.35 });
+
+      // Clear nearby boss projectiles
+      for (let pi = state.bossProjectiles.length - 1; pi >= 0; pi--) {
+        const pr = state.bossProjectiles[pi];
+        if (Math.hypot(pr.x - mx, pr.y - my) <= 48) {
+          state.bossProjectiles.splice(pi, 1);
+        }
+      }
+
+      // Knock out nearby ducks
+      for (let di = state.ducks.length - 1; di >= 0; di--) {
+        const d = state.ducks[di];
+        if (Math.hypot((d.x + 4) - mx, (d.y + 4) - my) <= 46) {
+          state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.22 });
+          state.ducks.splice(di, 1);
+          state.duckRespawnTimers.push(4.0);
+          recordDuckKill();
+          const mult = state.liquorTimer > 0 ? 2 : 1;
+          state.score += 3 * mult;
+        }
+      }
+
+      // Stun Boss for 2.2s if in radius
+      if (state.boss && Math.hypot((state.boss.x + 9) - mx, (state.boss.y + 9) - my) <= 52) {
+        state.boss.stunTimer = 2.2;
+        state.popups.push({ x: state.boss.x + 9, y: state.boss.y - 6, text: "BOSS STUNNED!", color: "#fab387", alpha: 1.4 });
+        damageBoss(1, "#fab387");
+      } else {
+        state.popups.push({ x: mx, y: my - 8, text: "ESPRESSO WAVE!", color: "#fab387", alpha: 1.0 });
+      }
+      playPowerupSound("coffee");
+      updateHud();
+    }
+
+    function fireFreezeRay() {
+      if (!state.boss) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar || state.isMpMenu) return;
+      if (state.mp.mode === "client" && state.mp.connected) return;
+      if (state.freezeCooldown > 0) return;
+
+      state.freezeCooldown = 5.0;
+      const mx = state.merna.x + state.merna.w / 2;
+      const my = state.merna.y + state.merna.h / 2;
+      let tx = mx + (state.merna.facing === "left" ? -75 : 75);
+      let ty = my;
+
+      if (state.boss) {
+        tx = state.boss.x + 9;
+        ty = state.boss.y + 9;
+        state.boss.freezeTimer = 4.0;
+        state.popups.push({ x: tx, y: state.boss.y - 6, text: "MINT FROZEN!", color: "#74c7ec", alpha: 1.4 });
+        damageBoss(2, "#74c7ec");
+      } else {
+        // Freeze nearest duck if no boss
+        for (const d of state.ducks) {
+          if (Math.hypot((d.x + 4) - mx, (d.y + 4) - my) <= 85) {
+            tx = d.x + 4;
+            ty = d.y + 4;
+            d.speed = Math.max(12, d.speed * 0.45);
+            state.popups.push({ x: tx, y: d.y - 2, text: "FROZEN!", color: "#74c7ec", alpha: 1.0 });
+            break;
+          }
+        }
+      }
+
+      state.freezeBeams.push({ x1: mx, y1: my, x2: tx, y2: ty, life: 0.28 });
+      playPowerupSound("liquor");
+      updateHud();
+    }
+
+    // Duck-Stealer Weapon (Space) — or P2 Boxing Punch when playing Online Co-op as Client
     function fireDuckNet() {
-      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar || state.isMpMenu) return;
+      if (state.mp.mode === "client" && state.mp.connected) {
+        state.clientPunchPending = true;
+        playPunchSound(1);
+        return;
+      }
       if (state.netCooldown > 0) return;
 
       const mx = state.merna.x + state.merna.w / 2;
@@ -1603,6 +1661,13 @@
       });
 
       state.netCooldown = NET_COOLDOWN;
+
+      if (state.boss && Math.hypot((state.boss.x + 9) - mx, (state.boss.y + 9) - my) <= NET_RANGE + 8) {
+        state.netBeams.push({ x1: mx, y1: my, x2: state.boss.x + 9, y2: state.boss.y + 9, life: 0.25, caught: true });
+        damageBoss(1, "#94e2d5");
+        updateHud();
+        return;
+      }
 
       if (nearestIdx !== -1) {
         const target = state.ducks[nearestIdx];
@@ -1694,6 +1759,7 @@
 
     // Helping Buddy: Ahmed rushes in with a Boxing Combo!
     function summonBuddy() {
+      if (state.mp.mode !== "solo" && state.mp.connected) return;
       if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
       if (state.buddyCooldown > 0 || state.buddy.active) return;
 
@@ -1863,7 +1929,7 @@
         state.mp.peer = peer;
         state.mp.roomCode = code;
         peer.on("open", () => {
-          const conn = peer.connect(ROOM_PREFIX + code, { reliable: false });
+          const conn = peer.connect(ROOM_PREFIX + code, { reliable: true });
           setupConnectionHandlers(conn, "client");
         });
         peer.on("error", (err) => {
@@ -1898,6 +1964,18 @@
         hazards: state.hazards,
         ducks: state.ducks,
         helperDucks: state.helperDucks,
+        boss: state.boss,
+        bossProjectiles: state.bossProjectiles,
+        bolts: state.bolts,
+        boomerangs: state.boomerangs,
+        shockwaves: state.shockwaves,
+        freezeBeams: state.freezeBeams,
+        maxHearts: state.maxHearts,
+        permSpeedBonus: state.permSpeedBonus,
+        shieldHits: state.shieldHits,
+        blasterDamage: state.blasterDamage,
+        punchEffects: state.punchEffects,
+        popups: state.popups,
         mission: state.mission,
         hero: state.hero
       };
@@ -1933,14 +2011,26 @@
       state.hazards = d.hazards || [];
       state.ducks = d.ducks || [];
       state.helperDucks = d.helperDucks || [];
+      state.boss = d.boss || null;
+      state.bossProjectiles = d.bossProjectiles || [];
+      state.bolts = d.bolts || [];
+      state.boomerangs = d.boomerangs || [];
+      state.shockwaves = d.shockwaves || [];
+      state.freezeBeams = d.freezeBeams || [];
+      if (d.maxHearts) state.maxHearts = d.maxHearts;
+      state.permSpeedBonus = d.permSpeedBonus || 0;
+      state.shieldHits = d.shieldHits || 0;
+      state.blasterDamage = d.blasterDamage || 2;
+      state.punchEffects = d.punchEffects || [];
+      state.popups = d.popups || [];
       state.mission = d.mission;
       if (d.hero) state.hero = d.hero;
 
       if (state.gameOver) {
-        finalScoreText.textContent = `Team scored ${state.score} points!`;
-        finalLevelText.textContent = `Reached Level ${state.level}`;
-        finalMissionsText.textContent = `Missions completed: ${state.missionsDone}`;
-        highScoreText.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
+        finalScoreText.textContent = `${state.hero.name || "Merna"} ran out of hearts — you both lost!`;
+        finalLevelText.textContent = `Team Score: ${state.score} | Reached Level ${state.level}`;
+        finalMissionsText.textContent = `Waiting for ${state.hero.name || "Merna"} to click Play Again...`;
+        highScoreText.textContent = `Missions completed: ${state.missionsDone}`;
         gameOverOverlay.classList.remove("hidden");
       } else {
         gameOverOverlay.classList.add("hidden");
@@ -2354,6 +2444,20 @@
             const ripple = Math.sin(time * 3 + c + r) > 0 ? 1 : 0;
             pxWorld(x + 1 + ripple, y + 3, 3, 1, theme.waterHi1);
             pxWorld(x + 3 - ripple, y + 5, 2, 1, theme.waterHi2);
+          } else if (tile === 5) {
+            // Walkable colorful pixel flower bed
+            pxWorld(x + 1, y + 2, 2, 2, "#f38ba8");
+            pxWorld(x + 5, y + 1, 2, 2, "#f9e2af");
+            pxWorld(x + 3, y + 5, 2, 2, "#89b4fa");
+            pxWorld(x + 2, y + 2, 1, 1, "#ffffff");
+          } else if (tile === 6) {
+            // Glowing pixel streetlamp
+            pxWorld(x + 2, y + 6, 4, 2, "rgba(0,0,0,0.35)");
+            pxWorld(x + 3, y + 3, 2, 5, "#45475a");
+            pxWorld(x + 2, y + 1, 4, 2, "#f9e2af");
+            if (Math.sin(time * 4 + c) > -0.5) {
+              pxWorld(x + 1, y, 6, 4, "rgba(249, 226, 175, 0.25)");
+            }
           }
         }
       }
@@ -2521,6 +2625,108 @@
       }
     }
 
+    function drawBossAndBolts() {
+      const nowSec = performance.now() / 1000;
+
+      // Vapor Blaster bolts with pixel vapor trail
+      for (const b of state.bolts) {
+        pxWorld(b.x - b.vx * 0.025 - 1, b.y - b.vy * 0.025 - 1, 3, 3, "rgba(137, 180, 250, 0.55)");
+        pxWorld(b.x - 2, b.y - 2, 5, 5, "#11111b");
+        pxWorld(b.x - 1, b.y - 1, 3, 3, "#89b4fa");
+        pxWorld(b.x, b.y, 1, 1, "#ffffff");
+      }
+
+      // Spinning TEREA Boomerang (alternates horizontal/vertical pixel stick frames)
+      for (const bm of state.boomerangs) {
+        const horiz = Math.floor(bm.spin) % 2 === 0;
+        if (horiz) {
+          pxWorld(bm.x - 5, bm.y - 2, 10, 4, "#11111b");
+          pxWorld(bm.x - 4, bm.y - 1, 3, 2, "#f8fafc");
+          pxWorld(bm.x - 1, bm.y - 1, 2, 2, "#cba6f7");
+          pxWorld(bm.x + 1, bm.y - 1, 3, 2, "#f9e2af");
+        } else {
+          pxWorld(bm.x - 2, bm.y - 5, 4, 10, "#11111b");
+          pxWorld(bm.x - 1, bm.y - 4, 2, 3, "#f8fafc");
+          pxWorld(bm.x - 1, bm.y - 1, 2, 2, "#cba6f7");
+          pxWorld(bm.x - 1, bm.y + 1, 2, 3, "#f9e2af");
+        }
+      }
+
+      // Pixelated Espresso Shockwave Ring
+      for (const sw of state.shockwaves) {
+        const steps = 24;
+        for (let i = 0; i < steps; i++) {
+          const ang = (i / steps) * Math.PI * 2;
+          const pxX = sw.x + Math.cos(ang) * sw.radius;
+          const pxY = sw.y + Math.sin(ang) * sw.radius;
+          pxWorld(pxX - 1, pxY - 1, 3, 3, i % 2 === 0 ? "#fab387" : "#f9e2af");
+        }
+      }
+
+      // Pixelated Mint Freeze Ray Beam
+      for (const fb of state.freezeBeams) {
+        const steps = 16;
+        for (let i = 0; i <= steps; i++) {
+          const t = i / steps;
+          const bx = fb.x1 + (fb.x2 - fb.x1) * t;
+          const by = fb.y1 + (fb.y2 - fb.y1) * t;
+          pxWorld(bx - 1, by - 1, 3, 3, i % 2 === 0 ? "#74c7ec" : "#ffffff");
+        }
+      }
+
+      // Boss projectiles
+      for (const pr of state.bossProjectiles) {
+        pxWorld(pr.x - 2, pr.y - 2, 5, 5, "#11111b");
+        pxWorld(pr.x - 1, pr.y - 1, 3, 3, "#f38ba8");
+        pxWorld(pr.x, pr.y, 1, 1, "#f9e2af");
+      }
+
+      if (!state.boss) return;
+      const boss = state.boss;
+      const waddle = boss.stunTimer > 0 ? 0 : (Math.sin(boss.waddleTimer * 10) > 0 ? -1 : 0);
+      const dx = Math.round(boss.x);
+      const dy = Math.round(boss.y) + waddle;
+
+      pxWorld(dx + 2, Math.round(boss.y) + 16, 14, 3, "rgba(0,0,0,0.4)");
+      pxWorld(dx + 1, dy + 2, 16, 14, "#11111b");
+      pxWorld(dx + 2, dy + 3, 14, 12, boss.freezeTimer > 0 ? "#89dceb" : (boss.stunTimer > 0 ? "#fab387" : "#ffffff"));
+      pxWorld(dx + 3, dy + 9, 10, 4, boss.freezeTimer > 0 ? "#74c7ec" : "#cbd5e1");
+
+      // Golden Crown
+      pxWorld(dx + 5, dy, 8, 3, "#f9e2af");
+      pxWorld(dx + 5, dy - 1, 2, 1, "#f9e2af");
+      pxWorld(dx + 8, dy - 1, 2, 1, "#f9e2af");
+      pxWorld(dx + 11, dy - 1, 2, 1, "#f9e2af");
+
+      if (boss.facing === "right") {
+        pxWorld(dx + 15, dy + 6, 4, 3, "#fab387");
+        pxWorld(dx + 11, dy + 5, 2, 2, "#f38ba8");
+      } else {
+        pxWorld(dx - 1, dy + 6, 4, 3, "#fab387");
+        pxWorld(dx + 5, dy + 5, 2, 2, "#f38ba8");
+      }
+      pxWorld(dx + 4, dy + 16, 3, 2, "#fab387");
+      pxWorld(dx + 11, dy + 16, 3, 2, "#fab387");
+
+      // Orbiting stun stars or freeze ice crystals
+      if (boss.stunTimer > 0) {
+        for (let k = 0; k < 3; k++) {
+          const a = nowSec * 6 + k * 2.1;
+          pxWorld(dx + 8 + Math.cos(a) * 8, dy - 3 + Math.sin(a) * 2, 2, 2, "#f9e2af");
+        }
+      }
+      if (boss.freezeTimer > 0) {
+        pxWorld(dx + 1, dy + 3, 2, 2, "#ffffff");
+        pxWorld(dx + 15, dy + 11, 2, 2, "#ffffff");
+      }
+
+      // Boss HP Bar at top-left of viewport
+      pxView(4, 4, 76, 8, "#11111b");
+      const ratio = Math.max(0, boss.hp / boss.maxHp);
+      pxView(5, 5, Math.round(74 * ratio), 6, "#f38ba8");
+      pxView(5, 5, Math.round(74 * ratio), 2, "#f5c2e7");
+    }
+
     function drawNetBeams() {
       const scaleX = canvas.width / VIEW_W;
       const scaleY = canvas.height / VIEW_H;
@@ -2589,6 +2795,12 @@
         pxView(mx + p2c, my + p2r, 2, 2, "#89b4fa");
       }
 
+      if (state.shieldHits > 0) {
+        badges += `<span class="effect-badge effect-shield">SHIELD: ${state.shieldHits}</span>`;
+      }
+      if (state.permSpeedBonus > 0 || state.blasterDamage > 2) {
+        badges += `<span class="effect-badge effect-upgrade">SPD+${state.permSpeedBonus} | BLAST:${state.blasterDamage}</span>`;
+      }
       if (state.buddy.active) {
         const bc = Math.min(COLS - 1, Math.max(0, Math.floor((state.buddy.x + 6) / TILE)));
         const br = Math.min(ROWS - 1, Math.max(0, Math.floor((state.buddy.y + 8) / TILE)));
@@ -2633,12 +2845,14 @@
 
     // 10. Pause, Start Menu, Tutorial & Character Editor UI Helpers
     function togglePause() {
+      if (state.mp.mode === "client" && state.mp.connected) return;
       if (state.gameOver || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
       state.isPaused = !state.isPaused;
       state.keys = {};
       state.touchDir = null;
       pauseOverlay.classList.toggle("hidden", !state.isPaused);
       pauseBtn.textContent = state.isPaused ? "Resume (P)" : "Pause (P)";
+      sendHostSync(false);
     }
 
     function openStartMenu() {
@@ -2716,6 +2930,7 @@
     }
 
     function openCharEditor() {
+      if (state.mp.mode === "client" && state.mp.connected) return;
       state.isEditingChar = true;
       state.isPaused = false;
       state.isTutorial = false;
@@ -2747,18 +2962,48 @@
     // 11. HUD, Hearts, Level Advancement, Reset & Game Over
     function updateHud() {
       const theme = ZONES[state.zoneIndex % ZONES.length];
-      gameTitle.textContent = `${(state.hero.name || "Merna").toUpperCase()}'S TEREA QUEST`;
+      const isClient = state.mp.mode === "client" && state.mp.connected;
+      gameTitle.textContent = isClient
+        ? "AHMED'S CO-OP VIEW (PROTECT MERNA!)"
+        : `${(state.hero.name || "Merna").toUpperCase()}'S TEREA QUEST`;
+      editCharBtn.style.display = isClient ? "none" : "";
+      pauseBtn.style.display = isClient ? "none" : "";
+      resetBtn.style.display = isClient ? "none" : "";
+      const isOnline = state.mp.mode !== "solo" && state.mp.connected;
+      callBuddyBtn.style.display = isOnline ? "none" : "";
+      buddyDisplay.style.display = isOnline ? "none" : "";
+      throwDuckBtn.style.display = isClient ? "none" : "";
+      const showBossWeapons = !isClient && !!state.boss;
+      blasterBtn.style.display = showBossWeapons ? "" : "none";
+      boomBtn.style.display = showBossWeapons ? "" : "none";
+      shockBtn.style.display = showBossWeapons ? "" : "none";
+      freezeBtn.style.display = showBossWeapons ? "" : "none";
+      boomBtn.disabled = state.boomCooldown > 0;
+      boomBtn.textContent = state.boomCooldown > 0 ? `Boom (${state.boomCooldown.toFixed(1)}s)` : "Boomerang (Q)";
+      shockBtn.disabled = state.shockCooldown > 0;
+      shockBtn.textContent = state.shockCooldown > 0 ? `Wave (${state.shockCooldown.toFixed(1)}s)` : "Shockwave (C)";
+      freezeBtn.disabled = state.freezeCooldown > 0;
+      freezeBtn.textContent = state.freezeCooldown > 0 ? `Ice (${state.freezeCooldown.toFixed(1)}s)` : "Freeze (R)";
+      gameOverEditBtn.style.display = isClient ? "none" : "";
+      playAgainBtn.style.display = isClient ? "none" : "";
+      resumeGameBtn.style.display = isClient ? "none" : "";
+      pauseRestartBtn.style.display = isClient ? "none" : "";
       levelDisplay.textContent = `Lv ${state.level}`;
       zoneDisplay.textContent = theme.name;
       scoreDisplay.textContent = `Score: ${state.score}`;
       missionCountDisplay.textContent = `Missions: ${state.missionsDone}`;
 
       const filled = "♥".repeat(Math.max(0, state.hearts));
-      const empty = "♡".repeat(Math.max(0, MAX_HEARTS - state.hearts));
+      const empty = "♡".repeat(Math.max(0, state.maxHearts - state.hearts));
       heartsDisplay.textContent = filled + empty;
       heartsDisplay.classList.toggle("low", state.hearts <= 1);
 
-      if (state.netCooldown > 0) {
+      if (state.mp.mode === "client" && state.mp.connected) {
+        netDisplay.textContent = "Punch: READY";
+        netDisplay.classList.remove("cooling");
+        stealDuckBtn.disabled = false;
+        stealDuckBtn.textContent = "Boxing Punch (Space)";
+      } else if (state.netCooldown > 0) {
         const cd = state.netCooldown.toFixed(1);
         netDisplay.textContent = `Net: ${cd}s`;
         netDisplay.classList.add("cooling");
@@ -2828,6 +3073,14 @@
 
     function damagePlayer(isDuck) {
       if (state.invulnTimer > 0 || state.gameOver) return;
+      if (state.shieldHits > 0) {
+        state.shieldHits -= 1;
+        state.invulnTimer = 1.4;
+        state.popups.push({ x: state.merna.x + 6, y: state.merna.y, text: "SHIELD BLOCKED!", color: "#89dceb", alpha: 1.4 });
+        playNetSound(true);
+        updateHud();
+        return;
+      }
       state.hearts = Math.max(0, state.hearts - 1);
       state.invulnTimer = 1.6;
       state.popups.push({
@@ -2851,11 +3104,13 @@
         saveBestLevel(state.bestLevel);
       }
       state.zoneIndex = (state.zoneIndex + 1) % ZONES.length;
-      state.hearts = Math.min(MAX_HEARTS, state.hearts + 1);
+      state.hearts = Math.min(state.maxHearts, state.hearts + 1);
       MAP = generateMap();
       state.mp.mapVersion += 1;
       state.merna.x = Math.floor(COLS / 2) * TILE - 2;
       state.merna.y = Math.floor(ROWS / 2) * TILE - 4;
+      state.p2.x = Math.floor(COLS / 2) * TILE + 10;
+      state.p2.y = Math.floor(ROWS / 2) * TILE - 4;
       state.invulnTimer = 1.4;
       state.sticks = [];
       for (let i = 0; i < STICK_COUNT; i++) {
@@ -2865,6 +3120,7 @@
       spawnAllPowerups();
       spawnHazards();
       spawnDucks();
+      if (state.level % 3 === 0) { spawnBoss(); } else { state.boss = null; state.bossProjectiles = []; }
       updateCamera();
       state.popups.push({
         x: state.merna.x + 6,
@@ -2886,7 +3142,7 @@
       if (isLevelUp) {
         advanceLevel();
       } else {
-        state.hearts = Math.min(MAX_HEARTS, state.hearts + 1);
+        state.hearts = Math.min(state.maxHearts, state.hearts + 1);
         state.popups.push({
           x: state.merna.x + 6,
           y: state.merna.y - 4,
@@ -2924,6 +3180,7 @@
       highScoreText.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
       gameOverOverlay.classList.remove("hidden");
       playGameOverSound();
+      sendHostSync(false);
     }
 
     function resetGame() {
@@ -2931,7 +3188,21 @@
       state.score = 0;
       state.missionsDone = 0;
       state.zoneIndex = 0;
+      state.maxHearts = MAX_HEARTS;
       state.hearts = START_HEARTS;
+      state.permSpeedBonus = 0;
+      state.shieldHits = 0;
+      state.blasterDamage = 2;
+      state.blasterCooldown = 0;
+      state.boomCooldown = 0;
+      state.shockCooldown = 0;
+      state.freezeCooldown = 0;
+      state.bolts = [];
+      state.boomerangs = [];
+      state.shockwaves = [];
+      state.freezeBeams = [];
+      state.boss = null;
+      state.bossProjectiles = [];
       state.boostTimer = 0;
       state.liquorTimer = 0;
       state.invulnTimer = 0;
@@ -2952,6 +3223,9 @@
       MAP = generateMap();
       state.merna.x = Math.floor(COLS / 2) * TILE - 2;
       state.merna.y = Math.floor(ROWS / 2) * TILE - 4;
+      state.p2.x = Math.floor(COLS / 2) * TILE + 10;
+      state.p2.y = Math.floor(ROWS / 2) * TILE - 4;
+      state.p2.isMoving = false;
       state.merna.isMoving = false;
       state.popups = [];
       state.keys = {};
@@ -2969,6 +3243,7 @@
       gameOverOverlay.classList.add("hidden");
       updateHud();
       updateMissionUI();
+      sendHostSync(true);
     }
 
     // 12. Handle collecting TEREA sticks & Power-Ups
@@ -3070,7 +3345,8 @@
           if (timeSec - state.mp.lastSync > 0.05) {
             state.mp.lastSync = timeSec;
             try {
-              state.mp.conn.send({ type: "p2_input", vx: cvx, vy: cvy, punch: !!state.keys["Space"] });
+              state.mp.conn.send({ type: "p2_input", vx: cvx, vy: cvy, punch: state.clientPunchPending });
+              state.clientPunchPending = false;
             } catch (e) {}
           }
         }
@@ -3083,6 +3359,10 @@
       if (state.liquorTimer > 0) state.liquorTimer = Math.max(0, state.liquorTimer - dt);
       if (state.invulnTimer > 0) state.invulnTimer = Math.max(0, state.invulnTimer - dt);
       if (state.netCooldown > 0) state.netCooldown = Math.max(0, state.netCooldown - dt);
+      if (state.blasterCooldown > 0) state.blasterCooldown = Math.max(0, state.blasterCooldown - dt);
+      if (state.boomCooldown > 0) state.boomCooldown = Math.max(0, state.boomCooldown - dt);
+      if (state.shockCooldown > 0) state.shockCooldown = Math.max(0, state.shockCooldown - dt);
+      if (state.freezeCooldown > 0) state.freezeCooldown = Math.max(0, state.freezeCooldown - dt);
       if (state.buddyCooldown > 0) state.buddyCooldown = Math.max(0, state.buddyCooldown - dt);
 
       for (let i = state.duckRespawnTimers.length - 1; i >= 0; i--) {
@@ -3118,7 +3398,8 @@
         vy *= 0.7071;
       }
 
-      const activeSpeed = state.boostTimer > 0 ? state.merna.baseSpeed * 1.45 : state.merna.baseSpeed;
+      const baseWithPerm = state.merna.baseSpeed + state.permSpeedBonus;
+      const activeSpeed = state.boostTimer > 0 ? baseWithPerm * 1.45 : baseWithPerm;
       state.merna.isMoving = vx !== 0 || vy !== 0;
       if (vx < 0) state.merna.facing = "left";
       if (vx > 0) state.merna.facing = "right";
@@ -3227,6 +3508,11 @@
           b.y = Math.max(2, Math.min(WORLD_H - 18, b.y + (bdy / bdist) * buddySpeed * dt));
         }
 
+        if (state.boss && b.hitCooldown <= 0 && Math.hypot((state.boss.x + 9) - (b.x + 6), (state.boss.y + 9) - (b.y + 8)) <= 20) {
+          b.hitCooldown = 0.35;
+          b.comboStep += 1;
+          damageBoss(2, "#f5c2e7");
+        }
         // Land boxing combo on ducks within punch reach!
         if (b.hitCooldown <= 0) {
           for (let i = state.ducks.length - 1; i >= 0; i--) {
@@ -3261,6 +3547,153 @@
         if (b.timer <= 0) {
           b.active = false;
         }
+      }
+
+      // Update Vapor Blaster Bolts
+      for (let bi = state.bolts.length - 1; bi >= 0; bi--) {
+        const b = state.bolts[bi];
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+        b.life -= dt;
+        let consumed = false;
+
+        if (state.boss && b.x >= state.boss.x && b.x <= state.boss.x + state.boss.w && b.y >= state.boss.y && b.y <= state.boss.y + state.boss.h) {
+          damageBoss(state.blasterDamage, "#89b4fa");
+          consumed = true;
+        } else {
+          for (let di = state.ducks.length - 1; di >= 0; di--) {
+            const d = state.ducks[di];
+            if (Math.hypot((d.x + 4) - b.x, (d.y + 4) - b.y) <= 8) {
+              state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.2 });
+              state.ducks.splice(di, 1);
+              state.duckRespawnTimers.push(4.0);
+              recordDuckKill();
+              const mult = state.liquorTimer > 0 ? 2 : 1;
+              state.score += 3 * mult;
+              state.popups.push({ x: d.x + 4, y: d.y, text: `ZAP! +${3 * mult}`, color: "#89b4fa", alpha: 1.1 });
+              playNetSound(true);
+              consumed = true;
+              break;
+            }
+          }
+        }
+        if (consumed || b.life <= 0) state.bolts.splice(bi, 1);
+      }
+
+      // Update TEREA Boomerangs
+      for (let i = state.boomerangs.length - 1; i >= 0; i--) {
+        const bm = state.boomerangs[i];
+        bm.spin += dt * 18;
+        const spd = 135;
+        if (!bm.returning) {
+          bm.x += bm.dirX * spd * dt;
+          bm.y += bm.dirY * spd * dt;
+          bm.dist += spd * dt;
+          if (bm.dist >= 64) bm.returning = true;
+        } else {
+          const mx = state.merna.x + 6;
+          const my = state.merna.y + 8;
+          const dx = mx - bm.x;
+          const dy = my - bm.y;
+          const d = Math.hypot(dx, dy) || 1;
+          bm.x += (dx / d) * spd * dt;
+          bm.y += (dy / d) * spd * dt;
+          if (d <= 8) {
+            state.boomerangs.splice(i, 1);
+            continue;
+          }
+        }
+        // Hit regular ducks
+        for (let di = state.ducks.length - 1; di >= 0; di--) {
+          const d = state.ducks[di];
+          if (Math.hypot((d.x + 4) - bm.x, (d.y + 4) - bm.y) <= 10) {
+            state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.2 });
+            state.ducks.splice(di, 1);
+            state.duckRespawnTimers.push(4.0);
+            recordDuckKill();
+            const mult = state.liquorTimer > 0 ? 2 : 1;
+            state.score += 3 * mult;
+          }
+        }
+        // Hit Boss once on way out, once on way back!
+        if (state.boss && Math.hypot((state.boss.x + 9) - bm.x, (state.boss.y + 9) - bm.y) <= 13) {
+          if (!bm.returning && !bm.hitBossOut) {
+            bm.hitBossOut = true;
+            damageBoss(2, "#f9e2af");
+          } else if (bm.returning && !bm.hitBossBack) {
+            bm.hitBossBack = true;
+            damageBoss(2, "#f9e2af");
+          }
+        }
+      }
+
+      // Update Shockwaves & Freeze Beams
+      for (let i = state.shockwaves.length - 1; i >= 0; i--) {
+        const sw = state.shockwaves[i];
+        sw.life -= dt;
+        sw.radius += (sw.maxRadius / 0.35) * dt;
+        if (sw.life <= 0) state.shockwaves.splice(i, 1);
+      }
+      for (let i = state.freezeBeams.length - 1; i >= 0; i--) {
+        state.freezeBeams[i].life -= dt;
+        if (state.freezeBeams[i].life <= 0) state.freezeBeams.splice(i, 1);
+      }
+
+      // Update Boss (King Quackzilla)
+      if (state.boss) {
+        const boss = state.boss;
+        if (boss.stunTimer > 0) boss.stunTimer = Math.max(0, boss.stunTimer - dt);
+        if (boss.freezeTimer > 0) boss.freezeTimer = Math.max(0, boss.freezeTimer - dt);
+
+        const dx = state.merna.x - boss.x;
+        const dy = state.merna.y - boss.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        boss.facing = dx >= 0 ? "right" : "left";
+
+        if (boss.stunTimer <= 0) {
+          boss.waddleTimer += dt;
+          boss.shootTimer -= dt;
+          const curSpeed = boss.freezeTimer > 0 ? boss.speed * 0.45 : boss.speed;
+          boss.x = Math.max(4, Math.min(WORLD_W - boss.w - 4, boss.x + (dx / dist) * curSpeed * dt));
+          boss.y = Math.max(4, Math.min(WORLD_H - boss.h - 4, boss.y + (dy / dist) * curSpeed * dt));
+        }
+
+        // Fire 3-way feather projectiles
+        if (boss.stunTimer <= 0 && boss.shootTimer <= 0) {
+          boss.shootTimer = 2.4;
+          const baseAng = Math.atan2(dy, dx);
+          [-0.35, 0, 0.35].forEach((offset) => {
+            const ang = baseAng + offset;
+            state.bossProjectiles.push({
+              x: boss.x + 9,
+              y: boss.y + 9,
+              vx: Math.cos(ang) * 62,
+              vy: Math.sin(ang) * 62,
+              life: 3.0
+            });
+          });
+        }
+
+        // Boss contact damage
+        if (state.invulnTimer <= 0 && Math.hypot((boss.x + 9) - (state.merna.x + 6), (boss.y + 9) - (state.merna.y + 8)) <= 13) {
+          damagePlayer(true);
+          if (state.gameOver) return;
+        }
+      }
+
+      // Update Boss Projectiles
+      for (let pi = state.bossProjectiles.length - 1; pi >= 0; pi--) {
+        const pr = state.bossProjectiles[pi];
+        pr.x += pr.vx * dt;
+        pr.y += pr.vy * dt;
+        pr.life -= dt;
+        if (state.invulnTimer <= 0 && Math.hypot(pr.x - (state.merna.x + 6), pr.y - (state.merna.y + 8)) <= 7) {
+          state.bossProjectiles.splice(pi, 1);
+          damagePlayer(true);
+          if (state.gameOver) return;
+          continue;
+        }
+        if (pr.life <= 0) state.bossProjectiles.splice(pi, 1);
       }
 
       // Update Helping Ducks (chase and kill enemy ducks!)
@@ -3310,14 +3743,29 @@
           }
         }
 
+        if (state.boss && Math.hypot((state.boss.x + 9) - (hd.x + 4), (state.boss.y + 9) - (hd.y + 4)) <= 14) {
+          damageBoss(2, "#f9e2af");
+          state.helperDucks.splice(hi, 1);
+          continue;
+        }
         if (hd.timer <= 0) {
           state.helperDucks.splice(hi, 1);
         }
       }
 
       for (const d of state.ducks) {
-        const dx = (state.merna.x + 2) - d.x;
-        const dy = (state.merna.y + 6) - d.y;
+        let targetX = state.merna.x + 2;
+        let targetY = state.merna.y + 6;
+        if (state.mp.mode === "host" && state.mp.connected) {
+          const d1 = Math.hypot(targetX - d.x, targetY - d.y);
+          const d2 = Math.hypot((state.p2.x + 2) - d.x, (state.p2.y + 6) - d.y);
+          if (d2 < d1) {
+            targetX = state.p2.x + 2;
+            targetY = state.p2.y + 6;
+          }
+        }
+        const dx = targetX - d.x;
+        const dy = targetY - d.y;
         const dist = Math.hypot(dx, dy) || 1;
         const stepX = (dx / dist) * d.speed * dt;
         const stepY = (dy / dist) * d.speed * dt;
@@ -3431,6 +3879,7 @@
       drawHazards(timeSec);
       drawDucks();
       drawHelperDucks();
+      drawBossAndBolts();
       drawMerna(state.merna.x, state.merna.y, timeSec);
       drawPlayer2();
       drawBuddy();
@@ -3468,6 +3917,22 @@
       }
       if (e.code === "KeyF" && !e.repeat) {
         throwHelpingDuck();
+        return;
+      }
+      if (e.code === "KeyE" && !e.repeat) {
+        fireBlaster();
+        return;
+      }
+      if (e.code === "KeyQ" && !e.repeat) {
+        fireBoomerang();
+        return;
+      }
+      if (e.code === "KeyC" && !e.repeat) {
+        fireShockwave();
+        return;
+      }
+      if (e.code === "KeyR" && !e.repeat) {
+        fireFreezeRay();
         return;
       }
       if (!state.gameOver) state.keys[e.code] = true;
@@ -3521,6 +3986,10 @@
     stealDuckBtn.addEventListener("click", fireDuckNet);
     callBuddyBtn.addEventListener("click", summonBuddy);
     throwDuckBtn.addEventListener("click", throwHelpingDuck);
+    blasterBtn.addEventListener("click", fireBlaster);
+    boomBtn.addEventListener("click", fireBoomerang);
+    shockBtn.addEventListener("click", fireShockwave);
+    freezeBtn.addEventListener("click", fireFreezeRay);
     pauseBtn.addEventListener("click", togglePause);
     resumeGameBtn.addEventListener("click", togglePause);
     pauseMenuBtn.addEventListener("click", openStartMenu);
@@ -3568,6 +4037,7 @@
     });
 
     resetBtn.addEventListener("click", () => {
+      if (state.mp.mode === "client" && state.mp.connected) return;
       state.isEditingChar = false;
       state.isStartMenu = false;
       state.isTutorial = false;
