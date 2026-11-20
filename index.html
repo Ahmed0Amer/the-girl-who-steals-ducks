@@ -20,13 +20,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 12px;
       user-select: none;
     }
 
     .game-shell {
       width: 100%;
-      max-width: 620px;
+      max-width: 840px;
       background: #1e1e2e;
       border: 3px solid #45475a;
       border-radius: 12px;
@@ -50,7 +50,7 @@
     }
 
     .title-group h1 {
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: #f5c2e7;
       letter-spacing: 0.5px;
     }
@@ -117,6 +117,26 @@
       color: #a6adc8;
     }
 
+    .buddy-pill {
+      border-color: #f38ba8;
+      color: #f5c2e7;
+    }
+
+    .buddy-pill.cooling {
+      border-color: #6c7086;
+      color: #a6adc8;
+    }
+
+    .ally-pill {
+      border-color: #f9e2af;
+      color: #f9e2af;
+    }
+
+    .ally-pill.cooling {
+      border-color: #6c7086;
+      color: #a6adc8;
+    }
+
     .status-strip {
       display: flex;
       flex-wrap: wrap;
@@ -146,6 +166,12 @@
       border: 1px solid #a6e3a1;
     }
 
+    .effect-buddy {
+      background: #45232e;
+      color: #f5c2e7;
+      border: 1px solid #f38ba8;
+    }
+
     .mission-bar {
       background: #11111b;
       border: 2px solid #313244;
@@ -162,14 +188,14 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
     }
 
     .mission-tag {
       background: #cba6f7;
       color: #11111b;
       font-weight: 700;
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       padding: 2px 6px;
       border-radius: 4px;
       text-transform: uppercase;
@@ -181,7 +207,7 @@
     }
 
     .mission-progress {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #a6e3a1;
       font-weight: 700;
     }
@@ -254,7 +280,23 @@
       border: 2px solid #94e2d5;
     }
 
-    button.weapon-btn:disabled {
+    button.buddy-btn {
+      background: #f38ba8;
+      color: #11111b;
+      padding: 8px 12px;
+      border: 2px solid #f5c2e7;
+    }
+
+    button.ally-btn {
+      background: #f9e2af;
+      color: #11111b;
+      padding: 8px 12px;
+      border: 2px solid #fab387;
+    }
+
+    button.weapon-btn:disabled,
+    button.buddy-btn:disabled,
+    button.ally-btn:disabled {
       background: #313244;
       color: #6c7086;
       border-color: #45475a;
@@ -289,7 +331,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 14px;
+      padding: 16px;
       gap: 10px;
       overflow-y: auto;
     }
@@ -299,17 +341,17 @@
     }
 
     .overlay h2 {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       color: #f5c2e7;
     }
 
     .overlay p {
-      font-size: 0.84rem;
+      font-size: 0.86rem;
       color: #cdd6f4;
     }
 
     .overlay .best-badge {
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: #a6e3a1;
       background: #313244;
       padding: 4px 10px;
@@ -319,7 +361,7 @@
 
     .start-scene-box {
       width: 100%;
-      max-width: 340px;
+      max-width: 380px;
       aspect-ratio: 16 / 10;
       border: 2px solid #45475a;
       border-radius: 8px;
@@ -334,15 +376,14 @@
     }
 
     .start-subtitle {
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: #a6adc8;
-      max-width: 380px;
+      max-width: 420px;
     }
 
-    /* Tutorial Cards */
     .tutorial-cards {
       width: 100%;
-      max-width: 470px;
+      max-width: 520px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -353,8 +394,8 @@
       background: #1e1e2e;
       border: 2px solid #45475a;
       border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 0.78rem;
+      padding: 9px 12px;
+      font-size: 0.8rem;
       line-height: 1.4;
     }
 
@@ -364,7 +405,7 @@
 
     .char-editor {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       display: grid;
       grid-template-columns: 110px 1fr;
       gap: 12px;
@@ -474,16 +515,17 @@
     }
 
     .hint {
-      font-size: 0.75rem;
+      font-size: 0.76rem;
       color: #a6adc8;
       line-height: 1.4;
-      flex: 1 1 180px;
+      flex: 1 1 200px;
     }
 
     .action-pad {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
 
     .dpad {
@@ -527,6 +569,9 @@
         <div class="pill mission-pill" id="missionCountDisplay">Missions: 0</div>
         <div class="pill hearts-pill" id="heartsDisplay">♥♥♥♡♡</div>
         <div class="pill weapon-pill" id="netDisplay">Net: READY</div>
+        <div class="pill buddy-pill" id="buddyDisplay">Ahmed: READY</div>
+        <div class="pill ally-pill cooling" id="allyDuckDisplay">Duck Ally: 0/5</div>
+        <button type="button" class="secondary" id="pauseBtn">Pause (P)</button>
         <button type="button" class="secondary" id="menuBtn">Menu</button>
         <button type="button" class="secondary" id="tutorialBtn">Tutorial</button>
         <button type="button" class="accent" id="editCharBtn">Edit Hero</button>
@@ -552,8 +597,8 @@
       <span class="flavor-chip"><span class="flavor-dot" style="background:#f9e2af"></span>Yellow</span>
       <span class="flavor-chip"><span class="flavor-dot" style="background:#c28551"></span>Coffee (Speed)</span>
       <span class="flavor-chip"><span class="flavor-dot" style="background:#a6e3a1"></span>20% XXXX (2x Pts + Warp)</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Duck (-1 ♥ / Space to Steal!)</span>
-      <span class="flavor-chip"><span class="flavor-dot" style="background:#f38ba8"></span>Hazard (-1 ♥)</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#fab387"></span>Duck (-1 ♥ / Space to Steal)</span>
+      <span class="flavor-chip"><span class="flavor-dot" style="background:#f38ba8"></span>Ahmed Buddy (B = Boxing Combo!)</span>
     </div>
 
     <div class="canvas-wrap" id="canvasWrap">
@@ -565,12 +610,23 @@
         <div class="start-scene-box">
           <canvas id="startAnimCanvas" width="160" height="100"></canvas>
         </div>
-        <p class="start-subtitle">Collect TEREA flavors, complete missions, sip coffee &amp; snatch chasing ducks!</p>
+        <p class="start-subtitle">Collect TEREA flavors, finish missions, call Ahmed for a boxing combo &amp; snatch chasing ducks!</p>
         <div class="best-badge" id="startBestBadge">High Score: 0 | Best Level: 1</div>
         <div class="editor-actions">
           <button type="button" class="accent" id="startGameBtn">Start Game</button>
           <button type="button" class="secondary" id="startTutorialBtn">Tutorial</button>
           <button type="button" class="secondary" id="startEditBtn">Edit Hero</button>
+        </div>
+      </div>
+
+      <!-- Pause Overlay -->
+      <div class="overlay hidden" id="pauseOverlay">
+        <h2>Game Paused</h2>
+        <p>Take a breather! Everything is safely frozen.</p>
+        <div class="editor-actions">
+          <button type="button" class="accent" id="resumeGameBtn">Resume (P)</button>
+          <button type="button" class="secondary" id="pauseMenuBtn">Start Menu</button>
+          <button type="button" id="pauseRestartBtn">Restart</button>
         </div>
       </div>
 
@@ -585,7 +641,13 @@
             <strong>2. Power-Ups:</strong> Grab a <strong>Coffee Cup</strong> for a 5s speed boost. Grab <strong>20% XXXX</strong> for wavy vision &amp; <strong>2× points</strong> on everything you pick up!
           </div>
           <div class="tut-card">
-            <strong>3. Steal Ducks (Weapon):</strong> Chasing ducks cost <strong>-1 ♥</strong> if they touch you. Press <strong>Spacebar</strong> (or tap <strong>Steal Duck</strong>) when a duck is within range—even from a distance—to snatch it for <strong>+3 pts</strong>!
+            <strong>3. Steal Ducks (Space):</strong> Press <strong>Spacebar</strong> (or tap <strong>Steal Duck</strong>) to snatch a nearby duck from a safe distance for <strong>+3 pts</strong>.
+          </div>
+          <div class="tut-card">
+            <strong>4. Throw Helping Duck (F):</strong> Every <strong>5 ducks</strong> you defeat unlocks a <strong>Helping Duck</strong>! Press <strong>F</strong> (or tap <strong>Throw Duck</strong>) to send out a golden ally duck that hunts down enemy ducks!
+          </div>
+          <div class="tut-card">
+            <strong>5. Call Ahmed — Boxing Buddy (B):</strong> Press <strong>B</strong> (or tap <strong>Call Ahmed</strong>) to summon Ahmed! He rushes in with red boxing gloves and lands a <strong>3-hit boxing combo</strong> knocking out ducks for <strong>+4 pts</strong> each!
           </div>
         </div>
         <div class="editor-actions">
@@ -661,10 +723,12 @@
 
     <div class="controls-bar">
       <div class="hint">
-        Move with <strong>Arrows / WASD / D-pad</strong>. Press <strong>Space</strong> (or <strong>Steal Duck</strong>) to snatch chasing ducks from afar!
+        Move: <strong>Arrows / WASD / D-pad</strong> · <strong>Space</strong>: Steal Duck · <strong>B</strong>: Call Ahmed · <strong>F</strong>: Throw Helping Duck · <strong>P</strong>: Pause
       </div>
       <div class="action-pad">
         <button type="button" class="weapon-btn" id="stealDuckBtn">Steal Duck (Space)</button>
+        <button type="button" class="buddy-btn" id="callBuddyBtn">Call Ahmed (B)</button>
+        <button type="button" class="ally-btn" id="throwDuckBtn" disabled>Throw Duck (0/5)</button>
         <div class="dpad" aria-label="On-screen directional pad">
           <div class="empty"></div>
           <button type="button" data-dir="up" aria-label="Move Up">▲</button>
@@ -695,10 +759,12 @@
     const missionCountDisplay = document.getElementById("missionCountDisplay");
     const heartsDisplay = document.getElementById("heartsDisplay");
     const netDisplay = document.getElementById("netDisplay");
+    const buddyDisplay = document.getElementById("buddyDisplay");
     const statusStrip = document.getElementById("statusStrip");
     const missionTag = document.getElementById("missionTag");
     const missionText = document.getElementById("missionText");
     const missionProgress = document.getElementById("missionProgress");
+    const pauseBtn = document.getElementById("pauseBtn");
     const menuBtn = document.getElementById("menuBtn");
     const tutorialBtn = document.getElementById("tutorialBtn");
     const editCharBtn = document.getElementById("editCharBtn");
@@ -708,6 +774,10 @@
     const startGameBtn = document.getElementById("startGameBtn");
     const startTutorialBtn = document.getElementById("startTutorialBtn");
     const startEditBtn = document.getElementById("startEditBtn");
+    const pauseOverlay = document.getElementById("pauseOverlay");
+    const resumeGameBtn = document.getElementById("resumeGameBtn");
+    const pauseMenuBtn = document.getElementById("pauseMenuBtn");
+    const pauseRestartBtn = document.getElementById("pauseRestartBtn");
     const tutorialOverlay = document.getElementById("tutorialOverlay");
     const closeTutorialBtn = document.getElementById("closeTutorialBtn");
     const charOverlay = document.getElementById("charOverlay");
@@ -729,10 +799,13 @@
     const gameOverEditBtn = document.getElementById("gameOverEditBtn");
     const playAgainBtn = document.getElementById("playAgainBtn");
     const stealDuckBtn = document.getElementById("stealDuckBtn");
+    const callBuddyBtn = document.getElementById("callBuddyBtn");
+    const allyDuckDisplay = document.getElementById("allyDuckDisplay");
+    const throwDuckBtn = document.getElementById("throwDuckBtn");
 
-    // 2. Viewport & larger 36x27 World dimensions
-    const VIEW_W = 160;
-    const VIEW_H = 120;
+    // 2. Bigger Viewport (192x144) & 36x27 World dimensions
+    const VIEW_W = 192;
+    const VIEW_H = 144;
     const TILE = 8;
     const COLS = 36;
     const ROWS = 27;
@@ -744,6 +817,8 @@
     const MISSIONS_PER_LEVEL = 2;
     const NET_RANGE = 58;
     const NET_COOLDOWN = 2.5;
+    const BUDDY_DURATION = 3.2;
+    const BUDDY_COOLDOWN = 11.0;
 
     const HAIR_COLORS = [
       { back: "#3b2314", front: "#4a2c18" },
@@ -955,7 +1030,20 @@
       invulnTimer: 0,
       netCooldown: 0,
       netBeams: [],
+      buddyCooldown: 0,
+      buddy: {
+        active: false,
+        timer: 0,
+        x: 0,
+        y: 0,
+        facing: "right",
+        punchTimer: 0,
+        comboStep: 0,
+        hitCooldown: 0
+      },
+      punchEffects: [],
       gameOver: false,
+      isPaused: false,
       isStartMenu: true,
       isTutorial: false,
       isEditingChar: false,
@@ -978,6 +1066,9 @@
       powerups: [],
       hazards: [],
       ducks: [],
+      helperDucks: [],
+      ducksKilled: 0,
+      helperDuckCharges: 0,
       duckRespawnTimers: [],
       mission: null,
       popups: [],
@@ -1037,6 +1128,26 @@
         gain.connect(ac.destination);
         osc.start(now);
         osc.stop(now + 0.14);
+      } catch (err) {}
+    }
+
+    function playPunchSound(comboStep) {
+      const ac = getAudioCtx();
+      if (!ac) return;
+      try {
+        const now = ac.currentTime;
+        const osc = ac.createOscillator();
+        const gain = ac.createGain();
+        osc.type = "sawtooth";
+        const base = 160 + comboStep * 55;
+        osc.frequency.setValueAtTime(base, now);
+        osc.frequency.exponentialRampToValueAtTime(70, now + 0.1);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.connect(gain);
+        gain.connect(ac.destination);
+        osc.start(now);
+        osc.stop(now + 0.1);
       } catch (err) {}
     }
 
@@ -1330,9 +1441,9 @@
       }
     }
 
-    // Duck-Stealer Weapon: steals nearest duck within NET_RANGE
+    // Duck-Stealer Weapon (Space)
     function fireDuckNet() {
-      if (state.gameOver || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
       if (state.netCooldown > 0) return;
 
       const mx = state.merna.x + state.merna.w / 2;
@@ -1362,6 +1473,7 @@
         });
         state.ducks.splice(nearestIdx, 1);
         state.duckRespawnTimers.push(3.5);
+        recordDuckKill();
 
         const multiplier = state.liquorTimer > 0 ? 2 : 1;
         const pts = 3 * multiplier;
@@ -1375,7 +1487,6 @@
         });
         playNetSound(true);
       } else {
-        // Missed / out of range visual feedback
         const dirX = state.merna.facing === "left" ? -26 : 26;
         state.netBeams.push({
           x1: mx,
@@ -1398,6 +1509,71 @@
       updateHud();
     }
 
+    function recordDuckKill() {
+      state.ducksKilled += 1;
+      if (state.ducksKilled % 5 === 0) {
+        state.helperDuckCharges += 1;
+        state.popups.push({
+          x: state.merna.x + 6,
+          y: state.merna.y - 6,
+          text: "HELPING DUCK READY! (Press F)",
+          color: "#f9e2af",
+          alpha: 1.6
+        });
+      }
+    }
+
+    function throwHelpingDuck() {
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      if (state.helperDuckCharges <= 0) return;
+
+      state.helperDuckCharges -= 1;
+      state.helperDucks.push({
+        x: state.merna.x + 2,
+        y: state.merna.y + 4,
+        w: 9,
+        h: 9,
+        speed: 96,
+        facing: state.merna.facing,
+        waddleTimer: 0,
+        timer: 8.5
+      });
+      state.popups.push({
+        x: state.merna.x + 6,
+        y: state.merna.y - 4,
+        text: "GO HELPING DUCK!",
+        color: "#f9e2af",
+        alpha: 1.4
+      });
+      playNetSound(true);
+      updateHud();
+    }
+
+    // Helping Buddy: Ahmed rushes in with a Boxing Combo!
+    function summonBuddy() {
+      if (state.gameOver || state.isPaused || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      if (state.buddyCooldown > 0 || state.buddy.active) return;
+
+      state.buddy.active = true;
+      state.buddy.timer = BUDDY_DURATION;
+      state.buddy.x = state.merna.x + (state.merna.facing === "right" ? 12 : -12);
+      state.buddy.y = state.merna.y;
+      state.buddy.facing = state.merna.facing;
+      state.buddy.comboStep = 0;
+      state.buddy.hitCooldown = 0;
+      state.buddyCooldown = BUDDY_COOLDOWN;
+
+      state.popups.push({
+        x: state.buddy.x + 6,
+        y: state.buddy.y - 4,
+        text: "AHMED IN THE RING!",
+        color: "#f5c2e7",
+        alpha: 1.5
+      });
+      playPunchSound(0);
+      updateHud();
+    }
+
     function updateCamera(timeSec = 0) {
       const targetX = state.merna.x + state.merna.w / 2 - VIEW_W / 2;
       const targetY = state.merna.y + state.merna.h / 2 - VIEW_H / 2;
@@ -1415,8 +1591,8 @@
     // 8. Resize canvas cleanly
     function resizeCanvas() {
       const rect = canvasWrap.getBoundingClientRect();
-      canvas.width = Math.max(160, Math.floor(rect.width));
-      canvas.height = Math.max(120, Math.floor(rect.height));
+      canvas.width = Math.max(192, Math.floor(rect.width));
+      canvas.height = Math.max(144, Math.floor(rect.height));
       ctx.imageSmoothingEnabled = false;
     }
 
@@ -1663,6 +1839,50 @@
       drawFn(dx + 7, dy + 15, 2, 1, "#cdd6f4");
     }
 
+    function drawBuddy() {
+      if (!state.buddy.active) return;
+      const b = state.buddy;
+      const bob = Math.sin(b.punchTimer * 18) > 0 ? -1 : 0;
+      const dx = Math.round(b.x);
+      const dy = Math.round(b.y) + bob;
+
+      // Shadow & glowing ring
+      pxWorld(dx + 2, Math.round(b.y) + 14, 8, 2, "rgba(243, 139, 168, 0.45)");
+
+      // Short dark hair
+      pxWorld(dx + 3, dy + 1, 6, 2, "#1e1e2e");
+      // Face
+      pxWorld(dx + 3, dy + 3, 6, 5, "#d9a077");
+      const eyeOff = b.facing === "left" ? 0 : 1;
+      pxWorld(dx + 3 + eyeOff, dy + 5, 1, 1, "#11111b");
+      pxWorld(dx + 6 + eyeOff, dy + 5, 1, 1, "#11111b");
+      // Athletic dark-blue/purple hoodie
+      pxWorld(dx + 2, dy + 8, 8, 5, "#89b4fa");
+      pxWorld(dx + 4, dy + 8, 4, 2, "#cba6f7");
+      // Shorts/pants
+      pxWorld(dx + 3, dy + 13, 2, 2, "#313244");
+      pxWorld(dx + 7, dy + 13, 2, 2, "#313244");
+      // Sneakers
+      pxWorld(dx + 3, dy + 15, 2, 1, "#ffffff");
+      pxWorld(dx + 7, dy + 15, 2, 1, "#ffffff");
+
+      // Animated Red Boxing Gloves!
+      const jabExtend = Math.sin(b.punchTimer * 24) > 0 ? 4 : 1;
+      const gloveX = b.facing === "right" ? dx + 9 + jabExtend : dx - 2 - jabExtend;
+      const otherGloveX = b.facing === "right" ? dx - 1 : dx + 10;
+      pxWorld(gloveX, dy + 8, 3, 3, "#f38ba8");
+      pxWorld(gloveX + 1, dy + 8, 1, 1, "#ffffff");
+      pxWorld(otherGloveX, dy + 10, 3, 3, "#e64553");
+    }
+
+    function drawPunchEffects() {
+      for (const p of state.punchEffects) {
+        const size = Math.ceil(p.life * 22);
+        pxWorld(p.x - size / 2, p.y - size / 2, size, size, "rgba(249, 226, 175, 0.55)");
+        pxWorld(p.x - 2, p.y - 2, 4, 4, "#f38ba8");
+      }
+    }
+
     function renderCharPreview() {
       previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
       previewCtx.imageSmoothingEnabled = false;
@@ -1847,7 +2067,6 @@
         const dx = Math.round(d.x);
         const dy = Math.round(d.y) + waddle;
 
-        // Target indicator if within Duck Net range
         const inRange = Math.hypot((d.x + 4) - mx, (d.y + 4) - my) <= NET_RANGE;
         if (inRange && state.netCooldown <= 0) {
           pxWorld(dx + 2, dy - 3, 5, 1, "#a6e3a1");
@@ -1872,6 +2091,31 @@
       }
     }
 
+    function drawHelperDucks() {
+      for (const hd of state.helperDucks) {
+        const waddle = Math.sin(hd.waddleTimer * 18) > 0 ? -1 : 0;
+        const dx = Math.round(hd.x);
+        const dy = Math.round(hd.y) + waddle;
+
+        pxWorld(dx + 1, Math.round(hd.y) + 8, 7, 1, "rgba(249, 226, 175, 0.5)");
+        pxWorld(dx + 1, dy, 7, 8, "#11111b");
+        pxWorld(dx + 2, dy + 1, 5, 3, "#f9e2af"); // golden ally duck!
+        pxWorld(dx + 2, dy + 1, 5, 1, "#f38ba8"); // cute pink headband
+        pxWorld(dx + 1, dy + 4, 7, 3, "#f9e2af");
+        pxWorld(dx + 2, dy + 5, 4, 2, "#fab387");
+
+        if (hd.facing === "right") {
+          pxWorld(dx + 7, dy + 2, 2, 2, "#f38ba8");
+          pxWorld(dx + 5, dy + 2, 1, 1, "#11111b");
+        } else {
+          pxWorld(dx, dy + 2, 2, 2, "#f38ba8");
+          pxWorld(dx + 3, dy + 2, 1, 1, "#11111b");
+        }
+        pxWorld(dx + 2, dy + 7, 2, 2, "#fab387");
+        pxWorld(dx + 5, dy + 7, 2, 2, "#fab387");
+      }
+    }
+
     function drawNetBeams() {
       const scaleX = canvas.width / VIEW_W;
       const scaleY = canvas.height / VIEW_H;
@@ -1884,7 +2128,6 @@
         ctx.lineTo((b.x2 - state.camera.x) * scaleX, (b.y2 - state.camera.y) * scaleY);
         ctx.stroke();
 
-        // Pixel net diamond at target tip
         pxWorld(b.x2 - 4, b.y2 - 4, 8, 8, b.caught ? "rgba(148, 226, 213, 0.45)" : "rgba(166, 173, 200, 0.3)");
         ctx.restore();
       }
@@ -1935,6 +2178,12 @@
         pxView(mx + dc, my + dr, 1, 1, "#fab387");
       }
 
+      if (state.buddy.active) {
+        const bc = Math.min(COLS - 1, Math.max(0, Math.floor((state.buddy.x + 6) / TILE)));
+        const br = Math.min(ROWS - 1, Math.max(0, Math.floor((state.buddy.y + 8) / TILE)));
+        pxView(mx + bc, my + br, 2, 2, "#89b4fa");
+      }
+
       for (const pw of state.powerups) {
         const pc = Math.min(COLS - 1, Math.max(0, Math.floor((pw.x + 5) / TILE)));
         const pr = Math.min(ROWS - 1, Math.max(0, Math.floor((pw.y + 5) / TILE)));
@@ -1971,26 +2220,40 @@
       ctx.globalAlpha = 1;
     }
 
-    // 10. Start Menu, Tutorial & Character Editor UI Helpers
+    // 10. Pause, Start Menu, Tutorial & Character Editor UI Helpers
+    function togglePause() {
+      if (state.gameOver || state.isStartMenu || state.isTutorial || state.isEditingChar) return;
+      state.isPaused = !state.isPaused;
+      state.keys = {};
+      state.touchDir = null;
+      pauseOverlay.classList.toggle("hidden", !state.isPaused);
+      pauseBtn.textContent = state.isPaused ? "Resume (P)" : "Pause (P)";
+    }
+
     function openStartMenu() {
       state.isStartMenu = true;
+      state.isPaused = false;
       state.isTutorial = false;
       state.isEditingChar = false;
       state.keys = {};
       state.touchDir = null;
+      pauseOverlay.classList.add("hidden");
       tutorialOverlay.classList.add("hidden");
       charOverlay.classList.add("hidden");
       gameOverOverlay.classList.add("hidden");
       startOverlay.classList.remove("hidden");
+      pauseBtn.textContent = "Pause (P)";
       startTitle.textContent = `${(state.hero.name || "Merna").toUpperCase()}'S TEREA QUEST`;
       startBestBadge.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
     }
 
     function openTutorial() {
       state.isTutorial = true;
+      state.isPaused = false;
       state.keys = {};
       state.touchDir = null;
       startOverlay.classList.add("hidden");
+      pauseOverlay.classList.add("hidden");
       charOverlay.classList.add("hidden");
       gameOverOverlay.classList.add("hidden");
       tutorialOverlay.classList.remove("hidden");
@@ -2004,6 +2267,7 @@
 
     function startNewGameFromMenu() {
       state.isStartMenu = false;
+      state.isPaused = false;
       startOverlay.classList.add("hidden");
       resetGame();
     }
@@ -2042,10 +2306,12 @@
 
     function openCharEditor() {
       state.isEditingChar = true;
+      state.isPaused = false;
       state.isTutorial = false;
       state.keys = {};
       state.touchDir = null;
       startOverlay.classList.add("hidden");
+      pauseOverlay.classList.add("hidden");
       tutorialOverlay.classList.add("hidden");
       gameOverOverlay.classList.add("hidden");
       charOverlay.classList.remove("hidden");
@@ -2094,12 +2360,46 @@
         stealDuckBtn.textContent = "Steal Duck (Space)";
       }
 
+      if (state.buddy.active) {
+        buddyDisplay.textContent = "Ahmed: BOXING!";
+        buddyDisplay.classList.remove("cooling");
+        callBuddyBtn.disabled = true;
+        callBuddyBtn.textContent = "Ahmed Boxing!";
+      } else if (state.buddyCooldown > 0) {
+        const bcd = Math.ceil(state.buddyCooldown);
+        buddyDisplay.textContent = `Ahmed: ${bcd}s`;
+        buddyDisplay.classList.add("cooling");
+        callBuddyBtn.disabled = true;
+        callBuddyBtn.textContent = `Ahmed (${bcd}s)`;
+      } else {
+        buddyDisplay.textContent = "Ahmed: READY";
+        buddyDisplay.classList.remove("cooling");
+        callBuddyBtn.disabled = false;
+        callBuddyBtn.textContent = "Call Ahmed (B)";
+      }
+
+      const prog = state.ducksKilled % 5;
+      if (state.helperDuckCharges > 0) {
+        allyDuckDisplay.textContent = `Duck Ally: ${state.helperDuckCharges} READY`;
+        allyDuckDisplay.classList.remove("cooling");
+        throwDuckBtn.disabled = false;
+        throwDuckBtn.textContent = `Throw Duck (${state.helperDuckCharges}) (F)`;
+      } else {
+        allyDuckDisplay.textContent = `Duck Ally: ${prog}/5`;
+        allyDuckDisplay.classList.add("cooling");
+        throwDuckBtn.disabled = true;
+        throwDuckBtn.textContent = `Throw Duck (${prog}/5)`;
+      }
+
       let badges = "";
       if (state.boostTimer > 0) {
         badges += `<span class="effect-badge effect-coffee">COFFEE SPEED: ${Math.ceil(state.boostTimer)}s</span>`;
       }
       if (state.liquorTimer > 0) {
         badges += `<span class="effect-badge effect-liquor">20% XXXX (2x PTS!): ${Math.ceil(state.liquorTimer)}s</span>`;
+      }
+      if (state.buddy.active) {
+        badges += `<span class="effect-badge effect-buddy">AHMED BOXING COMBO: ${Math.ceil(state.buddy.timer)}s</span>`;
       }
       statusStrip.innerHTML = badges;
     }
@@ -2182,6 +2482,7 @@
 
     function triggerGameOver() {
       state.gameOver = true;
+      state.isPaused = false;
       state.touchDir = null;
       state.keys = {};
       canvas.style.filter = "none";
@@ -2213,7 +2514,17 @@
       state.invulnTimer = 0;
       state.netCooldown = 0;
       state.netBeams = [];
+      state.buddyCooldown = 0;
+      state.buddy.active = false;
+      state.buddy.timer = 0;
+      state.punchEffects = [];
+      state.helperDucks = [];
+      state.ducksKilled = 0;
+      state.helperDuckCharges = 0;
       state.gameOver = false;
+      state.isPaused = false;
+      pauseBtn.textContent = "Pause (P)";
+      pauseOverlay.classList.add("hidden");
       canvas.style.filter = "none";
       MAP = generateMap();
       state.merna.x = Math.floor(COLS / 2) * TILE - 2;
@@ -2320,16 +2631,16 @@
       updateMissionUI();
     }
 
-    // 13. Update positions, ducks, hazards & collisions
+    // 13. Update positions, buddy boxing combo, ducks, hazards & collisions
     function update(dt, timeSec) {
-      if (state.gameOver || state.isEditingChar || state.isStartMenu || state.isTutorial) return;
+      if (state.gameOver || state.isPaused || state.isEditingChar || state.isStartMenu || state.isTutorial) return;
 
       if (state.boostTimer > 0) state.boostTimer = Math.max(0, state.boostTimer - dt);
       if (state.liquorTimer > 0) state.liquorTimer = Math.max(0, state.liquorTimer - dt);
       if (state.invulnTimer > 0) state.invulnTimer = Math.max(0, state.invulnTimer - dt);
       if (state.netCooldown > 0) state.netCooldown = Math.max(0, state.netCooldown - dt);
+      if (state.buddyCooldown > 0) state.buddyCooldown = Math.max(0, state.buddyCooldown - dt);
 
-      // Respawn stolen ducks after delay
       for (let i = state.duckRespawnTimers.length - 1; i >= 0; i--) {
         state.duckRespawnTimers[i] -= dt;
         if (state.duckRespawnTimers[i] <= 0) {
@@ -2342,6 +2653,11 @@
       for (let i = state.netBeams.length - 1; i >= 0; i--) {
         state.netBeams[i].life -= dt;
         if (state.netBeams[i].life <= 0) state.netBeams.splice(i, 1);
+      }
+
+      for (let i = state.punchEffects.length - 1; i >= 0; i--) {
+        state.punchEffects[i].life -= dt;
+        if (state.punchEffects[i].life <= 0) state.punchEffects.splice(i, 1);
       }
 
       updateHud();
@@ -2371,6 +2687,125 @@
       if (!collidesWithMap(state.merna.x, nextY)) state.merna.y = nextY;
 
       updateCamera(timeSec);
+
+      // Update Helping Buddy (Ahmed's Boxing Combo!)
+      if (state.buddy.active) {
+        const b = state.buddy;
+        b.timer -= dt;
+        b.punchTimer += dt;
+        if (b.hitCooldown > 0) b.hitCooldown -= dt;
+
+        // Find nearest duck to charge at, or orbit near Merna
+        let targetDuckIdx = -1;
+        let minDuckDist = Infinity;
+        state.ducks.forEach((d, idx) => {
+          const dist = Math.hypot(d.x - b.x, d.y - b.y);
+          if (dist < minDuckDist) {
+            minDuckDist = dist;
+            targetDuckIdx = idx;
+          }
+        });
+
+        const tx = targetDuckIdx !== -1 ? state.ducks[targetDuckIdx].x : state.merna.x + 14;
+        const ty = targetDuckIdx !== -1 ? state.ducks[targetDuckIdx].y : state.merna.y;
+        const bdx = tx - b.x;
+        const bdy = ty - b.y;
+        const bdist = Math.hypot(bdx, bdy) || 1;
+        b.facing = bdx >= 0 ? "right" : "left";
+
+        const buddySpeed = 105;
+        if (bdist > 4) {
+          b.x = Math.max(2, Math.min(WORLD_W - 14, b.x + (bdx / bdist) * buddySpeed * dt));
+          b.y = Math.max(2, Math.min(WORLD_H - 18, b.y + (bdy / bdist) * buddySpeed * dt));
+        }
+
+        // Land boxing combo on ducks within punch reach!
+        if (b.hitCooldown <= 0) {
+          for (let i = state.ducks.length - 1; i >= 0; i--) {
+            const d = state.ducks[i];
+            if (Math.hypot((d.x + 4) - (b.x + 6), (d.y + 4) - (b.y + 8)) <= 16) {
+              const comboWords = ["JAB!", "CROSS!", "KO UPPERCUT!"];
+              const word = comboWords[b.comboStep % comboWords.length];
+              b.comboStep += 1;
+              b.hitCooldown = 0.25;
+
+              state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.22 });
+              state.ducks.splice(i, 1);
+              state.duckRespawnTimers.push(4.0);
+              recordDuckKill();
+
+              const mult = state.liquorTimer > 0 ? 2 : 1;
+              const pts = 4 * mult;
+              state.score += pts;
+              state.popups.push({
+                x: d.x + 4,
+                y: d.y,
+                text: `${word} +${pts}`,
+                color: "#f5c2e7",
+                alpha: 1.3
+              });
+              playPunchSound(b.comboStep % 3);
+              break;
+            }
+          }
+        }
+
+        if (b.timer <= 0) {
+          b.active = false;
+        }
+      }
+
+      // Update Helping Ducks (chase and kill enemy ducks!)
+      for (let hi = state.helperDucks.length - 1; hi >= 0; hi--) {
+        const hd = state.helperDucks[hi];
+        hd.timer -= dt;
+        hd.waddleTimer += dt;
+
+        let targetIdx = -1;
+        let minDist = Infinity;
+        state.ducks.forEach((d, idx) => {
+          const dist = Math.hypot(d.x - hd.x, d.y - hd.y);
+          if (dist < minDist) {
+            minDist = dist;
+            targetIdx = idx;
+          }
+        });
+
+        const tx = targetIdx !== -1 ? state.ducks[targetIdx].x : state.merna.x - 12;
+        const ty = targetIdx !== -1 ? state.ducks[targetIdx].y : state.merna.y;
+        const dx = tx - hd.x;
+        const dy = ty - hd.y;
+        const dist = Math.hypot(dx, dy) || 1;
+        hd.facing = dx >= 0 ? "right" : "left";
+
+        hd.x = Math.max(2, Math.min(WORLD_W - hd.w - 2, hd.x + (dx / dist) * hd.speed * dt));
+        hd.y = Math.max(2, Math.min(WORLD_H - hd.h - 2, hd.y + (dy / dist) * hd.speed * dt));
+
+        for (let di = state.ducks.length - 1; di >= 0; di--) {
+          const d = state.ducks[di];
+          if (Math.hypot((d.x + 4) - (hd.x + 4), (d.y + 4) - (hd.y + 4)) <= 11) {
+            state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.2 });
+            state.ducks.splice(di, 1);
+            state.duckRespawnTimers.push(4.0);
+            const mult = state.liquorTimer > 0 ? 2 : 1;
+            const pts = 5 * mult;
+            state.score += pts;
+            state.popups.push({
+              x: d.x + 4,
+              y: d.y,
+              text: `ALLY DUCK KO! +${pts}`,
+              color: "#f9e2af",
+              alpha: 1.3
+            });
+            playNetSound(true);
+            break;
+          }
+        }
+
+        if (hd.timer <= 0) {
+          state.helperDucks.splice(hi, 1);
+        }
+      }
 
       for (const d of state.ducks) {
         const dx = (state.merna.x + 2) - d.x;
@@ -2487,7 +2922,10 @@
       drawPowerups(timeSec);
       drawHazards(timeSec);
       drawDucks();
+      drawHelperDucks();
       drawMerna(state.merna.x, state.merna.y, timeSec);
+      drawBuddy();
+      drawPunchEffects();
       drawNetBeams();
       drawLiquorDistortion(timeSec);
       drawPopups();
@@ -2499,11 +2937,28 @@
     // 15. Input & UI listeners
     window.addEventListener("keydown", (e) => {
       if (state.isEditingChar || state.isStartMenu || state.isTutorial) return;
+
+      if ((e.code === "KeyP" || e.code === "Escape") && !e.repeat) {
+        e.preventDefault();
+        togglePause();
+        return;
+      }
+
+      if (state.isPaused) return;
+
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Space"].includes(e.code)) {
         e.preventDefault();
       }
       if (e.code === "Space" && !e.repeat) {
         fireDuckNet();
+        return;
+      }
+      if (e.code === "KeyB" && !e.repeat) {
+        summonBuddy();
+        return;
+      }
+      if (e.code === "KeyF" && !e.repeat) {
+        throwHelpingDuck();
         return;
       }
       if (!state.gameOver) state.keys[e.code] = true;
@@ -2517,7 +2972,7 @@
       const dir = btn.dataset.dir;
       const start = (e) => {
         e.preventDefault();
-        if (!state.gameOver && !state.isEditingChar && !state.isStartMenu && !state.isTutorial) {
+        if (!state.gameOver && !state.isPaused && !state.isEditingChar && !state.isStartMenu && !state.isTutorial) {
           state.touchDir = dir;
         }
       };
@@ -2533,6 +2988,12 @@
     });
 
     stealDuckBtn.addEventListener("click", fireDuckNet);
+    callBuddyBtn.addEventListener("click", summonBuddy);
+    throwDuckBtn.addEventListener("click", throwHelpingDuck);
+    pauseBtn.addEventListener("click", togglePause);
+    resumeGameBtn.addEventListener("click", togglePause);
+    pauseMenuBtn.addEventListener("click", openStartMenu);
+    pauseRestartBtn.addEventListener("click", resetGame);
 
     charNameInput.addEventListener("input", () => {
       state.hero.name = charNameInput.value;
