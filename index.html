@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Merna's TEREA Quest</title>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -130,6 +131,83 @@
     .ally-pill {
       border-color: #f9e2af;
       color: #f9e2af;
+    }
+
+    .mp-pill {
+      border-color: #89b4fa;
+      color: #89b4fa;
+    }
+
+    .mp-pill.online {
+      border-color: #a6e3a1;
+      color: #a6e3a1;
+      background: #243b2c;
+    }
+
+    .mp-box {
+      width: 100%;
+      max-width: 460px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #1e1e2e;
+      border: 2px solid #45475a;
+      border-radius: 10px;
+      padding: 14px;
+      text-align: left;
+    }
+
+    .mp-section {
+      background: #11111b;
+      border: 1px solid #313244;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mp-section h3 {
+      font-size: 0.85rem;
+      color: #f5c2e7;
+    }
+
+    .mp-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mp-row input {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: #1e1e2e;
+      color: #94e2d5;
+      border: 2px solid #45475a;
+      border-radius: 6px;
+      padding: 6px 10px;
+      width: 130px;
+      text-align: center;
+    }
+
+    .room-code-badge {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #f9e2af;
+      background: #1e1e2e;
+      border: 2px dashed #f9e2af;
+      border-radius: 6px;
+      padding: 4px 12px;
+    }
+
+    .mp-status {
+      font-size: 0.78rem;
+      color: #a6adc8;
     }
 
     .ally-pill.cooling {
@@ -571,7 +649,9 @@
         <div class="pill weapon-pill" id="netDisplay">Net: READY</div>
         <div class="pill buddy-pill" id="buddyDisplay">Ahmed: READY</div>
         <div class="pill ally-pill cooling" id="allyDuckDisplay">Duck Ally: 0/5</div>
+        <div class="pill mp-pill" id="mpDisplay">Solo</div>
         <button type="button" class="secondary" id="pauseBtn">Pause (P)</button>
+        <button type="button" class="secondary" id="mpBtn">Online Co-op</button>
         <button type="button" class="secondary" id="menuBtn">Menu</button>
         <button type="button" class="secondary" id="tutorialBtn">Tutorial</button>
         <button type="button" class="accent" id="editCharBtn">Edit Hero</button>
@@ -614,8 +694,36 @@
         <div class="best-badge" id="startBestBadge">High Score: 0 | Best Level: 1</div>
         <div class="editor-actions">
           <button type="button" class="accent" id="startGameBtn">Start Game</button>
+          <button type="button" class="secondary" id="startMpBtn">Online Co-op</button>
           <button type="button" class="secondary" id="startTutorialBtn">Tutorial</button>
           <button type="button" class="secondary" id="startEditBtn">Edit Hero</button>
+        </div>
+      </div>
+
+      <!-- Online Multiplayer Overlay -->
+      <div class="overlay hidden" id="mpOverlay">
+        <h2>Online Co-op (2 Devices)</h2>
+        <div class="mp-box">
+          <div class="mp-section">
+            <h3>Host a Room (Play as Merna)</h3>
+            <div class="mp-row">
+              <button type="button" class="accent" id="createRoomBtn">Create Room</button>
+              <span class="room-code-badge hidden" id="roomCodeBadge">----</span>
+              <button type="button" class="secondary hidden" id="copyCodeBtn">Copy</button>
+            </div>
+          </div>
+          <div class="mp-section">
+            <h3>Join a Room (Play as Ahmed)</h3>
+            <div class="mp-row">
+              <input type="text" id="joinCodeInput" maxlength="4" placeholder="1234" />
+              <button type="button" id="joinRoomBtn">Join Room</button>
+            </div>
+          </div>
+          <div class="mp-status" id="mpStatusText">Play on two phones or laptops using a 4-digit room code.</div>
+        </div>
+        <div class="editor-actions">
+          <button type="button" class="secondary hidden" id="disconnectMpBtn">Disconnect</button>
+          <button type="button" class="secondary" id="closeMpBtn">Back</button>
         </div>
       </div>
 
@@ -764,6 +872,18 @@
     const missionTag = document.getElementById("missionTag");
     const missionText = document.getElementById("missionText");
     const missionProgress = document.getElementById("missionProgress");
+    const mpDisplay = document.getElementById("mpDisplay");
+    const mpBtn = document.getElementById("mpBtn");
+    const startMpBtn = document.getElementById("startMpBtn");
+    const mpOverlay = document.getElementById("mpOverlay");
+    const createRoomBtn = document.getElementById("createRoomBtn");
+    const roomCodeBadge = document.getElementById("roomCodeBadge");
+    const copyCodeBtn = document.getElementById("copyCodeBtn");
+    const joinCodeInput = document.getElementById("joinCodeInput");
+    const joinRoomBtn = document.getElementById("joinRoomBtn");
+    const mpStatusText = document.getElementById("mpStatusText");
+    const disconnectMpBtn = document.getElementById("disconnectMpBtn");
+    const closeMpBtn = document.getElementById("closeMpBtn");
     const pauseBtn = document.getElementById("pauseBtn");
     const menuBtn = document.getElementById("menuBtn");
     const tutorialBtn = document.getElementById("tutorialBtn");
@@ -1045,6 +1165,29 @@
       gameOver: false,
       isPaused: false,
       isStartMenu: true,
+      isMpMenu: false,
+      mp: {
+        mode: "solo", // 'solo' | 'host' | 'client'
+        connected: false,
+        roomCode: "",
+        peer: null,
+        conn: null,
+        lastSync: 0,
+        mapVersion: 1,
+        clientMapVersion: 0
+      },
+      p2: {
+        x: Math.floor(COLS / 2) * TILE + 10,
+        y: Math.floor(ROWS / 2) * TILE - 4,
+        w: 12,
+        h: 16,
+        facing: "left",
+        walkTimer: 0,
+        isMoving: false,
+        punchTimer: 0,
+        punchCooldown: 0
+      },
+      p2Input: { vx: 0, vy: 0, punch: false },
       isTutorial: false,
       isEditingChar: false,
       muted: false,
@@ -1574,9 +1717,243 @@
       updateHud();
     }
 
+    // Online Multiplayer (PeerJS WebRTC Room Codes)
+    const ROOM_PREFIX = "merna-terea-quest-";
+
+    function cleanupMultiplayer() {
+      if (state.mp.conn) {
+        try { state.mp.conn.close(); } catch (e) {}
+      }
+      if (state.mp.peer) {
+        try { state.mp.peer.destroy(); } catch (e) {}
+      }
+      state.mp.mode = "solo";
+      state.mp.connected = false;
+      state.mp.roomCode = "";
+      state.mp.peer = null;
+      state.mp.conn = null;
+      roomCodeBadge.classList.add("hidden");
+      copyCodeBtn.classList.add("hidden");
+      disconnectMpBtn.classList.add("hidden");
+      mpStatusText.textContent = "Play on two phones or laptops using a 4-digit room code.";
+      updateHud();
+    }
+
+    function openMpMenu() {
+      state.isMpMenu = true;
+      state.isPaused = false;
+      state.keys = {};
+      state.touchDir = null;
+      startOverlay.classList.add("hidden");
+      pauseOverlay.classList.add("hidden");
+      tutorialOverlay.classList.add("hidden");
+      charOverlay.classList.add("hidden");
+      gameOverOverlay.classList.add("hidden");
+      mpOverlay.classList.remove("hidden");
+    }
+
+    function closeMpMenu() {
+      state.isMpMenu = false;
+      mpOverlay.classList.add("hidden");
+      if (state.isStartMenu) {
+        startOverlay.classList.remove("hidden");
+      }
+    }
+
+    function setupConnectionHandlers(conn, role) {
+      state.mp.conn = conn;
+      conn.on("open", () => {
+        state.mp.connected = true;
+        state.mp.mode = role;
+        state.isMpMenu = false;
+        state.isStartMenu = false;
+        mpOverlay.classList.add("hidden");
+        startOverlay.classList.add("hidden");
+        disconnectMpBtn.classList.remove("hidden");
+        if (role === "host") {
+          resetGame();
+          state.mp.mapVersion += 1;
+          sendHostSync(true);
+          state.popups.push({
+            x: state.merna.x + 6,
+            y: state.merna.y - 6,
+            text: "AHMED JOINED ONLINE!",
+            color: "#a6e3a1",
+            alpha: 1.8
+          });
+        } else {
+          mpStatusText.textContent = "Connected! Playing as Ahmed.";
+        }
+        updateHud();
+      });
+
+      conn.on("data", (data) => {
+        if (!data || typeof data !== "object") return;
+        if (state.mp.mode === "host" && data.type === "p2_input") {
+          state.p2Input.vx = Number(data.vx) || 0;
+          state.p2Input.vy = Number(data.vy) || 0;
+          if (data.punch) state.p2Input.punch = true;
+        } else if (state.mp.mode === "client" && data.type === "sync") {
+          applyHostSync(data);
+        }
+      });
+
+      conn.on("close", () => {
+        if (state.mp.connected) {
+          cleanupMultiplayer();
+          state.popups.push({
+            x: state.merna.x + 6,
+            y: state.merna.y - 6,
+            text: "Partner disconnected (Solo mode)",
+            color: "#f38ba8",
+            alpha: 1.6
+          });
+        }
+      });
+
+      conn.on("error", () => {
+        mpStatusText.textContent = "Connection error. Please check the room code and try again.";
+      });
+    }
+
+    function createOnlineRoom() {
+      if (typeof Peer === "undefined") {
+        mpStatusText.textContent = "Online multiplayer library could not load. Check your internet connection.";
+        return;
+      }
+      cleanupMultiplayer();
+      const code = String(1000 + Math.floor(Math.random() * 9000));
+      state.mp.roomCode = code;
+      mpStatusText.textContent = "Creating room...";
+      try {
+        const peer = new Peer(ROOM_PREFIX + code);
+        state.mp.peer = peer;
+        peer.on("open", () => {
+          roomCodeBadge.textContent = code;
+          roomCodeBadge.classList.remove("hidden");
+          copyCodeBtn.classList.remove("hidden");
+          disconnectMpBtn.classList.remove("hidden");
+          mpStatusText.textContent = `Room ${code} ready! Share this code with Ahmed to start.`;
+        });
+        peer.on("connection", (conn) => {
+          setupConnectionHandlers(conn, "host");
+        });
+        peer.on("error", (err) => {
+          mpStatusText.textContent = "Could not create room (" + (err.type || "error") + "). Try again.";
+        });
+      } catch (err) {
+        mpStatusText.textContent = "Failed to initialize PeerJS.";
+      }
+    }
+
+    function joinOnlineRoom() {
+      if (typeof Peer === "undefined") {
+        mpStatusText.textContent = "Online multiplayer library could not load. Check your internet connection.";
+        return;
+      }
+      const code = joinCodeInput.value.trim();
+      if (!/^[0-9]{4}$/.test(code)) {
+        mpStatusText.textContent = "Enter a 4-digit room code from the host.";
+        return;
+      }
+      cleanupMultiplayer();
+      mpStatusText.textContent = `Connecting to room ${code}...`;
+      try {
+        const peer = new Peer();
+        state.mp.peer = peer;
+        state.mp.roomCode = code;
+        peer.on("open", () => {
+          const conn = peer.connect(ROOM_PREFIX + code, { reliable: false });
+          setupConnectionHandlers(conn, "client");
+        });
+        peer.on("error", (err) => {
+          mpStatusText.textContent = "Could not find room " + code + " (" + (err.type || "error") + ").";
+        });
+      } catch (err) {
+        mpStatusText.textContent = "Failed to connect.";
+      }
+    }
+
+    function sendHostSync(includeMap = false) {
+      if (state.mp.mode !== "host" || !state.mp.connected || !state.mp.conn) return;
+      const payload = {
+        type: "sync",
+        mapVersion: state.mp.mapVersion,
+        level: state.level,
+        zoneIndex: state.zoneIndex,
+        score: state.score,
+        missionsDone: state.missionsDone,
+        hearts: state.hearts,
+        ducksKilled: state.ducksKilled,
+        helperDuckCharges: state.helperDuckCharges,
+        boostTimer: state.boostTimer,
+        liquorTimer: state.liquorTimer,
+        invulnTimer: state.invulnTimer,
+        gameOver: state.gameOver,
+        isPaused: state.isPaused,
+        merna: state.merna,
+        p2: state.p2,
+        sticks: state.sticks,
+        powerups: state.powerups,
+        hazards: state.hazards,
+        ducks: state.ducks,
+        helperDucks: state.helperDucks,
+        mission: state.mission,
+        hero: state.hero
+      };
+      if (includeMap || state.mp.clientMapVersion !== state.mp.mapVersion) {
+        payload.map = MAP;
+      }
+      try {
+        state.mp.conn.send(payload);
+      } catch (e) {}
+    }
+
+    function applyHostSync(d) {
+      if (d.map) {
+        MAP = d.map;
+        state.mp.clientMapVersion = d.mapVersion;
+      }
+      state.level = d.level;
+      state.zoneIndex = d.zoneIndex;
+      state.score = d.score;
+      state.missionsDone = d.missionsDone;
+      state.hearts = d.hearts;
+      state.ducksKilled = d.ducksKilled;
+      state.helperDuckCharges = d.helperDuckCharges;
+      state.boostTimer = d.boostTimer;
+      state.liquorTimer = d.liquorTimer;
+      state.invulnTimer = d.invulnTimer;
+      state.gameOver = d.gameOver;
+      state.isPaused = d.isPaused;
+      Object.assign(state.merna, d.merna);
+      Object.assign(state.p2, d.p2);
+      state.sticks = d.sticks || [];
+      state.powerups = d.powerups || [];
+      state.hazards = d.hazards || [];
+      state.ducks = d.ducks || [];
+      state.helperDucks = d.helperDucks || [];
+      state.mission = d.mission;
+      if (d.hero) state.hero = d.hero;
+
+      if (state.gameOver) {
+        finalScoreText.textContent = `Team scored ${state.score} points!`;
+        finalLevelText.textContent = `Reached Level ${state.level}`;
+        finalMissionsText.textContent = `Missions completed: ${state.missionsDone}`;
+        highScoreText.textContent = `High Score: ${state.highScore} | Best Level: ${state.bestLevel}`;
+        gameOverOverlay.classList.remove("hidden");
+      } else {
+        gameOverOverlay.classList.add("hidden");
+      }
+      pauseOverlay.classList.toggle("hidden", !state.isPaused);
+      updateHud();
+      updateMissionUI();
+    }
+
     function updateCamera(timeSec = 0) {
-      const targetX = state.merna.x + state.merna.w / 2 - VIEW_W / 2;
-      const targetY = state.merna.y + state.merna.h / 2 - VIEW_H / 2;
+      const focus = state.mp.mode === "client" ? state.p2 : state.merna;
+      const targetX = focus.x + focus.w / 2 - VIEW_W / 2;
+      const targetY = focus.y + focus.h / 2 - VIEW_H / 2;
       let camX = Math.max(0, Math.min(WORLD_W - VIEW_W, targetX));
       let camY = Math.max(0, Math.min(WORLD_H - VIEW_H, targetY));
 
@@ -1837,6 +2214,34 @@
 
       drawFn(dx + 3, dy + 15, 2, 1, "#cdd6f4");
       drawFn(dx + 7, dy + 15, 2, 1, "#cdd6f4");
+    }
+
+    function drawPlayer2() {
+      if (state.mp.mode === "solo" || !state.mp.connected) return;
+      const b = state.p2;
+      const bob = Math.sin(b.walkTimer * 12) > 0 && b.isMoving ? -1 : 0;
+      const dx = Math.round(b.x);
+      const dy = Math.round(b.y) + bob;
+
+      pxWorld(dx + 2, Math.round(b.y) + 14, 8, 2, "rgba(137, 180, 250, 0.45)");
+      pxWorld(dx + 3, dy + 1, 6, 2, "#1e1e2e");
+      pxWorld(dx + 3, dy + 3, 6, 5, "#d9a077");
+      const eyeOff = b.facing === "left" ? 0 : 1;
+      pxWorld(dx + 3 + eyeOff, dy + 5, 1, 1, "#11111b");
+      pxWorld(dx + 6 + eyeOff, dy + 5, 1, 1, "#11111b");
+      pxWorld(dx + 2, dy + 8, 8, 5, "#89b4fa");
+      pxWorld(dx + 4, dy + 8, 4, 2, "#cba6f7");
+      pxWorld(dx + 3, dy + 13, 2, 2, "#313244");
+      pxWorld(dx + 7, dy + 13, 2, 2, "#313244");
+      pxWorld(dx + 3, dy + 15, 2, 1, "#ffffff");
+      pxWorld(dx + 7, dy + 15, 2, 1, "#ffffff");
+
+      const jab = b.punchTimer > 0 ? 4 : 1;
+      const gloveX = b.facing === "right" ? dx + 9 + jab : dx - 2 - jab;
+      const otherGloveX = b.facing === "right" ? dx - 1 : dx + 10;
+      pxWorld(gloveX, dy + 8, 3, 3, "#f38ba8");
+      pxWorld(gloveX + 1, dy + 8, 1, 1, "#ffffff");
+      pxWorld(otherGloveX, dy + 10, 3, 3, "#e64553");
     }
 
     function drawBuddy() {
@@ -2178,6 +2583,12 @@
         pxView(mx + dc, my + dr, 1, 1, "#fab387");
       }
 
+      if (state.mp.mode !== "solo" && state.mp.connected) {
+        const p2c = Math.min(COLS - 1, Math.max(0, Math.floor((state.p2.x + 6) / TILE)));
+        const p2r = Math.min(ROWS - 1, Math.max(0, Math.floor((state.p2.y + 8) / TILE)));
+        pxView(mx + p2c, my + p2r, 2, 2, "#89b4fa");
+      }
+
       if (state.buddy.active) {
         const bc = Math.min(COLS - 1, Math.max(0, Math.floor((state.buddy.x + 6) / TILE)));
         const br = Math.min(ROWS - 1, Math.max(0, Math.floor((state.buddy.y + 8) / TILE)));
@@ -2391,6 +2802,17 @@
         throwDuckBtn.textContent = `Throw Duck (${prog}/5)`;
       }
 
+      if (state.mp.mode === "host" && state.mp.connected) {
+        mpDisplay.textContent = `Online P1 (${state.mp.roomCode})`;
+        mpDisplay.classList.add("online");
+      } else if (state.mp.mode === "client" && state.mp.connected) {
+        mpDisplay.textContent = `Online P2 (${state.mp.roomCode})`;
+        mpDisplay.classList.add("online");
+      } else {
+        mpDisplay.textContent = "Solo";
+        mpDisplay.classList.remove("online");
+      }
+
       let badges = "";
       if (state.boostTimer > 0) {
         badges += `<span class="effect-badge effect-coffee">COFFEE SPEED: ${Math.ceil(state.boostTimer)}s</span>`;
@@ -2431,6 +2853,7 @@
       state.zoneIndex = (state.zoneIndex + 1) % ZONES.length;
       state.hearts = Math.min(MAX_HEARTS, state.hearts + 1);
       MAP = generateMap();
+      state.mp.mapVersion += 1;
       state.merna.x = Math.floor(COLS / 2) * TILE - 2;
       state.merna.y = Math.floor(ROWS / 2) * TILE - 4;
       state.invulnTimer = 1.4;
@@ -2633,6 +3056,27 @@
 
     // 13. Update positions, buddy boxing combo, ducks, hazards & collisions
     function update(dt, timeSec) {
+      if (state.isMpMenu) return;
+
+      // Client mode: send input to Host and let Host drive world state
+      if (state.mp.mode === "client" && state.mp.connected) {
+        updateCamera(timeSec);
+        if (!state.gameOver && !state.isPaused) {
+          let cvx = 0, cvy = 0;
+          if (state.keys["ArrowLeft"] || state.keys["KeyA"] || state.touchDir === "left") cvx -= 1;
+          if (state.keys["ArrowRight"] || state.keys["KeyD"] || state.touchDir === "right") cvx += 1;
+          if (state.keys["ArrowUp"] || state.keys["KeyW"] || state.touchDir === "up") cvy -= 1;
+          if (state.keys["ArrowDown"] || state.keys["KeyS"] || state.touchDir === "down") cvy += 1;
+          if (timeSec - state.mp.lastSync > 0.05) {
+            state.mp.lastSync = timeSec;
+            try {
+              state.mp.conn.send({ type: "p2_input", vx: cvx, vy: cvy, punch: !!state.keys["Space"] });
+            } catch (e) {}
+          }
+        }
+        return;
+      }
+
       if (state.gameOver || state.isPaused || state.isEditingChar || state.isStartMenu || state.isTutorial) return;
 
       if (state.boostTimer > 0) state.boostTimer = Math.max(0, state.boostTimer - dt);
@@ -2687,6 +3131,70 @@
       if (!collidesWithMap(state.merna.x, nextY)) state.merna.y = nextY;
 
       updateCamera(timeSec);
+
+      // Host Online Co-op: update Player 2 (Ahmed) & broadcast sync
+      if (state.mp.mode === "host" && state.mp.connected) {
+        const p2 = state.p2;
+        let pvX = state.p2Input.vx;
+        let pvY = state.p2Input.vy;
+        if (pvX !== 0 && pvY !== 0) { pvX *= 0.7071; pvY *= 0.7071; }
+        p2.isMoving = pvX !== 0 || pvY !== 0;
+        if (pvX < 0) p2.facing = "left";
+        if (pvX > 0) p2.facing = "right";
+        if (p2.isMoving) p2.walkTimer += dt;
+        if (p2.punchTimer > 0) p2.punchTimer = Math.max(0, p2.punchTimer - dt);
+        if (p2.punchCooldown > 0) p2.punchCooldown = Math.max(0, p2.punchCooldown - dt);
+
+        const p2Speed = state.boostTimer > 0 ? 105 : 78;
+        const p2nx = Math.max(2, Math.min(WORLD_W - p2.w - 2, p2.x + pvX * p2Speed * dt));
+        if (!collidesWithMap(p2nx, p2.y)) p2.x = p2nx;
+        const p2ny = Math.max(2, Math.min(WORLD_H - p2.h - 2, p2.y + pvY * p2Speed * dt));
+        if (!collidesWithMap(p2.x, p2ny)) p2.y = p2ny;
+
+        // Player 2 Boxing Punch
+        if (state.p2Input.punch && p2.punchCooldown <= 0) {
+          state.p2Input.punch = false;
+          p2.punchTimer = 0.22;
+          p2.punchCooldown = 0.45;
+          for (let di = state.ducks.length - 1; di >= 0; di--) {
+            const d = state.ducks[di];
+            if (Math.hypot((d.x + 4) - (p2.x + 6), (d.y + 4) - (p2.y + 8)) <= 20) {
+              state.punchEffects.push({ x: d.x + 4, y: d.y + 4, life: 0.22 });
+              state.ducks.splice(di, 1);
+              state.duckRespawnTimers.push(4.0);
+              recordDuckKill();
+              const mult = state.liquorTimer > 0 ? 2 : 1;
+              const pts = 4 * mult;
+              state.score += pts;
+              state.popups.push({ x: d.x + 4, y: d.y, text: `AHMED KO! +${pts}`, color: "#89b4fa", alpha: 1.3 });
+              playPunchSound(1);
+              break;
+            }
+          }
+        }
+        state.p2Input.punch = false;
+
+        // Player 2 can also collect TEREA sticks & powerups for the team
+        for (let i = 0; i < state.sticks.length; i++) {
+          const st = state.sticks[i];
+          if (p2.x < st.x + st.w && p2.x + p2.w > st.x && p2.y < st.y + st.h && p2.y + p2.h > st.y) {
+            handleStickPickup(st, i);
+            break;
+          }
+        }
+        for (let i = 0; i < state.powerups.length; i++) {
+          const pw = state.powerups[i];
+          if (p2.x < pw.x + pw.w && p2.x + p2.w > pw.x && p2.y < pw.y + pw.h && p2.y + p2.h > pw.y) {
+            handlePowerupPickup(pw, i);
+            break;
+          }
+        }
+
+        if (timeSec - state.mp.lastSync > 0.05) {
+          state.mp.lastSync = timeSec;
+          sendHostSync(false);
+        }
+      }
 
       // Update Helping Buddy (Ahmed's Boxing Combo!)
       if (state.buddy.active) {
@@ -2924,6 +3432,7 @@
       drawDucks();
       drawHelperDucks();
       drawMerna(state.merna.x, state.merna.y, timeSec);
+      drawPlayer2();
       drawBuddy();
       drawPunchEffects();
       drawNetBeams();
@@ -2936,7 +3445,7 @@
 
     // 15. Input & UI listeners
     window.addEventListener("keydown", (e) => {
-      if (state.isEditingChar || state.isStartMenu || state.isTutorial) return;
+      if (state.isEditingChar || state.isStartMenu || state.isTutorial || state.isMpMenu) return;
 
       if ((e.code === "KeyP" || e.code === "Escape") && !e.repeat) {
         e.preventDefault();
@@ -2985,6 +3494,28 @@
       btn.addEventListener("mouseleave", stop);
       btn.addEventListener("touchend", stop);
       btn.addEventListener("touchcancel", stop);
+    });
+
+    mpBtn.addEventListener("click", openMpMenu);
+    startMpBtn.addEventListener("click", openMpMenu);
+    closeMpBtn.addEventListener("click", closeMpMenu);
+    createRoomBtn.addEventListener("click", createOnlineRoom);
+    joinRoomBtn.addEventListener("click", joinOnlineRoom);
+    disconnectMpBtn.addEventListener("click", cleanupMultiplayer);
+    copyCodeBtn.addEventListener("click", () => {
+      const code = state.mp.roomCode;
+      if (!code) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).catch(() => {});
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = code;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      mpStatusText.textContent = `Copied room code ${code}!`;
     });
 
     stealDuckBtn.addEventListener("click", fireDuckNet);
